@@ -81,30 +81,33 @@ public class ResourcesManager {
         HandlerList handlerList = new HandlerList();
 
         final ServletContextHandler htmlHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        htmlHandler.setContextPath("/");
+        htmlHandler.setContextPath("/view");
         htmlHandler.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
         htmlHandler.setInitParameter("org.eclipse.jetty.servlet.Default.redirectWelcome", "true");
         htmlHandler.setWelcomeFiles(new String[]{"index.html"});
 
         ServletHolder holderPwd = new ServletHolder("default", DefaultServlet.class);
-
-        htmlHandler.addServlet(holderPwd, "/view/*");
+        htmlHandler.addServlet(holderPwd, "/*");
         htmlHandler.setBaseResource(
                 new ResourceCollection(
                         new String[]{
-                                ResourcesManager.class.getClassLoader().getResource("static").toExternalForm(),
-                                ResourcesManager.class.getClassLoader().getResource("indexer_static").toExternalForm()
+                                ResourcesManager.class.getClassLoader().getResource("dist").toExternalForm()
                         }
                 )
         );
+
+        final ServletContextHandler apiHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        apiHandler.setContextPath("/");
+
         ServletHolder servletHolder = new ServletHolder(ServletContainer.class);
         servletHolder.setInitParameter("com.sun.jersey.config.property.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
         servletHolder.setInitParameter("com.sun.jersey.config.property.packages", "io.sugo.http.resource");
-        htmlHandler.addServlet(servletHolder, "/*");
+        apiHandler.addServlet(servletHolder, "/*");
         if(developMode){
-            htmlHandler.addFilter(CrossDomainSupportFilter.class,"/*", EnumSet.of(DispatcherType.REQUEST));
+            apiHandler.addFilter(CrossDomainSupportFilter.class,"/*", EnumSet.of(DispatcherType.REQUEST));
         }
         handlerList.addHandler(htmlHandler);
+        handlerList.addHandler(apiHandler);
 
         server.setHandler(handlerList);
     }
