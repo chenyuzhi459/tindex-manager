@@ -31,8 +31,7 @@ public class DataSourcesResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -48,8 +47,7 @@ public class DataSourcesResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @POST
@@ -60,8 +58,7 @@ public class DataSourcesResource extends Resource{
     )
     {
         String url = String.format("%s/%s", pathPre, dataSourceName);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 
     @DELETE
@@ -82,8 +79,7 @@ public class DataSourcesResource extends Resource{
             queryParams.add("interval",interval);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
-        String result = httpMethod.delete(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.delete(url,queryParams);
     }
 
     @DELETE
@@ -95,8 +91,7 @@ public class DataSourcesResource extends Resource{
     )
     {
         String url = String.format("%s/%s/intervals/%s", pathPre, dataSourceName, interval);
-        String result = httpMethod.delete(url);
-        return Response.ok(result).build();
+        return httpMethod.delete(url);
     }
 
 
@@ -117,8 +112,7 @@ public class DataSourcesResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s/intervals", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -139,8 +133,7 @@ public class DataSourcesResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s/intervals/%s", pathPre, dataSourceName, interval);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -156,8 +149,7 @@ public class DataSourcesResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s/segments", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -169,8 +161,7 @@ public class DataSourcesResource extends Resource{
     )
     {
         String url = String.format("%s/%s/segments/%s", pathPre, dataSourceName, segmentId);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @DELETE
@@ -181,8 +172,7 @@ public class DataSourcesResource extends Resource{
     )
     {
         String url = String.format("%s/%s/segments/%s", pathPre, dataSourceName, segmentId);
-        String result = httpMethod.delete(url);
-        return Response.ok(result).build();
+        return httpMethod.delete(url);
     }
 
     @POST
@@ -194,8 +184,7 @@ public class DataSourcesResource extends Resource{
     )
     {
         String url = String.format("%s/%s/segments/%s", pathPre, dataSourceName, segmentId);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 
     @GET
@@ -206,8 +195,7 @@ public class DataSourcesResource extends Resource{
     )
     {
         String url = String.format("%s/tiers", pathPre, dataSourceName);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -222,8 +210,7 @@ public class DataSourcesResource extends Resource{
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
         queryParams.add("partial",partial);
         String url = String.format("%s/%s/intervals/%s/serverview", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 }
 

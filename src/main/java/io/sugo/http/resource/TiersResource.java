@@ -27,8 +27,7 @@ public class TiersResource extends Resource{
             queryParams.add("simple",simple);
         }
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -44,8 +43,7 @@ public class TiersResource extends Resource{
             queryParams.add("simple",simple);
         }
         String url = String.format("%s/%s", pathPre, tierName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
 }

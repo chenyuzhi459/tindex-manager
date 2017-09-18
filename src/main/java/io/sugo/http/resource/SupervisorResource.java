@@ -21,8 +21,7 @@ public class SupervisorResource extends Resource{
     public Response specPost(final String spec)
     {
         String url = String.format("%s", pathPre);
-        String result = httpMethod.post(url,spec);
-        return Response.ok(result).build();
+        return httpMethod.post(url,spec);
     }
 
     @GET
@@ -30,8 +29,7 @@ public class SupervisorResource extends Resource{
     public Response specGetAll()
     {
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -40,8 +38,7 @@ public class SupervisorResource extends Resource{
     public Response specGet(@PathParam("id") final String id)
     {
         String url = String.format("%s/%s", pathPre , id);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -50,8 +47,7 @@ public class SupervisorResource extends Resource{
     public Response specGetStatus(@PathParam("id") final String id)
     {
         String url = String.format("%s/%s/status", pathPre , id);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @POST
@@ -60,8 +56,7 @@ public class SupervisorResource extends Resource{
     public Response shutdown(@PathParam("id") final String id)
     {
         String url = String.format("%s/%s/shutdown", pathPre , id);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 
     @GET
@@ -70,8 +65,7 @@ public class SupervisorResource extends Resource{
     public Response specGetAllHistory()
     {
         String url = String.format("%s/history", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -80,8 +74,7 @@ public class SupervisorResource extends Resource{
     public Response specGetHistory(@PathParam("id") final String id)
     {
         String url = String.format("%s/%s/history", pathPre , id);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @POST
@@ -90,8 +83,7 @@ public class SupervisorResource extends Resource{
     public Response reset(@PathParam("id") final String id)
     {
         String url = String.format("%s/%s/reset", pathPre , id);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 
     @POST
@@ -100,8 +92,7 @@ public class SupervisorResource extends Resource{
     public Response deleteTopic(@PathParam("id") final String id)
     {
         String url = String.format("%s/topic/%s/delete", pathPre , id);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 }
 

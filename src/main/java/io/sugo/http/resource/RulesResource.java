@@ -24,8 +24,7 @@ public class RulesResource extends Resource{
     public Response getRules()
     {
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -41,8 +40,7 @@ public class RulesResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @POST
@@ -57,8 +55,7 @@ public class RulesResource extends Resource{
     )
     {
         String url = String.format("%s/%s", pathPre, dataSourceName);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 
 
@@ -79,8 +76,7 @@ public class RulesResource extends Resource{
             queryParams.add("count",count);
         }
         String url = String.format("%s/%s/history", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -99,8 +95,7 @@ public class RulesResource extends Resource{
             queryParams.add("count",count);
         }
         String url = String.format("%s/history", pathPre);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 }
 

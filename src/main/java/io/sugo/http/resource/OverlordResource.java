@@ -1,7 +1,10 @@
 package io.sugo.http.resource;
 
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.audit.AuditManager;
+import io.sugo.http.util.HttpMethodProxy;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -26,8 +29,9 @@ public class OverlordResource extends Resource{
     )
     {
         String url = String.format("%s/task", pathPre);
-        String result = httpMethod.post(url,taskSpec);
-        return Response.ok(result).build();
+//        String result = httpMethod.post(url,taskSpec);
+//        return Response.ok(result).build();
+        return new HttpMethodProxy(client).postTest(url,taskSpec);
     }
 
     @GET
@@ -35,8 +39,7 @@ public class OverlordResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLeader() {
         String url = String.format("%s/leader", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -47,8 +50,7 @@ public class OverlordResource extends Resource{
 //        localhost:6660/druid/indexer/v1/task/lucene_index_kafka_wuxianjiRT_5d0772c1d88e862_ebeeegoc
 //        192.168.0.225:8090/druid/indexer/v1/task/lucene_index_kafka_wuxianjiRT_5d0772c1d88e862_ebeeegoc
         String url = String.format("%s/task/%s", pathPre,taskid);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
 
     }
 
@@ -59,8 +61,7 @@ public class OverlordResource extends Resource{
     {
 //        localhost:6660/druid/indexer/v1/task/lucene_index_kafka_wuxianjiRT_5d0772c1d88e862_ebeeegoc/status
         String url = String.format("%s/task/%s/status", pathPre,taskid);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -70,8 +71,7 @@ public class OverlordResource extends Resource{
     {
 //        localhost:6660/druid/indexer/v1/task/lucene_index_kafka_wuxianjiRT_5d0772c1d88e862_ebeeegoc/segments
         String url = String.format("%s/task/%s/segments", pathPre,taskid);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
 
@@ -81,8 +81,7 @@ public class OverlordResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response doShutdown(@PathParam("taskid") final String taskid) {
         String url = String.format("%s/task/%s/shutdown", pathPre, taskid);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 
     @GET
@@ -91,8 +90,7 @@ public class OverlordResource extends Resource{
     public Response getWorkerConfig()
     {
         String url = String.format("%s/worker", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     //uncheck   not final
@@ -115,10 +113,7 @@ public class OverlordResource extends Resource{
         if(comment != null) {
             headerParams.add("AuditManager.X_DRUID_COMMENT",comment);
         }
-
-        String result = httpMethod.post(url,workerBehaviorConfig);
-
-        return Response.ok(result).build();
+        return httpMethod.post(url,workerBehaviorConfig);
     }
 
 
@@ -139,9 +134,7 @@ public class OverlordResource extends Resource{
         if(count != null) {
             queryParams.add("count",count);
         }
-
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     //uncheck edit
@@ -151,8 +144,7 @@ public class OverlordResource extends Resource{
     public Response doAction(final String action)
     {
         String url = String.format("%s/action", pathPre);
-        String result = httpMethod.post(url,action);
-        return Response.ok(result).build();
+        return httpMethod.post(url,action);
     }
 
     @GET
@@ -162,8 +154,7 @@ public class OverlordResource extends Resource{
 
         String url = String.format("%s/waitingTasks", pathPre);
 //        String token = (String)req.getAttribute("Druid-Auth-Token");
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -171,8 +162,7 @@ public class OverlordResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPendingTasks(@Context final HttpServletRequest req){
         String url = String.format("%s/pendingTasks", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -181,8 +171,7 @@ public class OverlordResource extends Resource{
     public Response getRunningTasks(@Context final HttpServletRequest req)
     {
         String url = String.format("%s/runningTasks", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -191,8 +180,7 @@ public class OverlordResource extends Resource{
     public Response getCompleteTasks(@Context final HttpServletRequest req)
     {
         String url = String.format("%s/completeTasks", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -200,8 +188,7 @@ public class OverlordResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWorkers() {
         String url = String.format("%s/workers", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -210,8 +197,7 @@ public class OverlordResource extends Resource{
     public Response getScalingState()
     {
         String url = String.format("%s/scaling", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
 
@@ -226,8 +212,7 @@ public class OverlordResource extends Resource{
         String url = String.format("%s/task/%s/log", pathPre , taskid);
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
         queryParams.add("offset",offset);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
 

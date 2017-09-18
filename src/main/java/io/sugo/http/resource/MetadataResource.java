@@ -32,8 +32,7 @@ public class MetadataResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/datasources", pathPre);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -44,8 +43,7 @@ public class MetadataResource extends Resource{
     )
     {
         String url = String.format("%s/datasources/%s", pathPre,dataSourceName);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -61,8 +59,7 @@ public class MetadataResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/datasources/%s/segments", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @POST
@@ -79,8 +76,7 @@ public class MetadataResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/datasources/%s/segments", pathPre, dataSourceName);
-        String result = httpMethod.post(url, intervals, queryParams);
-        return Response.ok(result).build();
+        return httpMethod.post(url, intervals, queryParams);
     }
 
     @GET
@@ -92,8 +88,7 @@ public class MetadataResource extends Resource{
     )
     {
         String url = String.format("%s/datasources/%s/segments/%s", pathPre, dataSourceName, segmentId);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 }
 

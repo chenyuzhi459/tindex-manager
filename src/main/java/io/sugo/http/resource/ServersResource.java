@@ -30,8 +30,7 @@ public class ServersResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -47,8 +46,7 @@ public class ServersResource extends Resource{
             queryParams.add("simple",simple);
         }
         String url = String.format("%s/%s", pathPre, serverName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -64,8 +62,7 @@ public class ServersResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s/segments", pathPre, serverName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -77,7 +74,6 @@ public class ServersResource extends Resource{
     )
     {
         String url = String.format("%s/%s/segments/%s", pathPre, serverName, segmentId);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 }

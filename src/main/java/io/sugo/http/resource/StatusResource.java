@@ -1,5 +1,7 @@
 package io.sugo.http.resource;
 
+import io.sugo.http.util.HttpMethodProxy;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -22,8 +24,7 @@ public class StatusResource extends Resource{
     public Response status() {
 
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
 

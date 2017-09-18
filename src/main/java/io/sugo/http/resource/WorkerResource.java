@@ -23,8 +23,7 @@ public class WorkerResource extends Resource{
     public Response status() {
 
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
 

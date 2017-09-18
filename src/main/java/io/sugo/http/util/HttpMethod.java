@@ -1,83 +1,83 @@
 package io.sugo.http.util;
 
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.ResourcesManager;
 import org.apache.log4j.Logger;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.net.URI;
+import java.util.List;
+import java.util.Map;
 
 public class HttpMethod {
 
-    protected static final Logger LOG = Logger.getLogger(ResourcesManager.class);
     private Client client;
-    private WebResource resource;
 
     public HttpMethod(Client client) {
         this.client = client;
     }
 
-    public String get(String url) {
-        LOG.info(url);
-        resource = client.resource(url);
-        String result = resource.get(String.class);
-        return result;
+    public ClientResponse get(WebResource resource) {
+        ClientResponse cr = resource.get(ClientResponse.class);
+        return cr;
     }
 
-    public String get(String url, MultivaluedMapImpl queryParams) {
-        LOG.info(url);
-        resource = client.resource(url);
-        String result = resource.queryParams(queryParams).get(String.class);
-        return result;
+    public ClientResponse get(WebResource resource, MultivaluedMapImpl queryParams) {
+        ClientResponse cr = resource.queryParams(queryParams).get(ClientResponse.class);
+        return cr;
     }
 
-    public String post(String url,String data ,MultivaluedMapImpl queryParams) {
-        LOG.info(url);
-        resource = client.resource(url);
-        String result = resource.queryParams(queryParams).post(String.class,data);
-        return result;
+    public ClientResponse post(WebResource resource, String data ,MultivaluedMapImpl queryParams) {
+        ClientResponse cr = resource.queryParams(queryParams).post(ClientResponse.class,data);
+        return cr;
     }
 
-    public String post(String url, MultivaluedMapImpl queryParams) {
-        LOG.info(url);
-        resource = client.resource(url);
-        String result = resource.queryParams(queryParams).post(String.class);
-        return result;
+    public ClientResponse post(WebResource resource, MultivaluedMapImpl queryParams) {
+        ClientResponse cr = resource.queryParams(queryParams).post(ClientResponse.class);
+        return cr;
     }
 
-    public String post(String url,String data) {
-        LOG.info(url);
-        resource = client.resource(url);
-        String result = resource.accept(MediaType.APPLICATION_JSON)
+    public ClientResponse postTest(WebResource resource, String data) {
+        ClientResponse cr = resource
+                .accept(MediaType.APPLICATION_JSON)
                 .type(MediaType.APPLICATION_JSON)
-                .post(String.class,data);
-        return result;
+                .post(ClientResponse.class,data);
+        return cr;
     }
 
-    public String post(String url) {
-        LOG.info(url);
-        resource = client.resource(url);
-        String result = resource.accept(MediaType.APPLICATION_JSON)
+    public ClientResponse post(WebResource resource, String data) {
+        ClientResponse cr = resource
+                .accept(MediaType.APPLICATION_JSON)
                 .type(MediaType.APPLICATION_JSON)
-                .post(String.class);
-        return result;
+                .post(ClientResponse.class,data);
+        return cr;
     }
 
-    public String delete(String url) {
-        LOG.info(url);
-        resource = client.resource(url);
-        String result = resource.delete(String.class);
-        return result;
+    public ClientResponse post(WebResource resource) {
+        ClientResponse cr = resource.accept(MediaType.APPLICATION_JSON)
+                .type(MediaType.APPLICATION_JSON)
+                .post(ClientResponse.class);
+        return cr;
     }
 
-    public String delete(String url, MultivaluedMapImpl queryParams) {
-        LOG.info(url);
-        resource = client.resource(url);
-        String result = resource.queryParams(queryParams).delete(String.class);
-        return result;
+    public ClientResponse delete(WebResource resource) {
+        ClientResponse cr = resource.delete(ClientResponse.class);
+        return cr;
+    }
+
+    public ClientResponse delete(WebResource resource, MultivaluedMapImpl queryParams) {
+        ClientResponse cr = resource.queryParams(queryParams).delete(ClientResponse.class);
+        return cr;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

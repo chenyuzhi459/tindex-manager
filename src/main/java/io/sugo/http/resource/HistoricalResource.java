@@ -23,8 +23,7 @@ public class HistoricalResource extends Resource{
     public Response getIntervals(@Context final HttpServletRequest req)
     {
         String url = String.format("%s");
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -45,8 +44,7 @@ public class HistoricalResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s", pathPre, interval);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 }
 

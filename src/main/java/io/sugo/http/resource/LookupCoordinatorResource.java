@@ -31,8 +31,7 @@ public class LookupCoordinatorResource extends Resource{
         queryParams.add("discover",discover);
 
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     //not finish
@@ -46,8 +45,7 @@ public class LookupCoordinatorResource extends Resource{
     )
     {
         String url = String.format("%s", pathPre);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 
     @DELETE
@@ -61,8 +59,7 @@ public class LookupCoordinatorResource extends Resource{
     )
     {
         String url = String.format("%s/%s/%s", pathPre, tier, lookup);
-        String result = httpMethod.delete(url);
-        return Response.ok(result).build();
+        return httpMethod.delete(url);
     }
 
     @POST
@@ -78,8 +75,7 @@ public class LookupCoordinatorResource extends Resource{
     )
     {
         String url = String.format("%s/%s/%s", pathPre, tier, lookup);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 
     @GET
@@ -91,8 +87,7 @@ public class LookupCoordinatorResource extends Resource{
     )
     {
         String url = String.format("%s/%s/%s", pathPre, tier, lookup);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -103,8 +98,7 @@ public class LookupCoordinatorResource extends Resource{
     )
     {
         String url = String.format("%s/%s", pathPre, tier);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 }
 

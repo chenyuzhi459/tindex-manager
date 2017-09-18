@@ -21,8 +21,7 @@ public class BrokerResource extends Resource{
     public Response getLoadStatus()
     {
         String url = String.format("%s/loadstatus",pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 }
 

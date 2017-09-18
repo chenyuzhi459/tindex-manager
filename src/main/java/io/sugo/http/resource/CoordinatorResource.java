@@ -21,8 +21,7 @@ public class CoordinatorResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLeader() {
         String url = String.format("%s/leader", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -42,8 +41,7 @@ public class CoordinatorResource extends Resource{
         }
 
         String url = String.format("%s/loadstatus", pathPre);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -62,8 +60,7 @@ public class CoordinatorResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/loadqueue", pathPre);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
 }

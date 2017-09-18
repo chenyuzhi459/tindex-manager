@@ -22,8 +22,7 @@ public class ClientInfoResource extends Resource{
     public Response getDataSources()
     {
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -43,8 +42,7 @@ public class ClientInfoResource extends Resource{
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -60,8 +58,7 @@ public class ClientInfoResource extends Resource{
             queryParams.add("interval",interval);
         }
         String url = String.format("%s/%s/dimensions", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -77,8 +74,7 @@ public class ClientInfoResource extends Resource{
             queryParams.add("interval",interval);
         }
         String url = String.format("%s/%s/metrics", pathPre, dataSourceName);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
@@ -96,8 +92,7 @@ public class ClientInfoResource extends Resource{
         }
         queryParams.add("numCandidates",numCandidates);
         String url = String.format("%s/%s/candidates", pathPre, datasource);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
 }

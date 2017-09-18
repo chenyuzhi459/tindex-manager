@@ -25,8 +25,7 @@ public class QueryResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getQueryCount(@Context final HttpServletRequest req) {
         String url = String.format("%s/queryCount", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -34,8 +33,7 @@ public class QueryResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllQueries(@Context final HttpServletRequest req) {
         String url = String.format("%s/queue", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @GET
@@ -43,8 +41,7 @@ public class QueryResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getQuery(@PathParam("id") String queryId, @Context final HttpServletRequest req) {
         String url = String.format("%s/queue/%s", pathPre, queryId);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @DELETE
@@ -53,8 +50,7 @@ public class QueryResource extends Resource{
     public Response cancelQuery(@PathParam("id") String queryId, @Context final HttpServletRequest req)
     {
         String url = String.format("%s/%s", pathPre, queryId);
-        String result = httpMethod.delete(url);
-        return Response.ok(result).build();
+        return httpMethod.delete(url);
     }
 
     //not finish
@@ -72,8 +68,7 @@ public class QueryResource extends Resource{
             queryParams.add("pretty",pretty);
         }
         String url = String.format("%s", pathPre);
-        String result = httpMethod.post(url, in, queryParams);
-        return Response.ok(result).build();
+        return httpMethod.post(url, in, queryParams);
     }
 
 }

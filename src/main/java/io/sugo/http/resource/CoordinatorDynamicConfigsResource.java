@@ -25,8 +25,7 @@ public class CoordinatorDynamicConfigsResource extends Resource{
     public Response getDynamicConfigs()
     {
         String url = String.format("%s", pathPre);
-        String result = httpMethod.get(url);
-        return Response.ok(result).build();
+        return httpMethod.get(url);
     }
 
     @POST
@@ -38,8 +37,7 @@ public class CoordinatorDynamicConfigsResource extends Resource{
     )
     {
         String url = String.format("%s", pathPre);
-        String result = httpMethod.post(url);
-        return Response.ok(result).build();
+        return httpMethod.post(url);
     }
 
     @GET
@@ -58,8 +56,7 @@ public class CoordinatorDynamicConfigsResource extends Resource{
             queryParams.add("count",count);
         }
         String url = String.format("%s/history", pathPre);
-        String result = httpMethod.get(url,queryParams);
-        return Response.ok(result).build();
+        return httpMethod.get(url,queryParams);
     }
 
 }
