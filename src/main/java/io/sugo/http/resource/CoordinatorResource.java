@@ -1,8 +1,6 @@
 package io.sugo.http.resource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import org.apache.commons.lang.StringUtils;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -36,10 +34,10 @@ public class CoordinatorResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(simple)){
+        if(simple != null){
             queryParams.add("simple",simple);
         }
-        if(StringUtils.isNotBlank(full)){
+        if(full != null){
             queryParams.add("full",full);
         }
 
@@ -57,10 +55,10 @@ public class CoordinatorResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(simple)){
+        if(simple != null){
             queryParams.add("simple",simple);
         }
-        if(StringUtils.isNotBlank(full)){
+        if(full != null){
             queryParams.add("full",full);
         }
         String url = String.format("%s/loadqueue", pathPre);

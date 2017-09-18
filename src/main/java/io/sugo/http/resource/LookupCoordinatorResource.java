@@ -3,8 +3,6 @@ package io.sugo.http.resource;
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.audit.AuditManager;
-import org.apache.commons.lang.StringUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;

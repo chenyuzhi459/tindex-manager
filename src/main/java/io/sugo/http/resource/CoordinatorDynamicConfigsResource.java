@@ -2,8 +2,6 @@ package io.sugo.http.resource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.audit.AuditManager;
-import org.apache.commons.lang.StringUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -53,7 +51,7 @@ public class CoordinatorDynamicConfigsResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(interval)){
+        if(interval != null){
             queryParams.add("interval",interval);
         }
         if(count != null){

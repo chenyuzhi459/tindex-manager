@@ -1,17 +1,13 @@
 package io.sugo.http.resource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import com.sun.jersey.spi.container.ResourceFilters;
 import io.sugo.http.audit.AuditManager;
-import org.apache.commons.lang.StringUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.List;
 
 
 @Path("/druid/coordinator/v1/rules")
@@ -41,7 +37,7 @@ public class RulesResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(full)){
+        if(full != null){
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
@@ -76,7 +72,7 @@ public class RulesResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(interval)){
+        if(interval != null){
             queryParams.add("full",interval);
         }
         if(count != null) {
@@ -96,7 +92,7 @@ public class RulesResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(interval)){
+        if(interval != null){
             queryParams.add("full",interval);
         }
         if(count != null) {

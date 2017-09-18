@@ -1,12 +1,7 @@
 package io.sugo.http.resource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import com.sun.jersey.spi.container.ResourceFilters;
-import org.apache.commons.lang.StringUtils;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -29,10 +24,10 @@ public class DataSourcesResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(simple)){
+        if(full != null) {
             queryParams.add("simple",simple);
         }
-        if(StringUtils.isNotBlank(full)){
+        if(simple != null) {
             queryParams.add("full",full);
         }
         String url = String.format("%s", pathPre);
@@ -49,7 +44,7 @@ public class DataSourcesResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(full)){
+        if(full != null){
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
@@ -80,10 +75,10 @@ public class DataSourcesResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(kill)){
+        if(kill != null){
             queryParams.add("kill",kill);
         }
-        if(StringUtils.isNotBlank(interval)){
+        if(interval != null){
             queryParams.add("interval",interval);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
@@ -115,10 +110,10 @@ public class DataSourcesResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(simple)){
+        if(simple != null){
             queryParams.add("simple",simple);
         }
-        if(StringUtils.isNotBlank(full)){
+        if(full != null){
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s/intervals", pathPre, dataSourceName);
@@ -137,10 +132,10 @@ public class DataSourcesResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(simple)){
+        if(simple != null){
             queryParams.add("simple",simple);
         }
-        if(StringUtils.isNotBlank(full)){
+        if(full != null){
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s/intervals/%s", pathPre, dataSourceName, interval);
@@ -157,7 +152,7 @@ public class DataSourcesResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(full)){
+        if(full != null){
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s/segments", pathPre, dataSourceName);

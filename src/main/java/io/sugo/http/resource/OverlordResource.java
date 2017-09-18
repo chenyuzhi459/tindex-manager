@@ -1,19 +1,11 @@
 package io.sugo.http.resource;
 
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import com.sun.jersey.spi.container.ResourceFilters;
-import io.sugo.http.ResourcesManager;
 import io.sugo.http.audit.AuditManager;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
-import java.util.Set;
 
 @Path("/druid/indexer/v1")
 public class OverlordResource extends Resource{
@@ -117,10 +109,10 @@ public class OverlordResource extends Resource{
 
         MultivaluedMapImpl headerParams = new MultivaluedMapImpl();
 
-        if(StringUtils.isNotBlank(author)) {
+        if(author != null) {
             headerParams.add("AuditManager.X_DRUID_AUTHOR",author);
         }
-        if(StringUtils.isNotBlank(comment)) {
+        if(comment != null) {
             headerParams.add("AuditManager.X_DRUID_COMMENT",comment);
         }
 
@@ -141,10 +133,10 @@ public class OverlordResource extends Resource{
         String url = String.format("%s/worker/history", pathPre);
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
 
-        if(StringUtils.isNotBlank(interval)) {
+        if(interval != null) {
             queryParams.add("interval",interval);
         }
-        if(StringUtils.isNotBlank(interval)) {
+        if(count != null) {
             queryParams.add("count",count);
         }
 

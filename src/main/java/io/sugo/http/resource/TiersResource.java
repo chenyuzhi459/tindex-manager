@@ -1,8 +1,6 @@
 package io.sugo.http.resource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import org.apache.commons.lang.StringUtils;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,7 +23,7 @@ public class TiersResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(simple)){
+        if(simple != null){
             queryParams.add("simple",simple);
         }
         String url = String.format("%s", pathPre);
@@ -42,7 +40,7 @@ public class TiersResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(simple)){
+        if(simple != null){
             queryParams.add("simple",simple);
         }
         String url = String.format("%s/%s", pathPre, tierName);

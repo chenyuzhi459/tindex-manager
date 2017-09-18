@@ -2,7 +2,6 @@ package io.sugo.http.resource;
 
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -10,7 +9,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.io.InputStream;
 
 
 //@Path("/druid/v2/")
@@ -70,7 +68,7 @@ public class QueryResource extends Resource{
     ) throws IOException
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(pretty)){
+        if(pretty != null){
             queryParams.add("pretty",pretty);
         }
         String url = String.format("%s", pathPre);

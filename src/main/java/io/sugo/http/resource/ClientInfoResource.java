@@ -1,16 +1,10 @@
 package io.sugo.http.resource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import com.sun.jersey.spi.container.ResourceFilters;
-import org.apache.commons.lang.StringUtils;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.Map;
 
 
 @Path("/druid/v2/datasources")
@@ -42,10 +36,10 @@ public class ClientInfoResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(interval)){
+        if(interval != null){
             queryParams.add("interval",interval);
         }
-        if(StringUtils.isNotBlank(full)){
+        if(full != null){
             queryParams.add("full",full);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
@@ -62,7 +56,7 @@ public class ClientInfoResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(interval)){
+        if(interval != null){
             queryParams.add("interval",interval);
         }
         String url = String.format("%s/%s/dimensions", pathPre, dataSourceName);
@@ -79,7 +73,7 @@ public class ClientInfoResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(interval)){
+        if(interval != null){
             queryParams.add("interval",interval);
         }
         String url = String.format("%s/%s/metrics", pathPre, dataSourceName);
@@ -97,7 +91,7 @@ public class ClientInfoResource extends Resource{
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(StringUtils.isNotBlank(intervals)){
+        if(intervals != null){
             queryParams.add("intervals",intervals);
         }
         queryParams.add("numCandidates",numCandidates);
