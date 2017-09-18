@@ -6,6 +6,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.ResourcesManager;
 import org.apache.log4j.Logger;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.net.URI;
@@ -51,14 +52,18 @@ public class HttpMethod {
     public String post(String url,String data) {
         LOG.info(url);
         resource = client.resource(url);
-        String result = resource.post(String.class,data);
+        String result = resource.accept(MediaType.APPLICATION_JSON)
+                .type(MediaType.APPLICATION_JSON)
+                .post(String.class,data);
         return result;
     }
 
     public String post(String url) {
         LOG.info(url);
         resource = client.resource(url);
-        String result = resource.post(String.class);
+        String result = resource.accept(MediaType.APPLICATION_JSON)
+                .type(MediaType.APPLICATION_JSON)
+                .post(String.class);
         return result;
     }
 
