@@ -40,14 +40,6 @@ public class HttpMethod {
         return cr;
     }
 
-    public ClientResponse postTest(WebResource resource, String data) {
-        ClientResponse cr = resource
-                .accept(MediaType.APPLICATION_JSON)
-                .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class,data);
-        return cr;
-    }
-
     public ClientResponse post(WebResource resource, String data) {
         ClientResponse cr = resource
                 .accept(MediaType.APPLICATION_JSON)

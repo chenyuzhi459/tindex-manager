@@ -2,7 +2,9 @@ package io.sugo.http.resource;
 
 
 import io.sugo.http.model.UserBean;
+import io.sugo.http.util.HttpMethodProxy;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,6 +12,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/login")
 public class LoginResource extends Resource{
+    private static final Logger LOG = Logger.getLogger(LoginResource.class);
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -21,16 +24,16 @@ public class LoginResource extends Resource{
         String username = user.getUsername();
         String password = user.getPassword();
         if(StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-            LOG.info("log fail");
+            LOG.info("login fail");
             return Response.status(530).build();
         }
 
         if(username.equals(usernameSave) && password.equals(passwordSave)) {
-            LOG.info("log success");
+            LOG.info("login success");
             return Response.ok().build();
         }
 
-        LOG.info("log fail");
+        LOG.info("login fail");
         return Response.status(530).build();
     }
 }

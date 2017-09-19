@@ -35,6 +35,7 @@ public class BrokerQueryResource extends Resource{
             queryParams.add("pretty",pretty);
         }
         queryParams.add("numCandidates",numCandidates);
+
         String url = String.format("%s/candidates", pathPre);
         return httpMethod.post(url, in, queryParams);
     }

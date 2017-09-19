@@ -29,9 +29,8 @@ public class OverlordResource extends Resource{
     )
     {
         String url = String.format("%s/task", pathPre);
-//        String result = httpMethod.post(url,taskSpec);
-//        return Response.ok(result).build();
-        return new HttpMethodProxy(client).postTest(url,taskSpec);
+
+        return new HttpMethodProxy(client).post(url,taskSpec);
     }
 
     @GET

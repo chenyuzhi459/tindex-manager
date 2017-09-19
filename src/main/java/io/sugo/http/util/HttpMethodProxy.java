@@ -14,13 +14,12 @@ import java.util.Map;
 public class HttpMethodProxy {
 
     private HttpMethod httpMethod;
-    protected static final Logger LOG = Logger.getLogger(ResourcesManager.class);
+    protected static final Logger LOG = Logger.getLogger(HttpMethodProxy.class);
     private WebResource resource;
 
     public HttpMethodProxy(Client client) {
         this.httpMethod = new HttpMethod(client);
     }
-
 
     public Response get(String url) {
         LOG.info(url);
@@ -50,17 +49,9 @@ public class HttpMethodProxy {
         return convertClientResponse2Response(cr);
     }
 
-    public Response postTest(String url, String data) {
-        LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.postTest(resource,data);
-        return convertClientResponse2Response(cr);
-    }
-
     public Response post(String url, String data) {
         LOG.info(url);
         resource = httpMethod.getClient().resource(url);
-
         ClientResponse cr = httpMethod.post(resource,data);
         return convertClientResponse2Response(cr);
     }
