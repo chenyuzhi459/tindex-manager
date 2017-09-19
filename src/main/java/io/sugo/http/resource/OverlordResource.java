@@ -183,6 +183,29 @@ public class OverlordResource extends Resource{
     }
 
     @GET
+    @Path("/completeTasks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCompleteTasks(
+            @QueryParam("offset") @DefaultValue("0") final int offset,
+            @QueryParam("size") final int size,
+            @QueryParam("sortDimension") final String sortDimension,
+            @QueryParam("isDescending") @DefaultValue("true") final String isDescending,
+            @Context final HttpServletRequest req
+    )
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        queryParams.add("offset",offset);
+        queryParams.add("size",size);
+        if(sortDimension != null){
+            queryParams.add("sortDimension",sortDimension);
+        }
+        queryParams.add("isDescending",isDescending);
+
+        String url = String.format("%s/completeTasks", pathPre);
+        return httpMethod.get(url,queryParams);
+    }
+
+    @GET
     @Path("/workers")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWorkers() {
@@ -213,6 +236,7 @@ public class OverlordResource extends Resource{
         queryParams.add("offset",offset);
         return httpMethod.get(url,queryParams);
     }
+
 
 
 }
