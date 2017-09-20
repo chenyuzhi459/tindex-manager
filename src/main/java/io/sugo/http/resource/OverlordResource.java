@@ -173,22 +173,22 @@ public class OverlordResource extends Resource{
         return httpMethod.get(url);
     }
 
-    @GET
+/*    @GET
     @Path("/completeTasks")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCompleteTasks(@Context final HttpServletRequest req)
     {
         String url = String.format("%s/completeTasks", pathPre);
         return httpMethod.get(url);
-    }
+    }*/
 
     @GET
     @Path("/completeTasks")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCompleteTasks(
             @QueryParam("offset") @DefaultValue("0") final int offset,
-            @QueryParam("size") final int size,
-            @QueryParam("sortDimension") final String sortDimension,
+            @QueryParam("size") @DefaultValue("-1") final int size,
+            @QueryParam("sortDimension") @DefaultValue("createdTime") final String sortDimension,
             @QueryParam("isDescending") @DefaultValue("true") final String isDescending,
             @Context final HttpServletRequest req
     )
@@ -202,6 +202,34 @@ public class OverlordResource extends Resource{
         queryParams.add("isDescending",isDescending);
 
         String url = String.format("%s/completeTasks", pathPre);
+
+//        System.out.println("completeTasks:\n"+httpMethod.get(url,queryParams).toString());
+        return httpMethod.get(url,queryParams);
+    }
+
+    @GET
+    @Path("/search/completeTasks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchCompleteTasks(
+            @QueryParam("searchDimension")  final String searchDimension,
+            @QueryParam("searchValue")  final String searchValue,
+            @QueryParam("sortDimension") @DefaultValue("createdTime") final String sortDimension,
+            @QueryParam("isDescending") @DefaultValue("true") final String isDescending,
+            @Context final HttpServletRequest req
+    ){
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(searchDimension != null){
+            queryParams.add("searchDimension",searchDimension);
+        }
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        queryParams.add("sortDimension",sortDimension);
+        queryParams.add("isDescending",isDescending);
+
+        String url = String.format("%s/search/completeTasks", pathPre);
+
+//        System.out.println("completeTasks:\n"+httpMethod.get(url,queryParams).toString());
         return httpMethod.get(url,queryParams);
     }
 
