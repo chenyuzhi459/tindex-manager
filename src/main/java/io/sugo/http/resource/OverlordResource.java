@@ -176,18 +176,9 @@ public class OverlordResource extends Resource{
     @GET
     @Path("/completeTasks")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCompleteTasks(@Context final HttpServletRequest req)
-    {
-        String url = String.format("%s/completeTasks", pathPre);
-        return httpMethod.get(url);
-    }
-
-    @GET
-    @Path("/completeTasks")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getCompleteTasks(
             @QueryParam("offset") @DefaultValue("0") final int offset,
-            @QueryParam("size") final int size,
+            @QueryParam("size") @DefaultValue("-1") final int size,
             @QueryParam("sortDimension") final String sortDimension,
             @QueryParam("isDescending") @DefaultValue("true") final String isDescending,
             @Context final HttpServletRequest req
