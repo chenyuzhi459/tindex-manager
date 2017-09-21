@@ -1,6 +1,5 @@
 package io.sugo.http.resource;
 
-import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.audit.AuditManager;
 import io.sugo.http.util.HttpMethodProxy;
@@ -179,7 +178,7 @@ public class OverlordResource extends Resource{
     public Response getCompleteTasks(
             @QueryParam("offset") @DefaultValue("0") final int offset,
             @QueryParam("size") @DefaultValue("-1") final int size,
-            @QueryParam("sortDimension") final String sortDimension,
+            @QueryParam("sortDimension") @DefaultValue("createdTime") final String sortDimension,
             @QueryParam("isDescending") @DefaultValue("true") final String isDescending,
             @Context final HttpServletRequest req
     )
@@ -193,6 +192,34 @@ public class OverlordResource extends Resource{
         queryParams.add("isDescending",isDescending);
 
         String url = String.format("%s/completeTasks", pathPre);
+
+//        System.out.println("completeTasks:\n"+httpMethod.get(url,queryParams).toString());
+        return httpMethod.get(url,queryParams);
+    }
+
+    @GET
+    @Path("/search/completeTasks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchCompleteTasks(
+            @QueryParam("searchDimension")  final String searchDimension,
+            @QueryParam("searchValue")  final String searchValue,
+            @QueryParam("sortDimension") @DefaultValue("createdTime") final String sortDimension,
+            @QueryParam("isDescending") @DefaultValue("true") final String isDescending,
+            @Context final HttpServletRequest req
+    ){
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(searchDimension != null){
+            queryParams.add("searchDimension",searchDimension);
+        }
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        queryParams.add("sortDimension",sortDimension);
+        queryParams.add("isDescending",isDescending);
+
+        String url = String.format("%s/search/completeTasks", pathPre);
+
+//        System.out.println("completeTasks:\n"+httpMethod.get(url,queryParams).toString());
         return httpMethod.get(url,queryParams);
     }
 
