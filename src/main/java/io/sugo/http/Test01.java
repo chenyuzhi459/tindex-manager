@@ -16,9 +16,9 @@ public class Test01 {
         String subString1 = MessageFormat.format("SELECT id, created_date, payload, status_payload FROM {0} WHERE active = FALSE AND created_date >= :start AND {1} LIKE","druid-task","id");
         String subString2 = MessageFormat.format(" ORDER BY {0} {1} limit 1000","created-date","desc");
         String query2 = subString1 + "'%" + searchValue + "%'" + subString2;
-        String query  = MessageFormat.format("SELECT id, created_date, payload, status_payload FROM {0} WHERE active = FALSE AND created_date >= :start AND {1} LIKE '%" +searchValue +"%' ORDER BY {2} {3} limit 1000",
-                "druid-task","id","created-date","desc");
+        String query  = MessageFormat.format("SELECT id, created_date, payload, status_payload FROM {0} WHERE active = FALSE AND created_date >= :start AND {1} LIKE {2} AND {3} LIKE {4} ORDER BY {5} {6} limit 1000",
+                "druid-task","id","'%" + searchValue + "%'","status-payload","'%" + searchValue + "%'","created-date","desc");
 
-        System.out.println(query2);
+        System.out.println(query);
     }
 }
