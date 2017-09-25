@@ -1,6 +1,5 @@
 package io.sugo.http.resource;
 
-import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.audit.AuditManager;
 import io.sugo.http.util.HttpMethodProxy;
@@ -172,15 +171,6 @@ public class OverlordResource extends Resource{
         String url = String.format("%s/runningTasks", pathPre);
         return httpMethod.get(url);
     }
-
-/*    @GET
-    @Path("/completeTasks")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getCompleteTasks(@Context final HttpServletRequest req)
-    {
-        String url = String.format("%s/completeTasks", pathPre);
-        return httpMethod.get(url);
-    }*/
 
     @GET
     @Path("/completeTasks")
