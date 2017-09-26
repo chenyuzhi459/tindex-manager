@@ -20,10 +20,15 @@ public class IntervalsResource extends Resource{
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getIntervals(@Context final HttpServletRequest req)
+    public Response getIntervals(
+            @Context final HttpServletRequest req,
+            @QueryParam("isAscending") @DefaultValue("false") boolean isAscending
+    )
     {
-        String url = String.format("%s");
-        return httpMethod.get(url);
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        queryParams.add("isAscending",isAscending);
+        String url = String.format("%s", pathPre);
+        return httpMethod.get(url, queryParams);
     }
 
     @GET
