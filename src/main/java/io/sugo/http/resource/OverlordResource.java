@@ -201,19 +201,19 @@ public class OverlordResource extends Resource{
     @Path("/search/completeTasks")
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchCompleteTasks(
-            @QueryParam("searchDimension")  final String searchDimension,
-            @QueryParam("searchValue")  final String searchValue,
-            @QueryParam("sortDimension") @DefaultValue("createdTime") final String sortDimension,
+            @QueryParam("searchDimension1") @DefaultValue("id") final String searchDimension1,
+            @QueryParam("searchValue1") @DefaultValue("") final String searchValue1,
+            @QueryParam("searchDimension2") @DefaultValue("status_payload")  final String searchDimension2,
+            @QueryParam("searchValue2") @DefaultValue("") final String searchValue2,
+            @QueryParam("sortDimension") @DefaultValue("created_date") final String sortDimension,
             @QueryParam("isDescending") @DefaultValue("true") final String isDescending,
             @Context final HttpServletRequest req
     ){
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(searchDimension != null){
-            queryParams.add("searchDimension",searchDimension);
-        }
-        if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
-        }
+        queryParams.add("searchDimension1",searchDimension1);
+        queryParams.add("searchValue1",searchValue1);
+        queryParams.add("searchDimension2",searchDimension2);
+        queryParams.add("searchValue2",searchValue2);
         queryParams.add("sortDimension",sortDimension);
         queryParams.add("isDescending",isDescending);
 
