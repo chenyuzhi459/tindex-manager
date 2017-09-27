@@ -19,6 +19,7 @@ public class DataSourcesResource extends Resource{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getQueryableDataSources(
+            @QueryParam("searchString") @DefaultValue("a") String searchString,
             @QueryParam("full") String full,
             @QueryParam("simple") String simple,
             @QueryParam("isAscending") @DefaultValue("true") boolean isAscending
@@ -31,6 +32,9 @@ public class DataSourcesResource extends Resource{
         }
         if(simple != null) {
             queryParams.add("full",full);
+        }
+        if(searchString != null) {
+            queryParams.add("searchString",searchString);
         }
         String url = String.format("%s", pathPre);
         return httpMethod.get(url,queryParams);
