@@ -1,5 +1,7 @@
 package io.sugo.http.resource;
 
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -66,6 +68,62 @@ public class SupervisorResource extends Resource{
     {
         String url = String.format("%s/history", pathPre);
         return httpMethod.get(url);
+    }
+
+
+    @GET
+    @Path("/history/part")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSupervisorHistoryNum(
+            @QueryParam("searchDimension1") final String searchDimension1, //defaultValue: spec_id
+            @QueryParam("searchValue1")  @DefaultValue("") final String searchValue1,
+            @QueryParam("searchDimension2") final String searchDimension2, //defaultValue: payload/created_date
+            @QueryParam("searchValue2") @DefaultValue("") final String searchValue2,
+            @QueryParam("sortDimension") @DefaultValue("created_date") final String sortDimension,
+            @QueryParam("isDescending") @DefaultValue("true") final boolean isDescending,
+            @QueryParam("offset") @DefaultValue("0") final int offset,
+            @QueryParam("size") @DefaultValue("10") final int size
+    ){
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(null != searchDimension1){
+            queryParams.add("searchDimension1",searchDimension1);
+        }
+        if(null != searchDimension2){
+            queryParams.add("searchDimension2",searchDimension2);
+        }
+        queryParams.add("searchValue1",searchValue1);
+        queryParams.add("searchValue2",searchValue2);
+        queryParams.add("sortDimension",sortDimension);
+        queryParams.add("isDescending",isDescending);
+        queryParams.add("offset",offset);
+        queryParams.add("size",size);
+
+        String url = String.format("%s/history/part", pathPre);
+
+        return httpMethod.get(url,queryParams);
+    }
+
+    @GET
+    @Path("/history/count")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSupervisorHistoryNum(
+            @QueryParam("searchDimension1") final String searchDimension1, //defaultValue: spec_id
+            @QueryParam("searchValue1")  @DefaultValue("") final String searchValue1,
+            @QueryParam("searchDimension2") final String searchDimension2, //defaultValue: payload/created_date
+            @QueryParam("searchValue2") @DefaultValue("") final String searchValue2
+    )
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(null != searchDimension1){
+            queryParams.add("searchDimension1",searchDimension1);
+        }
+        if(null != searchDimension2){
+            queryParams.add("searchDimension2",searchDimension2);
+        }
+        queryParams.add("searchValue1",searchValue1);
+        queryParams.add("searchValue2",searchValue2);
+        String url = String.format("%s/history/count", pathPre);
+        return httpMethod.get(url,queryParams);
     }
 
     @GET

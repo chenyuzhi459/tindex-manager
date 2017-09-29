@@ -156,10 +156,32 @@ public class OverlordResource extends Resource{
     }
 
     @GET
+    @Path("/{supervisorId}/waitingTasks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSupervisorWaitingTasks(
+            @PathParam("supervisorId") final String supervisorId,
+            @Context final HttpServletRequest req)
+    {
+        String url = String.format("%s/%s/waitingTasks", pathPre,supervisorId);
+        return httpMethod.get(url);
+    }
+
+    @GET
     @Path("/pendingTasks")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPendingTasks(@Context final HttpServletRequest req){
         String url = String.format("%s/pendingTasks", pathPre);
+        return httpMethod.get(url);
+    }
+
+    @GET
+    @Path("/{supervisorId}/pendingTasks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSupervisorPendingTasks(
+            @PathParam("supervisorId") final String supervisorId,
+            @Context final HttpServletRequest req)
+    {
+        String url = String.format("%s/%s/pendingTasks", pathPre,supervisorId);
         return httpMethod.get(url);
     }
 
@@ -169,6 +191,17 @@ public class OverlordResource extends Resource{
     public Response getRunningTasks(@Context final HttpServletRequest req)
     {
         String url = String.format("%s/runningTasks", pathPre);
+        return httpMethod.get(url);
+    }
+
+    @GET
+    @Path("/{supervisorId}/runningTasks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSupervisorRunningTasks(
+            @PathParam("supervisorId") final String supervisorId,
+            @Context final HttpServletRequest req)
+    {
+        String url = String.format("%s/%s/runningTasks", pathPre,supervisorId);
         return httpMethod.get(url);
     }
 
@@ -193,7 +226,6 @@ public class OverlordResource extends Resource{
 
         String url = String.format("%s/completeTasks", pathPre);
 
-//        System.out.println("completeTasks:\n"+httpMethod.get(url,queryParams).toString());
         return httpMethod.get(url,queryParams);
     }
 
@@ -219,7 +251,66 @@ public class OverlordResource extends Resource{
 
         String url = String.format("%s/search/completeTasks", pathPre);
 
-//        System.out.println("completeTasks:\n"+httpMethod.get(url,queryParams).toString());
+        return httpMethod.get(url,queryParams);
+    }
+
+
+    @GET
+    @Path("/completeTasks/{supervisorId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getInactiveSupervisorTasks(
+            @PathParam("supervisorId") final String supervisorId,
+            @QueryParam("searchDimension1") final String searchDimension1,
+            @QueryParam("searchValue1") @DefaultValue("") final String searchValue1,
+            @QueryParam("searchDimension2") final String searchDimension2,
+            @QueryParam("searchValue2") @DefaultValue("") final String searchValue2,
+            @QueryParam("sortDimension") @DefaultValue("created_date") final String sortDimension,
+            @QueryParam("isDescending") @DefaultValue("true") final boolean isDescending,
+            @QueryParam("offset") @DefaultValue("0") final int offset,
+            @QueryParam("size") @DefaultValue("10") final int size,
+            @Context final HttpServletRequest req)
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(null != searchDimension1){
+            queryParams.add("searchDimension1",searchDimension1);
+        }
+        if(null != searchDimension2){
+            queryParams.add("searchDimension2",searchDimension2);
+        }
+        queryParams.add("searchValue1",searchValue1);
+        queryParams.add("searchValue2",searchValue2);
+        queryParams.add("sortDimension",sortDimension);
+        queryParams.add("isDescending",isDescending);
+        queryParams.add("offset",offset);
+        queryParams.add("size",size);
+
+        String url = String.format("%s/completeTasks/%s", pathPre,supervisorId);
+
+        return httpMethod.get(url,queryParams);
+
+    }
+
+    @GET
+    @Path("/completeTasks/{supervisorId}/count")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSupervisorCompleteTasksNum(
+            @PathParam("supervisorId") final String supervisorId,
+            @QueryParam("searchDimension1") final String searchDimension1, //defaultValue: id
+            @QueryParam("searchValue1")  @DefaultValue("") final String searchValue1,
+            @QueryParam("searchDimension2") final String searchDimension2, //defaultValue: status_payload
+            @QueryParam("searchValue2") @DefaultValue("") final String searchValue2,
+            @Context final HttpServletRequest req)
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(null != searchDimension1){
+            queryParams.add("searchDimension1",searchDimension1);
+        }
+        if(null != searchDimension2){
+            queryParams.add("searchDimension2",searchDimension2);
+        }
+        queryParams.add("searchValue1",searchValue1);
+        queryParams.add("searchValue2",searchValue2);
+        String url = String.format("%s/completeTasks/%s/count", pathPre,supervisorId);
         return httpMethod.get(url,queryParams);
     }
 
