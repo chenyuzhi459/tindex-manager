@@ -12,7 +12,6 @@ import java.io.IOException;
 @Path("/druid/historical/v1")
 public class HistoricalResource extends Resource{
 
-
     public HistoricalResource() throws IOException {
         ip = configure.getProperty("config.properties","coordinator_ip");
         pathPre = "http://" + ip + "/druid/coordinator/v1/intervals";

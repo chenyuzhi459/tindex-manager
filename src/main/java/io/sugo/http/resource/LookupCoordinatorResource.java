@@ -70,12 +70,12 @@ public class LookupCoordinatorResource extends Resource{
             @PathParam("lookup") String lookup,
             @HeaderParam(AuditManager.X_DRUID_AUTHOR) @DefaultValue("") final String author,
             @HeaderParam(AuditManager.X_DRUID_COMMENT) @DefaultValue("") final String comment,
-            InputStream in,
+            String data,
             @Context HttpServletRequest req
     )
     {
         String url = String.format("%s/%s/%s", pathPre, tier, lookup);
-        return httpMethod.post(url);
+        return httpMethod.post(url,data);
     }
 
     @GET
@@ -94,11 +94,18 @@ public class LookupCoordinatorResource extends Resource{
     @Produces({MediaType.APPLICATION_JSON, SmileMediaTypes.APPLICATION_JACKSON_SMILE})
     @Path("/{tier}")
     public Response getSpecificTier(
-            @PathParam("tier") String tier
+            @PathParam("tier") String tier,
+            @QueryParam("searchValue") String searchValue,
+            @QueryParam("isDescending") @DefaultValue("false") boolean isDescending
     )
     {
         String url = String.format("%s/%s", pathPre, tier);
-        return httpMethod.get(url);
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        queryParams.add("isDescending",isDescending);
+        return httpMethod.get(url,queryParams);
     }
 }
 
