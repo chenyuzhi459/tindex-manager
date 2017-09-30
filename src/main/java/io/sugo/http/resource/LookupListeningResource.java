@@ -35,6 +35,7 @@ public class LookupListeningResource extends Resource{
         return httpMethod.post(url, data);
     }
 
+    @Path("/sortAndSearch")
     @GET
     @Produces({MediaType.APPLICATION_JSON, SmileMediaTypes.APPLICATION_JACKSON_SMILE})
     public Response getAll(
@@ -53,7 +54,7 @@ public class LookupListeningResource extends Resource{
         }
         queryParams.add("isDescending", isDescending);
 
-        String url = String.format("http://%s%s", ip, pathPre);
+        String url = String.format("http://%s%s/sortAndSearch", ip, pathPre);
         return httpMethod.get(url, queryParams);
     }
 
