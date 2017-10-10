@@ -35,11 +35,10 @@ public class LookupListeningResource extends Resource{
         return httpMethod.post(url, data);
     }
 
-    @Path("/{id}")
+    @Path("/sortAndSearch")
     @GET
     @Produces({MediaType.APPLICATION_JSON, SmileMediaTypes.APPLICATION_JACKSON_SMILE})
-    public Response serviceAnnouncementGET(
-            final @PathParam("id") String id,
+    public Response getAll(
             @QueryParam("searchValue") String searchValue,
             @QueryParam("isDescending") @DefaultValue("false") boolean isDescending,
             @QueryParam("ip") String ip
@@ -48,13 +47,30 @@ public class LookupListeningResource extends Resource{
         if(Strings.isNullOrEmpty(ip)) {
             return Response.status(400).build();
         }
+
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
         if(searchValue != null){
             queryParams.add("searchValue",searchValue);
         }
         queryParams.add("isDescending", isDescending);
+
+        String url = String.format("http://%s%s/sortAndSearch", ip, pathPre);
+        return httpMethod.get(url, queryParams);
+    }
+
+    @Path("/{id}")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON, SmileMediaTypes.APPLICATION_JACKSON_SMILE})
+    public Response serviceAnnouncementGET(
+            final @PathParam("id") String id,
+            @QueryParam("ip") String ip
+    )
+    {
+        if(Strings.isNullOrEmpty(ip)) {
+            return Response.status(400).build();
+        }
         String url = String.format("http://%s%s/%s", ip, pathPre,id);
-        return httpMethod.get(url,queryParams);
+        return httpMethod.get(url);
     }
 
     @Path("/{id}")

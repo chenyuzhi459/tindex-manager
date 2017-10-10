@@ -6,7 +6,7 @@ import io.sugo.http.util.HttpMethodProxy;
 
 public class Resource {
 
-    protected static Configure configure;
+    protected static Configure configure = new Configure();
     protected static Client client;
     protected static HttpMethodProxy httpMethod;
     protected static String ip;
@@ -17,7 +17,7 @@ public class Resource {
     }
 
     private void init() {
-        configure = new Configure();
+//        configure = new Configure();
         client = Client.create();
         httpMethod = new HttpMethodProxy(client);
     }
