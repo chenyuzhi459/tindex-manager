@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by fengxj on 3/29/17.
@@ -47,7 +47,8 @@ public class Configure {
     try {
       if (conf.startsWith(CLASSPATH_URL_PREFIX)) {
           conf = StringUtils.substringAfter(conf, CLASSPATH_URL_PREFIX);
-          properties.load(Configure.class.getClassLoader().getResourceAsStream(conf));
+//          properties.load(Configure.class.getClassLoader().getResourceAsStream(conf));
+        properties.load(new FileInputStream("src/main/resources/config/config.properties"));
       } else {
           properties.load(new FileInputStream(conf));
       }
@@ -58,11 +59,6 @@ public class Configure {
       ix.printStackTrace();
     }
   }
-
-  public static void main(String[] args) {
-    new Configure();
-  }
-
 
   public String getProperty(String propName,String key) {
     if(propName.contains("config")) {
@@ -141,4 +137,21 @@ public class Configure {
     }
     return false;
   }
+
+  public Map<String, String> getAllProperties() {
+    Map<String, String> propertiesMap = new HashMap<>();
+    propertiesMap = getAllPropertiesFromOneProperty(propertiesMap, configProperties);
+    return getAllPropertiesFromOneProperty(propertiesMap, systemProperties);
+  }
+
+  public Map<String, String> getAllPropertiesFromOneProperty(Map<String, String> propertiesMap, Properties properties) {
+    Set<String> propertyNamesSet = properties.stringPropertyNames();
+    Iterator<String> it = propertyNamesSet.iterator();
+    while (it.hasNext()) {
+      String propertiesName = it.next();
+      propertiesMap.put(propertiesName, properties.getProperty(propertiesName));
+    }
+    return propertiesMap;
+  }
+
 }
