@@ -230,29 +230,61 @@ public class OverlordResource extends Resource{
     }
 
     @GET
-    @Path("/search/completeTasks")
+    @Path("/completeTasks/custom/list")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchCompleteTasks(
-            @QueryParam("searchDimension1") @DefaultValue("id") final String searchDimension1,
+    public Response getCompleteTasks(
+            @QueryParam("searchDimension1") final String searchDimension1,
             @QueryParam("searchValue1") @DefaultValue("") final String searchValue1,
-            @QueryParam("searchDimension2") @DefaultValue("status_payload")  final String searchDimension2,
+            @QueryParam("searchDimension2") final String searchDimension2,
             @QueryParam("searchValue2") @DefaultValue("") final String searchValue2,
             @QueryParam("sortDimension") @DefaultValue("created_date") final String sortDimension,
-            @QueryParam("isDescending") @DefaultValue("true") final String isDescending,
-            @Context final HttpServletRequest req
-    ){
+            @QueryParam("isDescending") @DefaultValue("true") final boolean isDescending,
+            @QueryParam("offset") @DefaultValue("0") final int offset,
+            @QueryParam("size") @DefaultValue("10") final int size,
+            @Context final HttpServletRequest req)
+    {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        queryParams.add("searchDimension1",searchDimension1);
+        if(null != searchDimension1){
+            queryParams.add("searchDimension1",searchDimension1);
+        }
+        if(null != searchDimension2){
+            queryParams.add("searchDimension2",searchDimension2);
+        }
         queryParams.add("searchValue1",searchValue1);
-        queryParams.add("searchDimension2",searchDimension2);
         queryParams.add("searchValue2",searchValue2);
         queryParams.add("sortDimension",sortDimension);
         queryParams.add("isDescending",isDescending);
+        queryParams.add("offset",offset);
+        queryParams.add("size",size);
 
-        String url = String.format("%s/search/completeTasks", pathPre);
+        String url = String.format("%s/completeTasks/custom/list", pathPre);
 
         return httpMethod.get(url,queryParams);
     }
+
+    @GET
+    @Path("/completeTasks/custom/count")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCompleteTasksNum(
+            @QueryParam("searchDimension1") final String searchDimension1, //defaultValue: id
+            @QueryParam("searchValue1")  @DefaultValue("") final String searchValue1,
+            @QueryParam("searchDimension2") final String searchDimension2, //defaultValue: status_payload
+            @QueryParam("searchValue2") @DefaultValue("") final String searchValue2,
+            @Context final HttpServletRequest req
+    ){
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(null != searchDimension1){
+            queryParams.add("searchDimension1",searchDimension1);
+        }
+        if(null != searchDimension2){
+            queryParams.add("searchDimension2",searchDimension2);
+        }
+        queryParams.add("searchValue1",searchValue1);
+        queryParams.add("searchValue2",searchValue2);
+        String url = String.format("%s/completeTasks/custom/count", pathPre);
+        return httpMethod.get(url,queryParams);
+    }
+
 
 
     @GET
