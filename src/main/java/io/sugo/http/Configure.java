@@ -48,7 +48,8 @@ public class Configure {
       if (conf.startsWith(CLASSPATH_URL_PREFIX)) {
           conf = StringUtils.substringAfter(conf, CLASSPATH_URL_PREFIX);
 //          properties.load(Configure.class.getClassLoader().getResourceAsStream(conf));
-        properties.load(new FileInputStream("src/main/resources/config/config.properties"));
+        String filePath = "src/main/resources/" + conf;
+        properties.load(new FileInputStream(filePath));
       } else {
           properties.load(new FileInputStream(conf));
       }
