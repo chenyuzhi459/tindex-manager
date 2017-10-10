@@ -16,13 +16,14 @@ public class ChatHandlerResource extends Resource {
 	}
 
 	@GET
-	@Path("/chat/{id}")
+	@Path("/chat/{id}/offsets/current")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getOffset(
 			@PathParam("id") String handlerId,
 			@QueryParam("location") String location
 	){
-		return null;
+		String url = MessageFormat.format("{0}/chat/{1}/offsets/current",MessageFormat.format(pathPre,location),handlerId);
+		return httpMethod.get(url);
 	}
 
 }
