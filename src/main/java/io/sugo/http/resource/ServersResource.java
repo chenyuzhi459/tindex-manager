@@ -66,6 +66,27 @@ public class ServersResource extends Resource{
     }
 
     @GET
+    @Path("/{serverName}/segments/sortAndSearch")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getServerSegments(
+            @PathParam("serverName") String serverName,
+            @QueryParam("full") String full,
+            @QueryParam("isDescending") @DefaultValue("false") boolean isDscending,
+            @QueryParam("searchValue") String searchValue
+    ){
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(full != null){
+            queryParams.add("full",full);
+        }
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        queryParams.add("isDescending",isDscending);
+        String url = String.format("%s/%s/segments/sortAndSearch", pathPre, serverName);
+        return httpMethod.get(url,queryParams);
+    }
+
+    @GET
     @Path("/{serverName}/segments/{segmentId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getServerSegment(
