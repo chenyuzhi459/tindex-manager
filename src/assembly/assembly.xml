@@ -15,8 +15,7 @@
                 <include>README*</include>
                 <include>LICENSE*</include>
                 <include>NOTICE*</include>
-                <include>config.default.properties</include>
-                <include>config.sample.properties</include>
+                <include>src/main/resources/config/*</include>
                 <include>*.txt</include>
                 <include>*.sh</include>
                 <include>lib/*</include>
