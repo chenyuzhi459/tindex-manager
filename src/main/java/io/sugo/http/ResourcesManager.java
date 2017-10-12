@@ -81,22 +81,6 @@ public class ResourcesManager {
     static void initialize(Server server) {
         HandlerList handlerList = new HandlerList();
 
-        final ServletContextHandler htmlHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        htmlHandler.setContextPath("/view");
-        htmlHandler.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
-        htmlHandler.setInitParameter("org.eclipse.jetty.servlet.Default.redirectWelcome", "true");
-        htmlHandler.setWelcomeFiles(new String[]{"index.html"});
-
-        ServletHolder holderPwd = new ServletHolder("default", DefaultServlet.class);
-        htmlHandler.addServlet(holderPwd, "/*");
-        htmlHandler.setBaseResource(
-                new ResourceCollection(
-                        new String[]{
-                                ResourcesManager.class.getClassLoader().getResource("dist").toExternalForm()
-                        }
-                )
-        );
-
         final ServletContextHandler apiHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
         apiHandler.setContextPath("/");
 
@@ -107,6 +91,25 @@ public class ResourcesManager {
         if(developMode){
             apiHandler.addFilter(CrossDomainSupportFilter.class,"/*", EnumSet.of(DispatcherType.REQUEST));
         }
+
+        final ServletContextHandler htmlHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        htmlHandler.setContextPath("/view");
+        htmlHandler.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
+        htmlHandler.setInitParameter("org.eclipse.jetty.servlet.Default.redirectWelcome", "true");
+        htmlHandler.setWelcomeFiles(new String[]{"index.html"});
+
+        ServletHolder holderPwd = new ServletHolder("default", DefaultServlet.class);
+//        ServletHolder holderPwd = new ServletHolder(ServletContainer.class);
+        htmlHandler.addServlet(holderPwd, "/*");
+        htmlHandler.setBaseResource(
+                new ResourceCollection(
+                        new String[]{
+                                ResourcesManager.class.getClassLoader().getResource("dist").toExternalForm()
+                        }
+                )
+        );
+
+
         handlerList.addHandler(htmlHandler);
         handlerList.addHandler(apiHandler);
 
