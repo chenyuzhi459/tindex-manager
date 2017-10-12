@@ -1,6 +1,7 @@
 package io.sugo.http.resource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.sun.jersey.spi.container.ResourceFilters;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -121,6 +122,49 @@ public class MetadataResource extends Resource{
     {
         String url = String.format("%s/datasources/%s/segments/%s", pathPre, dataSourceName, segmentId);
         return httpMethod.get(url);
+    }
+
+    @GET
+    @Path("/datasources/{dataSourceName}/intervals")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDatabaseSegmentDataSourceIntervals(
+            @PathParam("dataSourceName") String dataSourceName,
+            @QueryParam("simple") String simple,
+            @QueryParam("full") String full
+    )
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(full != null){
+            queryParams.add("full",full);
+        }
+        if(simple != null){
+            queryParams.add("simple",simple);
+        }
+        String url = String.format("%s/datasources/%s/intervals", pathPre, dataSourceName);
+        return httpMethod.get(url, queryParams);
+    }
+
+    @DELETE
+    @Path("/datasources/{dataSourceName}/segments/{segmentId}/disable")
+    public Response deleteDatasourceSegment(
+            @PathParam("dataSourceName") String dataSourceName,
+            @PathParam("segmentId") String segmentId
+    )
+    {
+        String url = String.format("%s/datasources/%s/segments/%s/disable", pathPre, dataSourceName, segmentId);
+        return httpMethod.delete(url);
+    }
+
+    @POST
+    @Path("/datasources/{dataSourceName}/segments/{segmentId}/enable")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response enableDatasourceSegment(
+        @PathParam("dataSourceName") String dataSourceName,
+        @PathParam("segmentId") String segmentId
+    )
+    {
+        String url = String.format("%s/datasources/%s/segments/%s/enable", pathPre, dataSourceName, segmentId);
+        return httpMethod.post(url);
     }
 }
 

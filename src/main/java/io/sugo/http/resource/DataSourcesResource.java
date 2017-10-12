@@ -27,10 +27,10 @@ public class DataSourcesResource extends Resource{
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
         queryParams.add("isAscending", isAscending);
-        if(full != null) {
+        if(simple != null) {
             queryParams.add("simple",simple);
         }
-        if(simple != null) {
+        if(full != null) {
             queryParams.add("full",full);
         }
         if(searchString != null) {
