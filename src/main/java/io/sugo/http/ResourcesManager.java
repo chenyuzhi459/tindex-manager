@@ -101,14 +101,6 @@ public class ResourcesManager {
         ServletHolder holderPwd = new ServletHolder("default", DefaultServlet.class);
 //        ServletHolder holderPwd = new ServletHolder(ServletContainer.class);
         htmlHandler.addServlet(holderPwd, "/*");
-        htmlHandler.setBaseResource(
-                new ResourceCollection(
-                        new String[]{
-                                ResourcesManager.class.getClassLoader().getResource("dist").toExternalForm()
-                        }
-                )
-        );
-
 
         handlerList.addHandler(htmlHandler);
         handlerList.addHandler(apiHandler);
