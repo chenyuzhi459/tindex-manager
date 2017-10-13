@@ -31,12 +31,20 @@ public class HttpMethod {
     }
 
     public ClientResponse post(WebResource resource, String data ,MultivaluedMapImpl queryParams) {
-        ClientResponse cr = resource.queryParams(queryParams).post(ClientResponse.class,data);
+        ClientResponse cr = resource
+                .queryParams(queryParams)
+                .accept(MediaType.APPLICATION_JSON)
+                .type(MediaType.APPLICATION_JSON)
+                .post(ClientResponse.class,data);
         return cr;
     }
 
     public ClientResponse post(WebResource resource, MultivaluedMapImpl queryParams) {
-        ClientResponse cr = resource.queryParams(queryParams).post(ClientResponse.class);
+        ClientResponse cr = resource
+                .queryParams(queryParams)
+                .accept(MediaType.APPLICATION_JSON)
+                .type(MediaType.APPLICATION_JSON)
+                .post(ClientResponse.class);
         return cr;
     }
 

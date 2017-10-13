@@ -35,7 +35,7 @@ public class HttpMethodProxy {
         return convertClientResponse2Response(cr);
     }
 
-    public Response post(String url,String data ,MultivaluedMapImpl queryParams) {
+    public Response post(String url, String data ,MultivaluedMapImpl queryParams) {
         LOG.info(url);
         resource = httpMethod.getClient().resource(url);
         ClientResponse cr = httpMethod.post(resource,data,queryParams);
