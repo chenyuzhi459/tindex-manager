@@ -44,6 +44,7 @@ public class MetadataResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDatabaseDataSources(
             @QueryParam("full") String full,
+            @QueryParam("simple") String simple,
             @QueryParam("includeDisabled") String includeDisabled,
             @QueryParam("sortDimension") String sortDimension,
             @QueryParam("isDescending") @DefaultValue("true") boolean isDescending,
@@ -54,6 +55,9 @@ public class MetadataResource extends Resource{
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
         if(full != null){
             queryParams.add("full",full);
+        }
+        if(simple != null){
+            queryParams.add("simple",simple);
         }
         if(includeDisabled != null){
             queryParams.add("includeDisabled",includeDisabled);
@@ -129,6 +133,10 @@ public class MetadataResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDatabaseSegmentDataSourceIntervals(
             @PathParam("dataSourceName") String dataSourceName,
+            @QueryParam("searchDimension") String searchDimension,
+            @QueryParam("searchValue") String searchValue,
+            @QueryParam("sortDimension") String sortDimension,
+            @QueryParam("isDescending")  boolean isDescending,
             @QueryParam("simple") String simple,
             @QueryParam("full") String full
     )
@@ -140,13 +148,23 @@ public class MetadataResource extends Resource{
         if(simple != null){
             queryParams.add("simple",simple);
         }
+        if(searchDimension != null){
+            queryParams.add("searchDimension",searchDimension);
+        }
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        if(sortDimension != null){
+            queryParams.add("sortDimension",sortDimension);
+        }
+        queryParams.add("isDescending",isDescending);
         String url = String.format("%s/datasources/%s/intervals", pathPre, dataSourceName);
         return httpMethod.get(url, queryParams);
     }
 
     @DELETE
     @Path("/datasources/{dataSourceName}/segments/{segmentId}/disable")
-    public Response deleteDatasourceSegment(
+    public Response disableDatasourceSegment(
             @PathParam("dataSourceName") String dataSourceName,
             @PathParam("segmentId") String segmentId
     )
@@ -166,5 +184,33 @@ public class MetadataResource extends Resource{
         String url = String.format("%s/datasources/%s/segments/%s/enable", pathPre, dataSourceName, segmentId);
         return httpMethod.post(url);
     }
+
+    @DELETE
+    @Path("/datasources/{dataSourceName}/segments/{segmentId}/delete")
+    public Response deleteDatasourceSegment(
+            @PathParam("dataSourceName") String dataSourceName,
+            @PathParam("segmentId") String segmentId
+    )
+    {
+        String url = String.format("%s/datasources/%s/segments/%s/delete", pathPre, dataSourceName, segmentId);
+        return httpMethod.delete(url);
+    }
+
+    @GET
+    @Path("/datasources/{dataSourceName}/disableSegments")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDisableSegmentDataSourceSegments(
+            @PathParam("dataSourceName") String dataSourceName,
+            @QueryParam("full") String full
+    )
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(full != null){
+            queryParams.add("full",full);
+        }
+        String url = String.format("%s/datasources/%s/disableSegments", pathPre, dataSourceName);
+        return httpMethod.get(url, queryParams);
+    }
 }
+
 

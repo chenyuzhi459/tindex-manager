@@ -19,7 +19,7 @@ public class DataSourcesResource extends Resource{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getQueryableDataSources(
-            @QueryParam("searchString") @DefaultValue("a") String searchString,
+            @QueryParam("searchString") @DefaultValue("") String searchString,
             @QueryParam("full") String full,
             @QueryParam("simple") String simple,
             @QueryParam("isAscending") @DefaultValue("true") boolean isAscending
