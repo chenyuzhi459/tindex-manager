@@ -211,6 +211,41 @@ public class MetadataResource extends Resource{
         String url = String.format("%s/datasources/%s/disableSegments", pathPre, dataSourceName);
         return httpMethod.get(url, queryParams);
     }
+
+    @GET
+    @Path("/disableDatasources")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDisableDatabaseDataSources(
+            @QueryParam("searchValue") String searchValue,
+            @QueryParam("isDescending") @DefaultValue("false") boolean isDescending
+    )
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        queryParams.add("isDescending", isDescending);
+        String url = String.format("%s/disableDatasources", pathPre);
+        return httpMethod.get(url, queryParams);
+    }
+
+    @GET
+    @Path("/datasources/{dataSourceName}/disableIntervals")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDatabaseSegmentDataSourceDisableIntervals(
+            @PathParam("dataSourceName") String dataSourceName,
+            @QueryParam("searchValue") String searchValue,
+            @QueryParam("isDescending") @DefaultValue("true")  boolean isDescending
+    )
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        queryParams.add("isDescending", isDescending);
+        String url = String.format("%s/datasources/%s/disableIntervals", pathPre, dataSourceName);
+        return httpMethod.get(url, queryParams);
+    }
 }
 
 

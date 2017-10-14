@@ -19,14 +19,14 @@ public class DataSourcesResource extends Resource{
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getQueryableDataSources(
-            @QueryParam("searchString") @DefaultValue("") String searchString,
+            @QueryParam("searchValue") @DefaultValue("") String searchString,
             @QueryParam("full") String full,
             @QueryParam("simple") String simple,
-            @QueryParam("isAscending") @DefaultValue("true") boolean isAscending
+            @QueryParam("isDescending") @DefaultValue("true") boolean isDescending
     )
     {
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        queryParams.add("isAscending", isAscending);
+        queryParams.add("isDescending", isDescending);
         if(simple != null) {
             queryParams.add("simple",simple);
         }
