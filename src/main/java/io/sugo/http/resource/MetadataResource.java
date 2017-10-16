@@ -88,6 +88,9 @@ public class MetadataResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDatabaseSegmentDataSourceSegments(
             @PathParam("dataSourceName") String dataSourceName,
+            @QueryParam("searchValue") String searchValue,
+            @QueryParam("sortDimension") @DefaultValue("id") String sortDimension,   //可取值:id,size
+            @QueryParam("isDescending") @DefaultValue("false") boolean isDescending,
             @QueryParam("full") String full
     )
     {
@@ -95,6 +98,13 @@ public class MetadataResource extends Resource{
         if(full != null){
             queryParams.add("full",full);
         }
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        if(sortDimension != null){
+            queryParams.add("sortDimension",sortDimension);
+        }
+        queryParams.add("isDescending",isDescending);
         String url = String.format("%s/datasources/%s/segments", pathPre, dataSourceName);
         return httpMethod.get(url,queryParams);
     }
@@ -201,13 +211,14 @@ public class MetadataResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDisableSegmentDataSourceSegments(
             @PathParam("dataSourceName") String dataSourceName,
-            @QueryParam("full") String full
-    )
-    {
+            @QueryParam("searchValue") String searchValue,
+            @QueryParam("isDescending") @DefaultValue("false") boolean isDescending
+    ){
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        if(full != null){
-            queryParams.add("full",full);
+        if(searchValue != searchValue){
+            queryParams.add("searchValue",searchValue);
         }
+        queryParams.add("isDescending",isDescending);
         String url = String.format("%s/datasources/%s/disableSegments", pathPre, dataSourceName);
         return httpMethod.get(url, queryParams);
     }
