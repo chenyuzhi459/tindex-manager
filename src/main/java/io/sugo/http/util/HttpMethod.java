@@ -73,6 +73,14 @@ public class HttpMethod {
         return cr;
     }
 
+    public ClientResponse delete(WebResource resource, String data) {
+        ClientResponse cr = resource
+                .accept(MediaType.APPLICATION_JSON)
+                .type(MediaType.APPLICATION_JSON)
+                .delete(ClientResponse.class, data);
+        return cr;
+    }
+
     public Client getClient() {
         return client;
     }

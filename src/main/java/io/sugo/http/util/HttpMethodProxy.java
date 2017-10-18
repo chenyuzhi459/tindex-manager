@@ -77,6 +77,13 @@ public class HttpMethodProxy {
         return convertClientResponse2Response(cr);
     }
 
+    public Response delete(String url, String data) {
+        LOG.info(url);
+        resource = httpMethod.getClient().resource(url);
+        ClientResponse cr = httpMethod.delete(resource,data);
+        return convertClientResponse2Response(cr);
+    }
+
 
     public static Response convertClientResponse2Response(ClientResponse r) {
         Response.ResponseBuilder rb = Response.status(r.getStatus());

@@ -257,6 +257,94 @@ public class MetadataResource extends Resource{
         String url = String.format("%s/datasources/%s/disableIntervals", pathPre, dataSourceName);
         return httpMethod.get(url, queryParams);
     }
+
+    @POST
+    @Path("/datasources/{dataSourceName}/disableSegments")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDisableSegmentsByInterval(
+            @PathParam("dataSourceName") String dataSourceName,
+            @QueryParam("full") String full,
+            @QueryParam("searchValue") String searchValue,
+            @QueryParam("isDescending") @DefaultValue("false") boolean isDescending,
+            final String intervals
+    )
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(full != null){
+            queryParams.add("full",full);
+        }
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        queryParams.add("isDescending",isDescending);
+        String url = String.format("%s/datasources/%s/disableSegments", pathPre, dataSourceName);
+        return httpMethod.post(url, intervals, queryParams);
+    }
+
+    @DELETE
+    @Path("/datasources/{dataSourceName}/disable")
+    public Response disableDatasourceSource(
+            @PathParam("dataSourceName") String dataSourceName
+    )
+    {
+        String url = String.format("%s/datasources/%s/disable", pathPre, dataSourceName);
+        return httpMethod.delete(url);
+    }
+
+    @DELETE
+    @Path("/datasources/{dataSourceName}/delete")
+    public Response deleteDatasourceSource(
+            @PathParam("dataSourceName") String dataSourceName
+    )
+    {
+        String url = String.format("%s/datasources/%s/delete", pathPre, dataSourceName);
+        return httpMethod.delete(url);
+    }
+
+
+    @POST
+    @Path("/datasources/{dataSourceName}/enable")
+    public Response enableDatasourceSource(
+            @PathParam("dataSourceName") String dataSourceName
+    )
+    {
+        String url = String.format("%s/datasources/%s/enable", pathPre, dataSourceName);
+        return httpMethod.post(url);
+    }
+
+
+    @DELETE
+    @Path("/datasources/{dataSourceName}/intervals/{interval}/disable")
+    public Response disableSegmentByInterval(
+            @PathParam("dataSourceName") String dataSourceName,
+            @PathParam("interval") String interval
+    )
+    {
+        String url = String.format("%s/datasources/%s/intervals/%s/disable", pathPre, dataSourceName, interval);
+        return httpMethod.delete(url);
+    }
+
+    @DELETE
+    @Path("/datasources/{dataSourceName}/intervals/{interval}/delete")
+    public Response deleteSegmentByInterval(
+            @PathParam("dataSourceName") String dataSourceName,
+            @PathParam("interval") String interval
+    )
+    {
+        String url = String.format("%s/datasources/%s/intervals/%s/delete", pathPre, dataSourceName, interval);
+        return httpMethod.delete(url);
+    }
+
+    @POST
+    @Path("/datasources/{dataSourceName}/intervals/{interval}/enable")
+    public Response enableSegmentByInterval(
+            @PathParam("dataSourceName") String dataSourceName,
+            @PathParam("interval") String interval
+    )
+    {
+        String url = String.format("%s/datasources/%s/intervals/%s/enable", pathPre, dataSourceName, interval);
+        return httpMethod.post(url);
+    }
 }
 
 
