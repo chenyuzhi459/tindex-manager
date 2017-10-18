@@ -55,7 +55,7 @@ public class RulesResource extends Resource{
     )
     {
         String url = String.format("%s/%s", pathPre, dataSourceName);
-        return httpMethod.post(url);
+        return httpMethod.post(url,rules);
     }
 
 
