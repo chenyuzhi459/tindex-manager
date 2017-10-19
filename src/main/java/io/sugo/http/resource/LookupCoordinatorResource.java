@@ -107,5 +107,23 @@ public class LookupCoordinatorResource extends Resource{
         queryParams.add("isDescending",isDescending);
         return httpMethod.get(url,queryParams);
     }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON, SmileMediaTypes.APPLICATION_JACKSON_SMILE})
+    @Path("/{tier}/details")
+    public Response getSpecificTierDetails(
+            @PathParam("tier") String tier,
+            @QueryParam("searchValue") String searchValue,
+            @QueryParam("isDescending") @DefaultValue("false") boolean isDescending
+    )
+    {
+        String url = String.format("%s/%s/details", pathPre, tier);
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        queryParams.add("isDescending",isDescending);
+        return httpMethod.get(url,queryParams);
+    }
 }
 
