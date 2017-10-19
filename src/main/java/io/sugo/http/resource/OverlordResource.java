@@ -237,6 +237,8 @@ public class OverlordResource extends Resource{
             @QueryParam("searchValue1") @DefaultValue("") final String searchValue1,
             @QueryParam("searchDimension2") final String searchDimension2,
             @QueryParam("searchValue2") @DefaultValue("") final String searchValue2,
+            @QueryParam("searchDimension3") final String searchDimension3, //defaultValue: payload
+            @QueryParam("searchValue3") @DefaultValue("") final String searchValue3,
             @QueryParam("sortDimension") @DefaultValue("created_date") final String sortDimension,
             @QueryParam("isDescending") @DefaultValue("true") final boolean isDescending,
             @QueryParam("offset") @DefaultValue("0") final int offset,
@@ -250,8 +252,12 @@ public class OverlordResource extends Resource{
         if(null != searchDimension2){
             queryParams.add("searchDimension2",searchDimension2);
         }
+        if(null != searchDimension3){
+            queryParams.add("searchDimension3",searchDimension3);
+        }
         queryParams.add("searchValue1",searchValue1);
         queryParams.add("searchValue2",searchValue2);
+        queryParams.add("searchValue3",searchValue3);
         queryParams.add("sortDimension",sortDimension);
         queryParams.add("isDescending",isDescending);
         queryParams.add("offset",offset);
@@ -270,6 +276,8 @@ public class OverlordResource extends Resource{
             @QueryParam("searchValue1")  @DefaultValue("") final String searchValue1,
             @QueryParam("searchDimension2") final String searchDimension2, //defaultValue: status_payload
             @QueryParam("searchValue2") @DefaultValue("") final String searchValue2,
+            @QueryParam("searchDimension3") final String searchDimension3, //defaultValue: payload
+            @QueryParam("searchValue3") @DefaultValue("") final String searchValue3,
             @Context final HttpServletRequest req
     ){
         MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
@@ -279,8 +287,12 @@ public class OverlordResource extends Resource{
         if(null != searchDimension2){
             queryParams.add("searchDimension2",searchDimension2);
         }
+        if(null != searchDimension3){
+            queryParams.add("searchDimension3",searchDimension3);
+        }
         queryParams.add("searchValue1",searchValue1);
         queryParams.add("searchValue2",searchValue2);
+        queryParams.add("searchValue3",searchValue3);
         String url = String.format("%s/completeTasks/custom/count", pathPre);
         return httpMethod.get(url,queryParams);
     }
