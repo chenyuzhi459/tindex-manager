@@ -114,6 +114,8 @@ public class MetadataResource extends Resource{
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDatabaseSegmentDataSourceSegments(
             @PathParam("dataSourceName") String dataSourceName,
+            @QueryParam("searchValue") String searchValue,
+            @QueryParam("isDescending") @DefaultValue("false") boolean isDescending,
             @QueryParam("full") String full,
             final String intervals
     )
@@ -122,6 +124,10 @@ public class MetadataResource extends Resource{
         if(full != null){
             queryParams.add("full",full);
         }
+        if(searchValue != null){
+            queryParams.add("searchValue",searchValue);
+        }
+        queryParams.add("isDescending",isDescending);
         String url = String.format("%s/datasources/%s/segments", pathPre, dataSourceName);
         return httpMethod.post(url, intervals, queryParams);
     }
