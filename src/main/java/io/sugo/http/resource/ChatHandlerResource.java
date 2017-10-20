@@ -16,6 +16,17 @@ public class ChatHandlerResource extends Resource {
 	}
 
 	@GET
+	@Path("/chat/{id}/period")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getStatus(
+			@PathParam("id") String handlerId,
+			@QueryParam("location") String location
+	){
+		String url = MessageFormat.format("{0}/chat/{1}/status",MessageFormat.format(pathPre,location),handlerId);
+		return httpMethod.get(url);
+	}
+
+	@GET
 	@Path("/chat/{id}/offsets/current")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getOffset(
@@ -23,6 +34,19 @@ public class ChatHandlerResource extends Resource {
 			@QueryParam("location") String location
 	){
 		String url = MessageFormat.format("{0}/chat/{1}/offsets/current",MessageFormat.format(pathPre,location),handlerId);
+		return httpMethod.get(url);
+	}
+
+	@GET
+	@Path("/chat/{id}/metrics")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMetrics(
+			@PathParam("id") String handlerId,
+			@QueryParam("location") String location
+	)
+	{
+		String url = MessageFormat.format("{0}/chat/{1}/metrics",MessageFormat.format(pathPre,location),handlerId);
+		System.out.println("url:" + url);
 		return httpMethod.get(url);
 	}
 
