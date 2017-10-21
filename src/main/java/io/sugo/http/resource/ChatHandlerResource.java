@@ -50,4 +50,16 @@ public class ChatHandlerResource extends Resource {
 		return httpMethod.get(url);
 	}
 
+	@GET
+	@Path("/chat/{id}/summary")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSummaryInof(
+			@PathParam("id") String handlerId,
+			@QueryParam("location") String location
+	)
+	{
+		String url = MessageFormat.format("{0}/chat/{1}/summary",MessageFormat.format(pathPre,location),handlerId);
+		System.out.println("url:" + url);
+		return httpMethod.get(url);
+	}
 }
