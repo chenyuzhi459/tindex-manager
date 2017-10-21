@@ -1,6 +1,8 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.coordinatorResource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import io.sugo.http.resource.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -9,20 +11,26 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 
-@Path("/druid/historical/v1")
-public class HistoricalResource extends Resource{
+//@Path("/druid/coordinator/v1/intervals")
+public class IntervalsResource extends Resource {
 
-    public HistoricalResource() throws IOException {
+
+    public IntervalsResource() throws IOException {
         ip = configure.getProperty("config.properties","coordinator_ip");
         pathPre = "http://" + ip + "/druid/coordinator/v1/intervals";
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getIntervals(@Context final HttpServletRequest req)
+    public Response getIntervals(
+            @Context final HttpServletRequest req,
+            @QueryParam("isAscending") @DefaultValue("false") boolean isAscending
+    )
     {
-        String url = String.format("%s");
-        return httpMethod.get(url);
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        queryParams.add("isAscending",isAscending);
+        String url = String.format("%s", pathPre);
+        return httpMethod.get(url, queryParams);
     }
 
     @GET

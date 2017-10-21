@@ -1,4 +1,7 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.systemResource;
+
+import io.sugo.http.resource.Resource;
+import io.sugo.http.util.HttpMethodProxy;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -7,14 +10,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 
+@Path("/status")
+public class StatusResource extends Resource {
 
-@Path("/druid/worker/v1")
-public class WorkerResource extends Resource{
 
-
-    public WorkerResource() throws IOException {
+    public StatusResource() throws IOException {
         ip = configure.getProperty("config.properties","broker_ip");
-        pathPre = "http://" + ip + "/druid/worker/v1";
+        pathPre = "http://" + ip + "/status";
     }
 
 

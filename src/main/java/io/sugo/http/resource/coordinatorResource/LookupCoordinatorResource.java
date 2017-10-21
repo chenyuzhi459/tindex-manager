@@ -1,8 +1,10 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.coordinatorResource;
 
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.audit.AuditManager;
+import io.sugo.http.resource.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -13,7 +15,7 @@ import java.io.InputStream;
 
 
 @Path("/druid/coordinator/v1/lookups")
-public class LookupCoordinatorResource extends Resource{
+public class LookupCoordinatorResource extends Resource {
 
 
     public LookupCoordinatorResource() throws IOException {

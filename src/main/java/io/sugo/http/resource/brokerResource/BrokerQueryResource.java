@@ -1,7 +1,9 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.brokerResource;
 
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import io.sugo.http.resource.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -11,7 +13,7 @@ import java.io.IOException;
 
 
 @Path("/druid/v2/")
-public class BrokerQueryResource extends Resource{
+public class BrokerQueryResource extends Resource {
 
 
     public BrokerQueryResource() throws IOException {

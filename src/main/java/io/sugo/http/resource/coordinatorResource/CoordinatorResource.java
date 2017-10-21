@@ -1,6 +1,8 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.coordinatorResource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import io.sugo.http.resource.Resource;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -10,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 @Path("/druid/coordinator/v1")
-public class CoordinatorResource extends Resource{
+public class CoordinatorResource extends Resource {
     public CoordinatorResource() throws IOException {
         ip = configure.getProperty("config.properties","coordinator_ip");
         pathPre = "http://" + ip + "/druid/coordinator/v1";

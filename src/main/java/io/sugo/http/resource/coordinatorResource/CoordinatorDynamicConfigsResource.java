@@ -1,7 +1,9 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.coordinatorResource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.audit.AuditManager;
+import io.sugo.http.resource.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -11,7 +13,7 @@ import java.io.IOException;
 
 
 @Path("/druid/coordinator/v1/config")
-public class CoordinatorDynamicConfigsResource extends Resource{
+public class CoordinatorDynamicConfigsResource extends Resource {
 
 
     public CoordinatorDynamicConfigsResource() throws IOException {

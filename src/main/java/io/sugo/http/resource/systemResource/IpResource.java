@@ -1,4 +1,6 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.systemResource;
+
+import io.sugo.http.resource.Resource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

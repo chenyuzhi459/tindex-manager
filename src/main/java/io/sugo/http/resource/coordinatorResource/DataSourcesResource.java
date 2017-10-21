@@ -1,6 +1,8 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.coordinatorResource;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import io.sugo.http.resource.Resource;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -8,7 +10,7 @@ import java.io.IOException;
 
 
 @Path("/druid/coordinator/v1/datasources")
-public class DataSourcesResource extends Resource{
+public class DataSourcesResource extends Resource {
 
 
     public DataSourcesResource() throws IOException {

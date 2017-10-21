@@ -1,8 +1,8 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.systemResource;
 
 
 import io.sugo.http.model.UserBean;
-import io.sugo.http.util.HttpMethodProxy;
+import io.sugo.http.resource.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/login")
-public class LoginResource extends Resource{
+public class LoginResource extends Resource {
     private static final Logger LOG = Logger.getLogger(LoginResource.class);
 
     @POST

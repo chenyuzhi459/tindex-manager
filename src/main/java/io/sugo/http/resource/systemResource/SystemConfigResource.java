@@ -1,9 +1,8 @@
-package io.sugo.http.resource;
+package io.sugo.http.resource.systemResource;
 
 
 import io.sugo.http.Configure;
-import io.sugo.http.model.UserBean;
-import org.apache.commons.lang.StringUtils;
+import io.sugo.http.resource.Resource;
 import org.apache.log4j.Logger;
 
 import javax.ws.rs.*;
@@ -14,7 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 
 @Path("/druid/systemConfig")
-public class SystemConfigResource extends Resource{
+public class SystemConfigResource extends Resource {
     private static final Logger LOG = Logger.getLogger(SystemConfigResource.class);
 
     @GET
