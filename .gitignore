@@ -3,4 +3,3 @@ target
 .idea
 /logs
 /src/main/java/io/sugo/http/Test01.java
-src/main/java/io/sugo/http/model
