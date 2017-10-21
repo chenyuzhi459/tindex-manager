@@ -14,6 +14,16 @@ public class ServersResource extends Resource{
         pathPre = "http://" + ip + "/druid/coordinator/v1/servers";
     }
 
+    @GET
+    @Path("/datasources/{dataSourceName}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTheDataSourceServers(
+            @PathParam("dataSourceName") final String dataSourceName
+    )
+    {
+        String url = String.format("%s/datasources/%s", pathPre, dataSourceName);
+        return httpMethod.get(url);
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
