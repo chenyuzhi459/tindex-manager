@@ -1,0 +1,21 @@
+.click-link {
+  /* font-size: 16px */
+  cursor:pointer;
+  color:#20a0ff;
+}
+.click-link:link {
+  color: blue;
+  text-decoration: none;
+}
+.click-link:active {
+  color:#20a0ff;
+  /* color: red; */
+}
+.click-link:visited {
+  color: purple;
+  text-decoration: none;
+}
+.click-link:hover {
+  /* color: red; */
+  text-decoration: underline;
+}

@@ -1,0 +1,52 @@
+package io.sugo.http.resource.coordinatorResource;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+import io.sugo.http.resource.Resource;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+
+
+@Path("/druid/coordinator/v1/tiers")
+public class TiersResource extends Resource {
+
+
+    public TiersResource() throws IOException {
+        ip = configure.getProperty("config.properties","coordinator_ip");
+        pathPre = "http://" + ip + "/druid/coordinator/v1/tiers";
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTiers(
+            @QueryParam("simple") String simple
+    )
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(simple != null){
+            queryParams.add("simple",simple);
+        }
+        String url = String.format("%s", pathPre);
+        return httpMethod.get(url,queryParams);
+    }
+
+    @GET
+    @Path("/{tierName}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTierDatasources(
+            @PathParam("tierName") String tierName,
+            @QueryParam("simple") String simple
+    )
+    {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(simple != null){
+            queryParams.add("simple",simple);
+        }
+        String url = String.format("%s/%s", pathPre, tierName);
+        return httpMethod.get(url,queryParams);
+    }
+
+}
+

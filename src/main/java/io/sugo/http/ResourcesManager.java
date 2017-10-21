@@ -79,10 +79,32 @@ public class ResourcesManager {
     }
 
     static void initialize(Server server) {
-        HandlerList handlerList = new HandlerList();
+        final ServletContextHandler htmlHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        htmlHandler.setContextPath("/");
+
+        ServletHolder htmlHolder = new ServletHolder("default", DefaultServlet.class);
+        htmlHolder.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
+        htmlHolder.setInitParameter("org.eclipse.jetty.servlet.Default.redirectWelcome", "true");
+
+        htmlHandler.setWelcomeFiles(new String[]{"index.html"});
+        htmlHandler.addServlet(htmlHolder, "/*");
+
+
+
+
+
+
+        htmlHandler.setBaseResource(
+                new ResourceCollection(
+                        new String[]{
+                                ResourcesManager.class.getClassLoader().getResource("dist").toExternalForm()
+                        }
+                )
+        );
+
 
         final ServletContextHandler apiHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        apiHandler.setContextPath("/");
+        apiHandler.setContextPath("/api");
 
         ServletHolder servletHolder = new ServletHolder(ServletContainer.class);
         servletHolder.setInitParameter("com.sun.jersey.config.property.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
@@ -92,20 +114,13 @@ public class ResourcesManager {
             apiHandler.addFilter(CrossDomainSupportFilter.class,"/*", EnumSet.of(DispatcherType.REQUEST));
         }
 
-        final ServletContextHandler htmlHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        htmlHandler.setContextPath("/view");
-        htmlHandler.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
-        htmlHandler.setInitParameter("org.eclipse.jetty.servlet.Default.redirectWelcome", "true");
-        htmlHandler.setWelcomeFiles(new String[]{"index.html"});
 
-        ServletHolder holderPwd = new ServletHolder("default", DefaultServlet.class);
-//        ServletHolder holderPwd = new ServletHolder(ServletContainer.class);
-        htmlHandler.addServlet(holderPwd, "/*");
-
-        handlerList.addHandler(htmlHandler);
+        HandlerList handlerList = new HandlerList();
         handlerList.addHandler(apiHandler);
+        handlerList.addHandler(htmlHandler);
 
         server.setHandler(handlerList);
+
     }
 
 }
