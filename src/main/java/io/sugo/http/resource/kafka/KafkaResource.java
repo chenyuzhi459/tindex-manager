@@ -1,22 +1,23 @@
 package io.sugo.http.resource.kafka;
 
 import io.sugo.http.resource.Resource;
-import io.sugo.kafka.KafkaApi;
+import io.sugo.kafka.KafkaHandler;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by chenyuzhi on 17-10-21.
  */
 @Path("/kafka")
 public class KafkaResource extends Resource{
-	private final KafkaApi kafkaHandler;
+	private final KafkaHandler kafkaHandler;
 
-	public KafkaResource(){
-		this.kafkaHandler = new KafkaApi();
+	public KafkaResource() throws ExecutionException {
+		this.kafkaHandler = new KafkaHandler();
 	}
 
 	@POST
