@@ -15,7 +15,7 @@ public class StatusResource extends Resource {
 
 
     public StatusResource() throws IOException {
-        ip = configure.getProperty("config.properties","broker_ip");
+        ip = configure.getProperty("druid.properties","broker_ip");
         pathPre = "http://" + ip + "/status";
     }
 

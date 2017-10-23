@@ -13,7 +13,7 @@ public class BrokerResource extends Resource {
 
 
     public BrokerResource() throws IOException {
-        ip = configure.getProperty("config.properties","broker_ip");
+        ip = configure.getProperty("druid.properties","broker_ip");
         pathPre = "http://" + ip + "/druid/broker/v1";
     }
 

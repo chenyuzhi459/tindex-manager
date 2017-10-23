@@ -16,7 +16,7 @@ public class MetadataResource extends Resource {
 
 
     public MetadataResource() throws IOException {
-        ip = configure.getProperty("config.properties","coordinator_ip");
+        ip = configure.getProperty("druid.properties","coordinator_ip");
         pathPre = "http://" + ip + "/druid/coordinator/v1/metadata";
     }
 
@@ -356,7 +356,7 @@ public class MetadataResource extends Resource {
     public static class IntervalsResource extends Resource{
 
         public IntervalsResource() throws IOException {
-            ip = configure.getProperty("config.properties","coordinator_ip");
+            ip = configure.getProperty("druid.properties","coordinator_ip");
             pathPre = "http://" + ip + "/druid/coordinator/v1/intervals";
         }
 

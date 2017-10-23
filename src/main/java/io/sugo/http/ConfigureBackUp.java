@@ -14,7 +14,7 @@ public class ConfigureBackUp {
   private static final Logger LOG = Logger.getLogger(ConfigureBackUp.class);
   private static final String CLASSPATH_URL_PREFIX = "classpath:";
   private static final String CONFIG_PATH = "config/";
-  private static final String CONFIG_PROPERTIES = "config.properties";
+  private static final String CONFIG_PROPERTIES = "druid.properties";
   private static final String SYSTEM_PROPERTIES = "system.properties";
   private static final String KAFKA_PROPERTIES = "kafka.properties";
 

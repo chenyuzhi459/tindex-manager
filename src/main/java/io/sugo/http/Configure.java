@@ -1,6 +1,5 @@
 package io.sugo.http;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,34 +11,36 @@ import java.util.*;
 public class Configure {
   private static final Logger LOG = Logger.getLogger(Configure.class);
   private static final String CLASSPATH_URL_PREFIX = "classpath:";
-  private static final String CONFIG_PATH = "src/main/resources/config/";
-  private static final String CONFIG_PROPERTIES = "config.properties";
+  public static final String CONFIG_PATH = "src/main/resources/config/";
+  private static final String DRUID_PROPERTIES = "druid.properties";
   private static final String SYSTEM_PROPERTIES = "system.properties";
   private static final String KAFKA_PROPERTIES = "kafka.properties";
 
-  private String configConf;
+  private String druidConf;
   private String systemConf;
   private String kafkaConf;
-  private Properties configProperties = new Properties();
+  private Properties druidProperties = new Properties();
   private Properties systemProperties = new Properties();
   private Properties kafkaProperties = new Properties();
   private Map<String, Properties> allProperties = new HashMap<>();
-
+  private Map<String, Map<String, String>> allPropertiesMap = new HashMap<>();
 
   public Configure() {
     loadConf();
     addAllProperties();
+    getAllPropertiesToMap();
   }
 
   private void loadConf() {
-    loadConf(CONFIG_PROPERTIES,configProperties);
+    loadConf(DRUID_PROPERTIES,druidProperties);
     loadConf(SYSTEM_PROPERTIES,systemProperties);
     loadConf(KAFKA_PROPERTIES,kafkaProperties);
   }
 
   private void addAllProperties() {
-    allProperties.put("config.properties",configProperties);
+    allProperties.put("druid.properties",druidProperties);
     allProperties.put("system.properties",systemProperties);
+    allProperties.put("kafka.properties",kafkaProperties);
   }
 
   private void loadConf(String confName,Properties properties) {
@@ -81,7 +82,7 @@ public class Configure {
     try {
       return Integer.parseInt(value);
     } catch (Exception e) {
-      LOG.error("", e);
+      LOG.error(e, e);
     }
     return 0;
   }
@@ -118,16 +119,40 @@ public class Configure {
     return false;
   }
 
-  public Map<String, String> getAllProperties() {
-    Map<String, String> propertiesMap = new HashMap<>();
-
-    for(Map.Entry<String,Properties> entry : allProperties.entrySet()) {
-      propertiesMap = getAllPropertiesFromAPropertyFile(propertiesMap, allProperties.get(entry.getKey()));
-    }
-    return propertiesMap;
+//  public Map<String, String> getAllProperties() {
+//    Map<String, String> propertiesMap = new HashMap<>();
+//
+//    for(Map.Entry<String,Properties> entry : allProperties.entrySet()) {
+//      propertiesMap = getAllPropertiesFromAPropertyFile(propertiesMap, allProperties.get(entry.getKey()));
+//    }
+//    return propertiesMap;
+//  }
+//
+//  public Map<String, String> getAllPropertiesFromAPropertyFile(Map<String, String> propertiesMap, Properties properties) {
+//    Set<String> propertyNamesSet = properties.stringPropertyNames();
+//    Iterator<String> it = propertyNamesSet.iterator();
+//    while (it.hasNext()) {
+//      String propertiesName = it.next();
+//      propertiesMap.put(propertiesName, properties.getProperty(propertiesName));
+//    }
+//    return propertiesMap;
+//  }
+  public Map<String, Map<String, String>> getAllPropertiesToMap() {
+      Iterator<String> it = allProperties.keySet().iterator();
+      while(it.hasNext()) {
+        String confName = it.next();
+        allPropertiesMap.put(confName, propertiesToMap(allProperties.get(confName)));
+      }
+      return allPropertiesMap;
   }
 
-  public Map<String, String> getAllPropertiesFromAPropertyFile(Map<String, String> propertiesMap, Properties properties) {
+  public Map<String, Map<String, String>> getAllPropertiesMap() {
+    return this.allPropertiesMap;
+  }
+
+
+  public Map<String, String> propertiesToMap(Properties properties) {
+    Map<String, String> propertiesMap = new HashMap<>();
     Set<String> propertyNamesSet = properties.stringPropertyNames();
     Iterator<String> it = propertyNamesSet.iterator();
     while (it.hasNext()) {

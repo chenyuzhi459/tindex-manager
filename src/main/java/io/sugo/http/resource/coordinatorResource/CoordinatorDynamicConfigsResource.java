@@ -17,7 +17,7 @@ public class CoordinatorDynamicConfigsResource extends Resource {
 
 
     public CoordinatorDynamicConfigsResource() throws IOException {
-        ip = configure.getProperty("config.properties","coordinator_ip");
+        ip = configure.getProperty("druid.properties","coordinator_ip");
         pathPre = "http://" + ip + "/druid/coordinator/v1/config";
     }
 
