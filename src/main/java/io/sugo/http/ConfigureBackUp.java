@@ -2,6 +2,7 @@ package io.sugo.http;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
@@ -9,10 +10,10 @@ import java.util.*;
 /**
  * Created by fengxj on 3/29/17.
  */
-public class Configure {
-  private static final Logger LOG = Logger.getLogger(Configure.class);
+public class ConfigureBackUp {
+  private static final Logger LOG = Logger.getLogger(ConfigureBackUp.class);
   private static final String CLASSPATH_URL_PREFIX = "classpath:";
-  private static final String CONFIG_PATH = "src/main/resources/config/";
+  private static final String CONFIG_PATH = "config/";
   private static final String CONFIG_PROPERTIES = "config.properties";
   private static final String SYSTEM_PROPERTIES = "system.properties";
   private static final String KAFKA_PROPERTIES = "kafka.properties";
@@ -23,31 +24,28 @@ public class Configure {
   private Properties configProperties = new Properties();
   private Properties systemProperties = new Properties();
   private Properties kafkaProperties = new Properties();
-  private Map<String, Properties> allProperties = new HashMap<>();
 
-
-  public Configure() {
+  public ConfigureBackUp() {
+//    configConf = System.getProperty(CONFIG_PROPERTIES, CLASSPATH_URL_PREFIX + CONFIG_PATH + CONFIG_PROPERTIES);
+//    systemConf = System.getProperty(SYSTEM_PROPERTIES, CLASSPATH_URL_PREFIX + CONFIG_PATH + SYSTEM_PROPERTIES);
     loadConf();
-    addAllProperties();
   }
 
   private void loadConf() {
     loadConf(CONFIG_PROPERTIES,configProperties);
     loadConf(SYSTEM_PROPERTIES,systemProperties);
-    loadConf(KAFKA_PROPERTIES,kafkaProperties);
   }
 
-  private void addAllProperties() {
-    allProperties.put("config.properties",configProperties);
-    allProperties.put("system.properties",systemProperties);
-  }
-
-  private void loadConf(String confName,Properties properties) {
+  private void loadConf(String conf,Properties properties) {
     try {
-      LOG.info("---------------------------------------");
-      String filePath = CONFIG_PATH + confName;
-      properties.load(new FileInputStream(filePath));
-      LOG.info("confName: " + confName);
+      if (conf.startsWith(CLASSPATH_URL_PREFIX)) {
+          conf = StringUtils.substringAfter(conf, CLASSPATH_URL_PREFIX);
+//          properties.load(Configure.class.getClassLoader().getResourceAsStream(conf));
+        String filePath = "src/main/resources/" + conf;
+        properties.load(new FileInputStream(filePath));
+      } else {
+          properties.load(new FileInputStream(conf));
+      }
       for (Object key : properties.keySet()) {
         LOG.info(key + " : " + properties.getProperty(key.toString()));
       }
@@ -57,25 +55,41 @@ public class Configure {
   }
 
   public String getProperty(String propName,String key) {
-    return getProperty(propName, key, "");
-  }
-
-  public String getProperty(String propName, String key, String defaultValue) {
-    if(allProperties.containsKey(propName)) {
-      return allProperties.get(propName).getProperty(key, defaultValue);
-    } else {
-      return "";
+    if(propName.contains("config")) {
+      return configProperties.getProperty(key);
+    } else if(propName.contains("system")) {
+      return systemProperties.getProperty(key);
     }
+    return "";
+  }
+  public String getProperty(String propName, String key, String defaultValue) {
+    Properties properties = new Properties();
+    if(propName.contains("config")) {
+      properties = configProperties;
+    } else if(propName.contains("system")) {
+      properties = systemProperties;
+    }
+
+    if (!properties.containsKey(key))
+      return defaultValue;
+    return getProperty(propName,key);
   }
 
   public Properties getProperties(String propName) {
-    if(allProperties.containsKey(propName)) {
-      return allProperties.get(propName);
-    } else {
-      return null;
+    if(propName.contains("config")) {
+      return configProperties;
+    } else if(propName.contains("system")) {
+      return systemProperties;
     }
+    return null;
   }
 
+//  public int getInt(String key, int defaultValue) {
+//    if (!properties.containsKey(key))
+//      return defaultValue;
+//    return getInt(key);
+//  }
+//
   public int getInt(String propName,String key) {
     String value = getProperty(propName,key);
     try {
@@ -120,14 +134,11 @@ public class Configure {
 
   public Map<String, String> getAllProperties() {
     Map<String, String> propertiesMap = new HashMap<>();
-
-    for(Map.Entry<String,Properties> entry : allProperties.entrySet()) {
-      propertiesMap = getAllPropertiesFromAPropertyFile(propertiesMap, allProperties.get(entry.getKey()));
-    }
-    return propertiesMap;
+    propertiesMap = getAllPropertiesFromOneProperty(propertiesMap, configProperties);
+    return getAllPropertiesFromOneProperty(propertiesMap, systemProperties);
   }
 
-  public Map<String, String> getAllPropertiesFromAPropertyFile(Map<String, String> propertiesMap, Properties properties) {
+  public Map<String, String> getAllPropertiesFromOneProperty(Map<String, String> propertiesMap, Properties properties) {
     Set<String> propertyNamesSet = properties.stringPropertyNames();
     Iterator<String> it = propertyNamesSet.iterator();
     while (it.hasNext()) {
