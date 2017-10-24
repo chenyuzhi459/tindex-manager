@@ -1,6 +1,8 @@
 package io.sugo.http;
 
 import org.apache.log4j.Logger;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
@@ -10,15 +12,11 @@ import java.util.*;
  */
 public class Configure {
   private static final Logger LOG = Logger.getLogger(Configure.class);
-  private static final String CLASSPATH_URL_PREFIX = "classpath:";
   public static final String CONFIG_PATH = "src/main/resources/config/";
   private static final String DRUID_PROPERTIES = "druid.properties";
   private static final String SYSTEM_PROPERTIES = "system.properties";
   private static final String KAFKA_PROPERTIES = "kafka.properties";
 
-  private String druidConf;
-  private String systemConf;
-  private String kafkaConf;
   private Properties druidProperties = new Properties();
   private Properties systemProperties = new Properties();
   private Properties kafkaProperties = new Properties();
@@ -26,15 +24,25 @@ public class Configure {
   private Map<String, Map<String, String>> allPropertiesMap = new HashMap<>();
 
   public Configure() {
-    loadConf();
-    addAllProperties();
+    loadConf(new File(CONFIG_PATH));
     getAllPropertiesToMap();
   }
 
-  private void loadConf() {
-    loadConf(DRUID_PROPERTIES,druidProperties);
-    loadConf(SYSTEM_PROPERTIES,systemProperties);
-    loadConf(KAFKA_PROPERTIES,kafkaProperties);
+  private void loadConf(File file) {
+    if (!file.exists()) {
+      LOG.error(CONFIG_PATH + " not exists");
+      return;
+    }
+    if (file.isDirectory()) {
+      File files[] = file.listFiles();
+      for (File sonFile : files) {
+        if (sonFile.isFile()) {
+          allProperties.put(sonFile.getName(),loadConfFromFile(sonFile));
+        } else {
+          loadConf(sonFile);
+        }
+      }
+    }
   }
 
   private void addAllProperties() {
@@ -43,17 +51,19 @@ public class Configure {
     allProperties.put("kafka.properties",kafkaProperties);
   }
 
-  private void loadConf(String confName,Properties properties) {
+  private Properties loadConfFromFile(File file) {
+    Properties properties = new Properties();
     try {
       LOG.info("---------------------------------------");
-      String filePath = CONFIG_PATH + confName;
-      properties.load(new FileInputStream(filePath));
-      LOG.info("confName: " + confName);
+      properties.load(new FileInputStream(file));
+      LOG.info("confName: " + file.getName());
       for (Object key : properties.keySet()) {
         LOG.info(key + " : " + properties.getProperty(key.toString()));
       }
     } catch (IOException ix) {
       ix.printStackTrace();
+    } finally {
+      return properties;
     }
   }
 
@@ -119,24 +129,6 @@ public class Configure {
     return false;
   }
 
-//  public Map<String, String> getAllProperties() {
-//    Map<String, String> propertiesMap = new HashMap<>();
-//
-//    for(Map.Entry<String,Properties> entry : allProperties.entrySet()) {
-//      propertiesMap = getAllPropertiesFromAPropertyFile(propertiesMap, allProperties.get(entry.getKey()));
-//    }
-//    return propertiesMap;
-//  }
-//
-//  public Map<String, String> getAllPropertiesFromAPropertyFile(Map<String, String> propertiesMap, Properties properties) {
-//    Set<String> propertyNamesSet = properties.stringPropertyNames();
-//    Iterator<String> it = propertyNamesSet.iterator();
-//    while (it.hasNext()) {
-//      String propertiesName = it.next();
-//      propertiesMap.put(propertiesName, properties.getProperty(propertiesName));
-//    }
-//    return propertiesMap;
-//  }
   public Map<String, Map<String, String>> getAllPropertiesToMap() {
       Iterator<String> it = allProperties.keySet().iterator();
       while(it.hasNext()) {
