@@ -35,7 +35,7 @@ public class SystemConfigResource extends Resource {
         while (it.hasNext()) {
             String propName = it.next();
             Map<String, String> propertiesMap = allProperties.get(propName);
-            updatePropertiesByPropertyName(propName, propertiesMap);
+            updatePropertiesByPropertyName(propName.replaceAll("_","."), propertiesMap);
         }
         configure = new Configure();
         return Response.ok().build();
@@ -46,7 +46,7 @@ public class SystemConfigResource extends Resource {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath)));
         Properties props = configure.getProperties(propertyName);
         for(String key : properties.keySet()) {
-            props.setProperty(key, properties.get(key));
+            props.setProperty(key.replaceAll("_","."), properties.get(key));
         }
         LOG.info("updateProperties new:" + props);
         props.store(bw, "update properties");

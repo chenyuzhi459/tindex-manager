@@ -1,4 +1,4 @@
-package io.sugo.http.resource.systemResource;
+package io.sugo.http.resource.brokerResource;
 
 import io.sugo.http.resource.Resource;
 import io.sugo.http.util.HttpMethodProxy;
@@ -15,7 +15,7 @@ public class StatusResource extends Resource {
 
 
     public StatusResource() throws IOException {
-        ip = configure.getProperty("druid.properties","broker_ip");
+        ip = configure.getProperty("druid.properties","broker.ip");
         pathPre = "http://" + ip + "/status";
     }
 

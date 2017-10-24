@@ -14,7 +14,7 @@ import java.io.IOException;
 public class OverlordResource extends Resource {
 
     public OverlordResource() throws IOException {
-        ip = configure.getProperty("druid.properties","overlord_ip");
+        ip = configure.getProperty("druid.properties","overlord.ip");
         pathPre = "http://" + ip + "/druid/indexer/v1";
     }
 

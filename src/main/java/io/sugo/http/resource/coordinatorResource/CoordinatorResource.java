@@ -14,7 +14,7 @@ import java.io.IOException;
 @Path("/druid/coordinator/v1")
 public class CoordinatorResource extends Resource {
     public CoordinatorResource() throws IOException {
-        ip = configure.getProperty("druid.properties","coordinator_ip");
+        ip = configure.getProperty("druid.properties","coordinator.ip");
         pathPre = "http://" + ip + "/druid/coordinator/v1";
     }
 

@@ -13,7 +13,7 @@ public class IpResource extends Resource {
     @Path("/historical")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getHistoricalIps() {
-        String[] historicalIps = configure.getProperty("druid.properties","historicals_ip").split(",");
+        String[] historicalIps = configure.getProperty("druid.properties","historicals.ip").split(",");
         if(historicalIps == null || historicalIps.length < 1) {
             return Response.status(405).build();
         }

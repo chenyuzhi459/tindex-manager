@@ -13,7 +13,7 @@ import java.io.IOException;
 public class SupervisorResource extends Resource {
 
     public SupervisorResource() throws IOException {
-        ip = configure.getProperty("druid.properties","overlord_ip");
+        ip = configure.getProperty("druid.properties","overlord.ip");
         pathPre = "http://" + ip + "/druid/indexer/v1/supervisor";
     }
 

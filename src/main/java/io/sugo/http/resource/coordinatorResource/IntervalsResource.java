@@ -16,7 +16,7 @@ public class IntervalsResource extends Resource {
 
 
     public IntervalsResource() throws IOException {
-        ip = configure.getProperty("druid.properties","coordinator_ip");
+        ip = configure.getProperty("druid.properties","coordinator.ip");
         pathPre = "http://" + ip + "/druid/coordinator/v1/intervals";
     }
 

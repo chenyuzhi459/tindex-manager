@@ -17,7 +17,7 @@ public class RulesResource extends Resource {
 
 
     public RulesResource() throws IOException {
-        ip = configure.getProperty("druid.properties","coordinator_ip");
+        ip = configure.getProperty("druid.properties","coordinator.ip");
         pathPre = "http://" + ip + "/druid/coordinator/v1/rules";
     }
 

@@ -13,7 +13,7 @@ public class ClientInfoResource extends Resource {
 
 
     public ClientInfoResource() throws IOException {
-        ip = configure.getProperty("druid.properties","broker_ip");
+        ip = configure.getProperty("druid.properties","broker.ip");
         pathPre = "http://" + ip + "/druid/v2/datasources";
     }
 

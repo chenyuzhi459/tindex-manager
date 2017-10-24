@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ServersResource extends Resource {
 
     public ServersResource() throws IOException {
-        ip = configure.getProperty("druid.properties","coordinator_ip");
+        ip = configure.getProperty("druid.properties","coordinator.ip");
         pathPre = "http://" + ip + "/druid/coordinator/v1/servers";
     }
 

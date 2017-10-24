@@ -34,7 +34,7 @@ public class ResourcesManager {
 
         Configure configure = new Configure();
         port = configure.getInt("druid.properties","server.port");
-        developMode = configure.getBoolean("system.properties","develop_mode");
+        developMode = configure.getBoolean("system.properties","develop.mode");
 
         Server server = null;
         try {
