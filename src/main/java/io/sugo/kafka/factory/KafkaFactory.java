@@ -39,7 +39,6 @@ public class KafkaFactory {
 			props.setProperty("auto.offset.reset", configure.getProperty("kafka.properties","auto.offset.reset","none"));
 			props.setProperty("key.deserializer", configure.getProperty("kafka.properties","key.deserializer",ByteArrayDeserializer.class.getName()));
 			props.setProperty("value.deserializer", configure.getProperty("kafka.properties","value.deserializer",ByteArrayDeserializer.class.getName()));
-
 			System.out.println("kafka consumer properties:" + props);
 			return new KafkaConsumer<>(props);
 		} finally {

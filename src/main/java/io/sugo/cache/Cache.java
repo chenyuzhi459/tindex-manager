@@ -10,7 +10,10 @@ import org.apache.log4j.Logger;
 import java.util.concurrent.TimeUnit;
 
 /**
+<<<<<<< HEAD
  *
+=======
+>>>>>>> 1aebb9f01144fefc43654e62f72d5c348d8607aa
  * Created by chenyuzhi on 17-10-23.
  */
 public class Cache {
@@ -42,14 +45,9 @@ public class Cache {
 									}
 							);
 					LOG.info("kafkaConsumerCache has created successfully...");
-				} else {
-
 				}
 			}
 		}
-
-//		kafkaConsumerCache.asMap().containkey()
 		return kafkaConsumerCache;
 	}
-
 }

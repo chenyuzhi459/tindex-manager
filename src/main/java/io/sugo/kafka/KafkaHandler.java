@@ -11,7 +11,6 @@ import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.log4j.Logger;
 
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,11 +34,6 @@ public class KafkaHandler implements Closeable {
     Arrays.sort(bootstrapServers);
     consumerHandler = KafkaFactory.getFactory(configure).getConsumer(Arrays.toString(bootstrapServers));
   }
-
-
-
-
-
 
   public static void main(String[] args) throws ExecutionException {
     KafkaHandler api = new KafkaHandler();
@@ -232,8 +226,8 @@ public class KafkaHandler implements Closeable {
   //          if (valueBytes == null) {
   //            throw new RuntimeException("null value");
   //          }
-  //          bos.write(valueBytes, 0, valueBytes.length);
-  //          bos.write(LINE);
+  //          bos.create(valueBytes, 0, valueBytes.length);
+  //          bos.create(LINE);
   //          if (currentFile.length() > MAX_FILE_LEN) {
   //            bos.close();
   //            dataSize += currentFile.length();
