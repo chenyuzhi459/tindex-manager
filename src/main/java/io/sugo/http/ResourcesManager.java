@@ -32,7 +32,7 @@ public class ResourcesManager {
 
     public static void main(String[] args) throws Exception {
 
-        Configure configure = new Configure();
+        Configure configure = Configure.getConfigure();
         port = configure.getInt("druid.properties","server.port");
         developMode = configure.getBoolean("system.properties","develop.mode");
 

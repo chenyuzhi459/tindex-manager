@@ -13,20 +13,32 @@ import java.util.*;
 public class Configure {
   private static final Logger LOG = Logger.getLogger(Configure.class);
   public static final String CONFIG_PATH = "src/main/resources/config/";
-  private static final String DRUID_PROPERTIES = "druid.properties";
-  private static final String SYSTEM_PROPERTIES = "system.properties";
-  private static final String KAFKA_PROPERTIES = "kafka.properties";
 
-  private Properties druidProperties = new Properties();
-  private Properties systemProperties = new Properties();
-  private Properties kafkaProperties = new Properties();
   private Map<String, Properties> allProperties = new HashMap<>();
   private Map<String, Map<String, String>> allPropertiesMap = new HashMap<>();
 
-  public Configure() {
+  private static Configure configure = new Configure();
+
+  public static Configure getConfigure() {
+      return configure;
+  }
+
+  public Configure reload() {
+    configure = new Configure();
+    return configure;
+  }
+
+
+  private Configure() {
     loadConf(new File(CONFIG_PATH));
     getAllPropertiesToMap();
   }
+
+
+//  public Configure() {
+//    loadConf(new File(CONFIG_PATH));
+//    getAllPropertiesToMap();
+//  }
 
   private void loadConf(File file) {
     if (!file.exists()) {
@@ -43,12 +55,6 @@ public class Configure {
         }
       }
     }
-  }
-
-  private void addAllProperties() {
-    allProperties.put("druid.properties",druidProperties);
-    allProperties.put("system.properties",systemProperties);
-    allProperties.put("kafka.properties",kafkaProperties);
   }
 
   private Properties loadConfFromFile(File file) {

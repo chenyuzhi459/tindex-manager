@@ -1,14 +1,20 @@
 package io.sugo.http.resource.systemResource;
 
 
+import com.google.common.cache.LoadingCache;
+import io.sugo.cache.Cache;
 import io.sugo.http.Configure;
 import io.sugo.http.resource.Resource;
+import io.sugo.kafka.ConsumerHandler;
+import io.sugo.kafka.KafkaHandler;
+import io.sugo.kafka.factory.KafkaFactory;
 import org.apache.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -37,8 +43,24 @@ public class SystemConfigResource extends Resource {
             Map<String, String> propertiesMap = allProperties.get(propName);
             updatePropertiesByPropertyName(propName.replaceAll("_","."), propertiesMap);
         }
-        configure = new Configure();
+
+        Configure newConfigure = configure.reload();
+        this.reloadActions(newConfigure);
+
         return Response.ok().build();
+    }
+
+    public void reloadActions(Configure newConfigure) {
+        Resource.configure = newConfigure;
+        KafkaHandler.configure = newConfigure;
+
+        LoadingCache loadingCache = Cache.getKafkaConsumerCache(newConfigure);
+        String[] consumerIds = newConfigure.getProperty("kafka.properties","bootstrap.servers").split(",");
+        Arrays.sort(consumerIds);
+        String consumerIdString = Arrays.toString(consumerIds);
+        if(loadingCache.asMap().containsKey(consumerIdString)) {
+            loadingCache.put(consumerIds, new ConsumerHandler(consumerIdString, KafkaFactory.getFactory(newConfigure).newConsumer()));
+        }
     }
 
     public void updatePropertiesByPropertyName(String propertyName,Map<String, String> properties) throws IOException {
