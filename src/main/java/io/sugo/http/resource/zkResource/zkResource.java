@@ -42,6 +42,17 @@ public class zkResource extends Resource {
 	}
 
 	@GET
+	@Path("/summary/info")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDataAndType(
+			@QueryParam("path") String  path
+	)
+	{
+		return Response.ok(zkClient.getSummaryInfo(path)).build();
+	}
+
+
+	@GET
 	@Path("/children")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getChildren(
@@ -55,6 +66,8 @@ public class zkResource extends Resource {
 		Collections.sort(children);
 		return Response.ok(children).build();
 	}
+
+
 
 	@POST
 	@Path("/data")

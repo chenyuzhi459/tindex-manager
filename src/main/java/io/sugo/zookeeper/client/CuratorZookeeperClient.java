@@ -7,6 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.sugo.http.util.Test;
 import io.sugo.zookeeper.ZkStateListener;
@@ -14,6 +16,8 @@ import io.sugo.zookeeper.ZookeeperItem;
 import org.apache.commons.lang.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.api.BackgroundCallback;
+import org.apache.curator.framework.api.CuratorEvent;
 import org.apache.curator.framework.api.CuratorWatcher;
 import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.framework.state.ConnectionStateListener;
@@ -21,6 +25,7 @@ import org.apache.curator.retry.RetryNTimes;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher.Event;
+import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,7 +125,6 @@ public class CuratorZookeeperClient {
 	}
 
 	public String create(String path, CreateMode mode) {
-
 		return create(path,mode,"");
 	}
 
@@ -226,7 +230,25 @@ public class CuratorZookeeperClient {
 				return null;
 			} else {
 				byte[] data = curator.getData().forPath(path);
-				return data == null ? NONE_DATA : new String(data,"utf-8");
+				return data == null ? "" : new String(data,"utf-8");
+			}
+		} catch (Exception e) {
+			LOG.error(MessageFormat.format("get data for path [{0}] failed",path),e);
+		}
+		return null;
+	}
+
+	public Map getSummaryInfo(String path){
+		try {
+			if(curator.checkExists().forPath(path) == null) {
+				LOG.error(MessageFormat.format("path [{0}] is not exists,return null",path));
+				return null;
+			} else {
+				Stat zkStat = new Stat();
+				byte[] data = curator.getData().storingStatIn(zkStat).forPath(path);
+
+				return ImmutableMap.of("sourceData",data == null ? "" : new String(data,"utf-8"),
+						"nodeType",zkStat.getEphemeralOwner() > 0 ? "ephemeral" : "persist");
 			}
 		} catch (Exception e) {
 			LOG.error(MessageFormat.format("get data for path [{0}] failed",path),e);
