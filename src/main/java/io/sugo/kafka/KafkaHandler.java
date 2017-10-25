@@ -222,8 +222,8 @@ public class KafkaHandler implements Closeable {
   //          if (valueBytes == null) {
   //            throw new RuntimeException("null value");
   //          }
-  //          bos.write(valueBytes, 0, valueBytes.length);
-  //          bos.write(LINE);
+  //          bos.create(valueBytes, 0, valueBytes.length);
+  //          bos.create(LINE);
   //          if (currentFile.length() > MAX_FILE_LEN) {
   //            bos.close();
   //            dataSize += currentFile.length();
