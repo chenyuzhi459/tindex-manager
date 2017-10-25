@@ -13,11 +13,11 @@ import java.util.concurrent.ExecutionException;
  * Created by chenyuzhi on 17-10-21.
  */
 @Path("/kafka")
-public class KafkaResource extends Resource{
+public class KafkaResource extends Resource {
 	private final KafkaHandler kafkaHandler;
 
 	public KafkaResource() throws ExecutionException {
-		this.kafkaHandler = new KafkaHandler();
+		this.kafkaHandler = new KafkaHandler(configure);
 	}
 
 	@POST
@@ -26,7 +26,7 @@ public class KafkaResource extends Resource{
 	public Response getTopicOffsets(
 			@PathParam("topic") String topic,
 			final List partitionIds
-			)
+	)
 	{
 		return Response.ok(kafkaHandler.getTopicPartitionOffset(topic,partitionIds)).build();
 	}

@@ -4,16 +4,17 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import io.sugo.http.Configure;
 import io.sugo.kafka.factory.KafkaFactory;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.log4j.Logger;
 
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -23,16 +24,20 @@ public class KafkaHandler implements Closeable {
 
   private static final Logger LOG = Logger.getLogger(KafkaHandler.class);
 
+  public static Configure configure;
+
   private final ConsumerHandler consumerHandler;
 
 
-  public KafkaHandler() throws ExecutionException {
-    consumerHandler = KafkaFactory.getFactory().getConsumer();
+  public KafkaHandler(Configure configure) throws ExecutionException {
+    this.configure = configure;
+    String[] bootstrapServers = configure.getProperty("kafka.properties","bootstrap.servers").split(",");
+    Arrays.sort(bootstrapServers);
+    consumerHandler = KafkaFactory.getFactory(configure).getConsumer(Arrays.toString(bootstrapServers));
   }
 
-
   public static void main(String[] args) throws ExecutionException {
-    KafkaHandler api = new KafkaHandler();
+    KafkaHandler api = new KafkaHandler(Configure.getConfigure());
     api.printTopic();
     api.printTopicPartition();
 
@@ -109,6 +114,7 @@ public class KafkaHandler implements Closeable {
   public Map getTopicPartitionOffset(String topic, List<Integer> partitionIds) {
     try {
       KafkaConsumer consumer = consumerHandler.getConsumer();
+
       List<PartitionInfo> partitions = consumer.partitionsFor(topic);
       List<Map<String,Object>> retPartitions = Lists.newArrayList();
       for (PartitionInfo info : partitions) {
