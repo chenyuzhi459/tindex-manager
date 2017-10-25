@@ -1,6 +1,5 @@
 package io.sugo.http.resource.kafka;
 
-import io.sugo.http.Configure;
 import io.sugo.http.resource.Resource;
 import io.sugo.kafka.KafkaHandler;
 
@@ -14,11 +13,11 @@ import java.util.concurrent.ExecutionException;
  * Created by chenyuzhi on 17-10-21.
  */
 @Path("/kafka")
-public class KafkaResource {
+public class KafkaResource extends Resource {
 	private final KafkaHandler kafkaHandler;
 
 	public KafkaResource() throws ExecutionException {
-		this.kafkaHandler = new KafkaHandler();
+		this.kafkaHandler = new KafkaHandler(configure);
 	}
 
 	@POST
@@ -29,7 +28,6 @@ public class KafkaResource {
 			final List partitionIds
 	)
 	{
-//		System.out.println(kafkaHandler.configure.getProperty("kafka.properties","bootstrap.servers"));
 		return Response.ok(kafkaHandler.getTopicPartitionOffset(topic,partitionIds)).build();
 	}
 }

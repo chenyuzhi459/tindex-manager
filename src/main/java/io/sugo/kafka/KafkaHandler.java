@@ -24,19 +24,20 @@ public class KafkaHandler implements Closeable {
 
   private static final Logger LOG = Logger.getLogger(KafkaHandler.class);
 
-  public static Configure configure = Configure.getConfigure();
+  public static Configure configure;
 
   private final ConsumerHandler consumerHandler;
 
 
-  public KafkaHandler() throws ExecutionException {
+  public KafkaHandler(Configure configure) throws ExecutionException {
+    this.configure = configure;
     String[] bootstrapServers = configure.getProperty("kafka.properties","bootstrap.servers").split(",");
     Arrays.sort(bootstrapServers);
     consumerHandler = KafkaFactory.getFactory(configure).getConsumer(Arrays.toString(bootstrapServers));
   }
 
   public static void main(String[] args) throws ExecutionException {
-    KafkaHandler api = new KafkaHandler();
+    KafkaHandler api = new KafkaHandler(Configure.getConfigure());
     api.printTopic();
     api.printTopicPartition();
 
@@ -113,6 +114,7 @@ public class KafkaHandler implements Closeable {
   public Map getTopicPartitionOffset(String topic, List<Integer> partitionIds) {
     try {
       KafkaConsumer consumer = consumerHandler.getConsumer();
+
       List<PartitionInfo> partitions = consumer.partitionsFor(topic);
       List<Map<String,Object>> retPartitions = Lists.newArrayList();
       for (PartitionInfo info : partitions) {

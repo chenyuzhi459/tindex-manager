@@ -1,9 +1,9 @@
-package io.sugo.http.resource.historicalResource;
+package io.sugo.http.resource.historical;
 
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
 import com.google.common.base.Strings;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import io.sugo.http.resource.Resource;
+import io.sugo.http.resource.ForwardResource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -11,11 +11,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.io.InputStream;
 
 
 @Path("/druid/listen/v1/lookups")
-public class LookupListeningResource extends Resource {
+public class LookupListeningResource extends ForwardResource {
 
     public LookupListeningResource() throws IOException {
         pathPre = "/druid/listen/v1/lookups";

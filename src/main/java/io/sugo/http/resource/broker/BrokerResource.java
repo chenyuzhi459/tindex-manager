@@ -1,6 +1,6 @@
-package io.sugo.http.resource.brokerResource;
+package io.sugo.http.resource.broker;
 
-import io.sugo.http.resource.Resource;
+import io.sugo.http.resource.ForwardResource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -9,7 +9,7 @@ import java.io.IOException;
 
 
 @Path("/druid/broker/v1")
-public class BrokerResource extends Resource {
+public class BrokerResource extends ForwardResource {
 
 
     public BrokerResource() throws IOException {

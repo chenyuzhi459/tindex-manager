@@ -1,4 +1,4 @@
-package io.sugo.http.resource.zkResource;
+package io.sugo.http.resource.zk;
 
 import com.google.common.collect.ImmutableMap;
 import io.sugo.http.resource.Resource;

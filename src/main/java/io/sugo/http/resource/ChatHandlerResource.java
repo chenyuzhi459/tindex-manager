@@ -4,13 +4,12 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.MessageFormat;
-import java.util.Map;
 
 /**
  * Created by chenyuzhi on 17-10-9.
  */
 @Path("/druid/worker/v1/task")
-public class ChatHandlerResource extends Resource {
+public class ChatHandlerResource extends ForwardResource {
 	public ChatHandlerResource(){
 		pathPre = "http://{0}/druid/worker/v1";
 	}

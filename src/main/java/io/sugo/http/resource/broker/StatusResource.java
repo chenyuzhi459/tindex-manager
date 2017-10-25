@@ -1,7 +1,6 @@
-package io.sugo.http.resource.brokerResource;
+package io.sugo.http.resource.broker;
 
-import io.sugo.http.resource.Resource;
-import io.sugo.http.util.HttpMethodProxy;
+import io.sugo.http.resource.ForwardResource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -11,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 
 @Path("/status")
-public class StatusResource extends Resource {
+public class StatusResource extends ForwardResource {
 
 
     public StatusResource() throws IOException {

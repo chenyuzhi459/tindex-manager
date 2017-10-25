@@ -8,7 +8,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 
 import com.google.common.collect.Maps;
-import io.sugo.http.util.Test;
+import io.sugo.http.Configure;
 import io.sugo.zookeeper.ZkStateListener;
 import io.sugo.zookeeper.ZookeeperItem;
 import org.apache.commons.lang.StringUtils;
@@ -18,23 +18,24 @@ import org.apache.curator.framework.api.CuratorWatcher;
 import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.framework.state.ConnectionStateListener;
 import org.apache.curator.retry.RetryNTimes;
+import org.apache.log4j.Logger;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher.Event;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by chenyuzhi on 17-10-23.
  */
 public class CuratorZookeeperClient {
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Test.class);
+	protected static final Logger LOG = Logger.getLogger(CuratorZookeeperClient.class);
+
+	public static Configure configure = Configure.getConfigure();
+
 	public static final String NONE_DATA = "None";
-	private static String zkServers ="192.168.0.225:2181,192.168.0.224:2181,192.168.0.223:2181";
-	private final int CONNECT_TIMEOUT = 15000;
-	private final int RETRY_TIME = Integer.MAX_VALUE;
-	private final int RETRY_INTERVAL = 1000;
-	private static final Logger logger = LoggerFactory.getLogger(CuratorZookeeperClient.class);
+	private static String zkServers =configure.getProperty("zk.properties","zk.servers","192.168.0.225:2181,192.168.0.224:2181,192.168.0.223:2181");
+	private final int CONNECT_TIMEOUT = configure.getInt("zk.properties","connect.timeout",15000);
+	private final int RETRY_TIME = configure.getInt("zk.properties","retry.time",Integer.MAX_VALUE);
+	private final int RETRY_INTERVAL = configure.getInt("zk.properties","retry.interval",1000);
 	private CuratorFramework curator;
 
 	private volatile static CuratorZookeeperClient instance;
@@ -63,12 +64,12 @@ public class CuratorZookeeperClient {
 				public void stateChanged(CuratorFramework client, ConnectionState state) {
 					if (state == ConnectionState.LOST) {
 						//连接丢失
-						logger.info("lost session with zookeeper");
+						LOG.info("lost session with zookeeper");
 					} else if (state == ConnectionState.CONNECTED) {
 						//连接新建
-						logger.info("connected with zookeeper");
+						LOG.info("connected with zookeeper");
 					} else if (state == ConnectionState.RECONNECTED) {
-						logger.info("reconnected with zookeeper");
+						LOG.info("reconnected with zookeeper");
 						//连接重连
 						for(ZkStateListener s:stateListeners){
 							s.reconnected();
@@ -89,7 +90,7 @@ public class CuratorZookeeperClient {
 		if(instance == null) {
 			synchronized(CuratorZookeeperClient.class) {
 				if(instance == null) {
-					logger.info("initial CuratorZookeeperClient instance");
+					LOG.info("initial CuratorZookeeperClient instance");
 					instance = new CuratorZookeeperClient(zkServers);
 				}
 			}
@@ -136,18 +137,18 @@ public class CuratorZookeeperClient {
 		String parentPath = path;
 		Map<String,String> cacheMap = zkCacheMap.get(path);
 		if(cacheMap != null && cacheMap.size() > 0) {
-			logger.debug("get random value from cache,path="+path);
+			LOG.debug("get random value from cache,path="+path);
 			return getRandomValue4Map(cacheMap);
 		}
 		if(curator.checkExists().forPath(path) == null) {
-			logger.debug("path [{}] is not exists,return null",path);
+			LOG.debug(String.format("path [%s] is not exists,return null",path));
 			return null;
 		} else {
-			logger.debug("read random from zookeeper,path="+path);
+			LOG.debug("read random from zookeeper,path="+path);
 			cacheMap = new HashMap<String,String>();
 			List<String> list = curator.getChildren().usingWatcher(new ZKWatcher(parentPath,path)).forPath(path);
 			if(list == null || list.size() == 0) {
-				logger.debug("path [{}] has no children return null",path);
+				LOG.debug(String.format("path [%s] has no children return null",path));
 				return null;
 			}
 			Random rand = new Random();
@@ -176,21 +177,21 @@ public class CuratorZookeeperClient {
 		Map<String,String> cacheMap = zkCacheMap.get(path);
 		List<String> list = new ArrayList<String>();
 		if(cacheMap != null) {
-			logger.debug("read all from cache,path="+path);
+			LOG.debug("read all from cache,path="+path);
 			list.addAll(cacheMap.values());
 			return list;
 		}
 		if(curator.checkExists().forPath(path) == null) {
-			logger.debug("path [{}] is not exists,return null",path);
+			LOG.debug(String.format("path [%s] is not exists,return null",path));
 			return null;
 		} else {
 			cacheMap = new HashMap<String,String>();
 			List<String> children = curator.getChildren().usingWatcher(new ZKWatcher(parentPath,path)).forPath(path);
 			if(children == null || children.size() == 0) {
-				logger.debug("path [{}] has no children,return null",path);
+				LOG.debug(String.format("path [%s] has no children,return null",path));
 				return null;
 			} else {
-				logger.debug("read all from zookeeper,path="+path);
+				LOG.debug("read all from zookeeper,path="+path);
 				String basePath = path;
 				for(String child : children) {
 					path = basePath + "/" + child;
@@ -271,7 +272,7 @@ public class CuratorZookeeperClient {
 	public List<String> getChildren(String path) {
 		try {
 			if(curator.checkExists().forPath(path) == null) {
-				logger.debug("path [{}] is not exists,return null",path);
+				LOG.debug(String.format("path [%s] is not exists,return null",path));
 				return null;
 			} else {
 				List<String> children = curator.getChildren().forPath(path);
@@ -316,10 +317,10 @@ public class CuratorZookeeperClient {
 				byte[] data = curator.getData().
 						usingWatcher(this).forPath(path);
 				cacheMap.put(path, new String(data,"utf-8"));
-				logger.info("add cache={}",new String(data,"utf-8"));
+				LOG.info(String.format("add cache=%s",new String(data,"utf-8")));
 			} else if(event.getType() == Event.EventType.NodeDeleted) {
 				cacheMap.remove(path);
-				logger.info("remove cache path={}",path);
+				LOG.info(String.format("remove cache path=%s",path));
 			} else if(event.getType() == Event.EventType.NodeChildrenChanged) {
 				//子节点发生变化，重新进行缓存
 				cacheMap.clear();
@@ -335,7 +336,7 @@ public class CuratorZookeeperClient {
 						}
 					}
 				}
-				logger.info("node children changed,recaching path={}",path);
+				LOG.info(String.format("node children changed,recaching path=%s",path));
 			}
 			zkCacheMap.put(parentPath, cacheMap);
 		}

@@ -1,7 +1,7 @@
-package io.sugo.http.resource.coordinatorResource;
+package io.sugo.http.resource.coordinator;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import io.sugo.http.resource.Resource;
+import io.sugo.http.resource.ForwardResource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 
 @Path("/druid/coordinator/v1/tiers")
-public class TiersResource extends Resource {
+public class TiersResource extends ForwardResource {
 
 
     public TiersResource() throws IOException {

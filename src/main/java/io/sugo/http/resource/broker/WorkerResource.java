@@ -1,6 +1,6 @@
-package io.sugo.http.resource.brokerResource;
+package io.sugo.http.resource.broker;
 
-import io.sugo.http.resource.Resource;
+import io.sugo.http.resource.ForwardResource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 
 @Path("/druid/worker/v1")
-public class WorkerResource extends Resource {
+public class WorkerResource extends ForwardResource {
 
 
     public WorkerResource() throws IOException {

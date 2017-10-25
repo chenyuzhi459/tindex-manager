@@ -1,7 +1,7 @@
-package io.sugo.http.resource.overlordResource;
+package io.sugo.http.resource.overlord;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import io.sugo.http.resource.Resource;
+import io.sugo.http.resource.ForwardResource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 
 @Path("/druid/indexer/v1/supervisor")
-public class SupervisorResource extends Resource {
+public class SupervisorResource extends ForwardResource {
 
     public SupervisorResource() throws IOException {
         ip = configure.getProperty("druid.properties","overlord.ip");

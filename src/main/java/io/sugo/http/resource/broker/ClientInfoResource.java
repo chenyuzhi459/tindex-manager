@@ -1,7 +1,7 @@
-package io.sugo.http.resource.brokerResource;
+package io.sugo.http.resource.broker;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import io.sugo.http.resource.Resource;
+import io.sugo.http.resource.ForwardResource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -9,7 +9,7 @@ import java.io.IOException;
 
 
 @Path("/druid/v2/datasources")
-public class ClientInfoResource extends Resource {
+public class ClientInfoResource extends ForwardResource {
 
 
     public ClientInfoResource() throws IOException {

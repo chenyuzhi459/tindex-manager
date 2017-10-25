@@ -29,8 +29,6 @@ public class KafkaFactory {
 		try {
 			Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
 
-
-
 			final Properties props = new Properties();
 			//            kafka.bootstrap.servers=192.168.0.220:9092,192.168.0.221:9092,192.168.0.222:9092
 			props.setProperty("bootstrap.servers", configure.getProperty("kafka.properties","bootstrap.servers","192.168.0.223:9092,192.168.0.224:9092,192.168.0.225:9092"));

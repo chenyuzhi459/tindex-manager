@@ -1,9 +1,9 @@
-package io.sugo.http.resource.coordinatorResource;
+package io.sugo.http.resource.coordinator;
 
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.audit.AuditManager;
-import io.sugo.http.resource.Resource;
+import io.sugo.http.resource.ForwardResource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -11,11 +11,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.io.InputStream;
 
 
 @Path("/druid/coordinator/v1/lookups")
-public class LookupCoordinatorResource extends Resource {
+public class LookupCoordinatorResource extends ForwardResource {
 
 
     public LookupCoordinatorResource() throws IOException {

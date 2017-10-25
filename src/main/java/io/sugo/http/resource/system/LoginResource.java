@@ -1,4 +1,4 @@
-package io.sugo.http.resource.systemResource;
+package io.sugo.http.resource.system;
 
 
 import io.sugo.http.model.UserBean;

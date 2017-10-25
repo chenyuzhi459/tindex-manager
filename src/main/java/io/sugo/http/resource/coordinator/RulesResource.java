@@ -1,8 +1,8 @@
-package io.sugo.http.resource.coordinatorResource;
+package io.sugo.http.resource.coordinator;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import io.sugo.http.audit.AuditManager;
-import io.sugo.http.resource.Resource;
+import io.sugo.http.resource.ForwardResource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 
 @Path("/druid/coordinator/v1/rules")
-public class RulesResource extends Resource {
+public class RulesResource extends ForwardResource {
 
 
     public RulesResource() throws IOException {

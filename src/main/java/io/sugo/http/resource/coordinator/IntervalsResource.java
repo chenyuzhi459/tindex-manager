@@ -1,7 +1,7 @@
-package io.sugo.http.resource.coordinatorResource;
+package io.sugo.http.resource.coordinator;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import io.sugo.http.resource.Resource;
+import io.sugo.http.resource.ForwardResource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 //@Path("/druid/coordinator/v1/intervals")
-public class IntervalsResource extends Resource {
+public class IntervalsResource extends ForwardResource {
 
 
     public IntervalsResource() throws IOException {
