@@ -8,16 +8,13 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+
 import io.sugo.http.Configure;
 import io.sugo.zookeeper.ZkStateListener;
-import io.sugo.zookeeper.ZookeeperItem;
 import org.apache.commons.lang.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.framework.api.BackgroundCallback;
-import org.apache.curator.framework.api.CuratorEvent;
+
 import org.apache.curator.framework.api.CuratorWatcher;
 import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.framework.state.ConnectionStateListener;
@@ -63,7 +60,9 @@ public class CuratorZookeeperClient {
 				.connectionTimeoutMs(connectTimeout).build();
 	}
 
+
 	public CuratorZookeeperClient(Configure configure) {
+
 		if(curator == null) {
 			curator = newCurator(configure);
 			curator.getConnectionStateListenable().addListener(new ConnectionStateListener() {
@@ -75,11 +74,8 @@ public class CuratorZookeeperClient {
 						//连接新建
 						LOG.info("connected with zookeeper");
 					} else if (state == ConnectionState.RECONNECTED) {
-						LOG.info("reconnected with zookeeper");
 						//连接重连
-						for(ZkStateListener s:stateListeners){
-							s.reconnected();
-						}
+						LOG.info("reconnected with zookeeper");
 					}
 				}
 			});
@@ -347,41 +343,6 @@ public class CuratorZookeeperClient {
 			zkCacheMap.put(parentPath, cacheMap);
 		}
 	}
-	private final Set<ZkStateListener> stateListeners = new CopyOnWriteArraySet<ZkStateListener>();
-	public void addStateListener(ZkStateListener listener) {
-		stateListeners.add(listener);
-	}
 
 
-//	/**
-//	 * zookeeper监听节点数据变化
-//	 *
-//	 */
-//	private class ZKDataWatcher implements CuratorWatcher {
-//		private String path;
-//
-//		public ZKDataWatcher(String path) {
-//			this.path = path;
-//		}
-//
-//		public void process(WatchedEvent event) throws Exception {
-//			ZookeeperItem cacheZkItem = zkCacheMap.get(path);
-//			if (cacheZkItem == null) {
-//				cacheZkItem = new ZookeeperItem(path);
-//			}
-//			if (event.getType() == Event.EventType.NodeDataChanged
-//					|| event.getType() == Event.EventType.NodeCreated) {
-//				byte[] data = curator.getData().
-//						usingWatcher(this).forPath(path);
-//				logger.info("dataChanged,path[{}]",path);
-//				cacheZkItem.setData(data != null ? new String(data,"utf-8") : ZookeeperItem.NONE_DATA);
-//				zkCacheMap.put(path, cacheZkItem);
-//				logger.info("add cache={}", new String(data, "utf-8"));
-//			} else if (event.getType() == Event.EventType.NodeDeleted) {
-//				zkCacheMap.remove(path);
-//				logger.info("remove cache path={}", path);
-//			}
-//
-//		}
-//	}
 }
