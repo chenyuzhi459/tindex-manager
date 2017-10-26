@@ -5,6 +5,7 @@ import io.sugo.http.Configure;
 import io.sugo.kafka.ConsumerHandler;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.ByteArrayDeserializer;
+import org.apache.log4j.Logger;
 
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
@@ -14,6 +15,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class KafkaFactory {
 
+	private static final Logger LOG = Logger.getLogger(KafkaFactory.class);
 	private static  KafkaFactory factory = new KafkaFactory();
 	public static Configure configure;
 	private KafkaFactory(){
@@ -25,6 +27,7 @@ public class KafkaFactory {
 	}
 
 	public  KafkaConsumer<byte[], byte[]> newConsumer() {
+
 		ClassLoader currCtxCl = Thread.currentThread().getContextClassLoader();
 		try {
 			Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
@@ -48,8 +51,13 @@ public class KafkaFactory {
 		return Cache.getKafkaConsumerCache(configure).get("consumer");
 	}
 
-	public ConsumerHandler getConsumer(String key) throws ExecutionException {
-		return Cache.getKafkaConsumerCache(configure).get(key);
+	public ConsumerHandler getConsumer(String key)  {
+		try {
+			return Cache.getKafkaConsumerCache(configure).get(key);
+		} catch (ExecutionException e) {
+			LOG.error(e.getMessage());
+		}
+		return null;
 	}
 
 }

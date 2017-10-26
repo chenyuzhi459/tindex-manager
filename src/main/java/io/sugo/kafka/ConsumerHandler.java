@@ -26,6 +26,8 @@ public class ConsumerHandler {
 		return consumer;
 	}
 
+
+
 	public void close(){
 		consumer.close();
 	}

@@ -26,10 +26,20 @@ public class KafkaHandler implements Closeable {
 
   public static Configure configure;
 
-  private final ConsumerHandler consumerHandler;
+  private ConsumerHandler consumerHandler;
 
 
-  public KafkaHandler(Configure configure) throws ExecutionException {
+  public static KafkaHandler kafkaHandler = new KafkaHandler(Configure.getConfigure());
+
+  public static KafkaHandler getKafkaHandler(Configure configure)  {
+    kafkaHandler.configure = configure;
+    String[] bootstrapServers = configure.getProperty("kafka.properties","bootstrap.servers").split(",");
+    Arrays.sort(bootstrapServers);
+    kafkaHandler.consumerHandler = KafkaFactory.getFactory(configure).getConsumer(Arrays.toString(bootstrapServers));
+    return kafkaHandler;
+  }
+
+  private KafkaHandler(Configure configure)  {
     this.configure = configure;
     String[] bootstrapServers = configure.getProperty("kafka.properties","bootstrap.servers").split(",");
     Arrays.sort(bootstrapServers);
