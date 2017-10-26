@@ -1,7 +1,13 @@
 package io.sugo.zookeeper.factory;
 
+import io.sugo.cache.Cache;
+import io.sugo.cache.CacheNew;
 import io.sugo.http.Configure;
+import io.sugo.zookeeper.ClientHandler;
 import io.sugo.zookeeper.client.CuratorZookeeperClient;
+
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 public class ZkFactory {
     private static ZkFactory zkFactory = new ZkFactory();
@@ -9,17 +15,19 @@ public class ZkFactory {
 
     private ZkFactory() {}
 
-    public static ZkFactory getZkFactory(Configure conf) {
+    public static ZkFactory getFactory(Configure conf) {
         configure = conf;
         return zkFactory;
     }
 
-//    public CuratorZookeeperClient newClient() {
-//        return new CuratorZookeeperClient();
-//    }
+    public CuratorZookeeperClient newClient() {
+        return new CuratorZookeeperClient(configure);
+    }
 
 
-//    public CuratorZookeeperClient getClient() {
-//
-//    }
+    public ClientHandler getClientHandler() throws ExecutionException {
+        String[] zkServers = configure.getProperty("zk.properties","zk.servers").split(",");
+        Arrays.sort(zkServers);
+        return CacheNew.getZkClientCache(configure).get(Arrays.toString(zkServers));
+    }
 }

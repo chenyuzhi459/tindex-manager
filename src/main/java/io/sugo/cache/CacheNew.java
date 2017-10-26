@@ -4,6 +4,8 @@ import com.google.common.cache.*;
 import io.sugo.http.Configure;
 import io.sugo.kafka.ConsumerHandler;
 import io.sugo.kafka.factory.KafkaFactory;
+import io.sugo.zookeeper.ClientHandler;
+import io.sugo.zookeeper.factory.ZkFactory;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.TimeUnit;
@@ -18,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class CacheNew {
 	private static final Logger LOG = Logger.getLogger(CacheNew.class);
 	private static LoadingCache<String,ConsumerHandler> kafkaConsumerCache;
-	private static LoadingCache<String,ConsumerHandler> zkClientCache;
+	private static LoadingCache<String,ClientHandler> zkClientCache;
 	private static Object lock = new Object();
 
 
@@ -51,7 +53,7 @@ public class CacheNew {
 		return kafkaConsumerCache;
 	}
 
-	public static LoadingCache<String,ConsumerHandler> getZkClientCache(final Configure configure) {
+	public static LoadingCache<String,ClientHandler> getZkClientCache(final Configure configure) {
 		if(null == zkClientCache){        //lazy initialization
 			synchronized (lock){
 				if(null == zkClientCache){
@@ -59,17 +61,17 @@ public class CacheNew {
 					zkClientCache = CacheBuilder.newBuilder()
 							.maximumSize(100)
 							.expireAfterAccess(10, TimeUnit.MINUTES)
-							.removalListener(new RemovalListener<String, ConsumerHandler>() {
-								public void onRemoval(RemovalNotification<String, ConsumerHandler> removal){
+							.removalListener(new RemovalListener<String, ClientHandler>() {
+								public void onRemoval(RemovalNotification<String, ClientHandler> removal){
 									removal.getValue().close();
 								}
 							})
 							.build(
-									new CacheLoader<String, ConsumerHandler>() {
+									new CacheLoader<String, ClientHandler>() {
 										@Override
-										public ConsumerHandler load(String s) throws Exception {
+										public ClientHandler load(String s) throws Exception {
 											LOG.info("created ConsumerHandler with key:"+s);
-											return new ConsumerHandler(s,KafkaFactory.getFactory(configure).newConsumer());
+											return new ClientHandler(s, ZkFactory.getFactory(configure).newClient());
 										}
 									}
 							);
@@ -77,6 +79,6 @@ public class CacheNew {
 				}
 			}
 		}
-		return kafkaConsumerCache;
+		return zkClientCache;
 	}
 }

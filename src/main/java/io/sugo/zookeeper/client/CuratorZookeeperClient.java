@@ -34,16 +34,9 @@ import org.apache.zookeeper.data.Stat;
 public class CuratorZookeeperClient {
 	protected static final Logger LOG = Logger.getLogger(CuratorZookeeperClient.class);
 
-	public static Configure configure = Configure.getConfigure();
-
 	public static final String NONE_DATA = "None";
-	private static String zkServers =configure.getProperty("zk.properties","zk.servers","192.168.0.225:2181,192.168.0.224:2181,192.168.0.223:2181");
-	private final int CONNECT_TIMEOUT = configure.getInt("zk.properties","connect.timeout",15000);
-	private final int RETRY_TIME = configure.getInt("zk.properties","retry.time",Integer.MAX_VALUE);
-	private final int RETRY_INTERVAL = configure.getInt("zk.properties","retry.interval",1000);
 	private CuratorFramework curator;
 
-	private volatile static CuratorZookeeperClient instance;
 
 	/**
 	 * key:父路径，如/jobcenter/client/goodscenter
@@ -56,16 +49,22 @@ public class CuratorZookeeperClient {
 		return zkCacheMap;
 	}
 
-	private CuratorFramework newCurator(String zkServers) {
+	private CuratorFramework newCurator(Configure configure) {
+		int connectTimeout = configure.getInt("zk.properties","connect.timeout",15000);
+		int retryTime = configure.getInt("zk.properties","retry.time",Integer.MAX_VALUE);
+		int retryInterval = configure.getInt("zk.properties","retry.interval",1000);
+		String zkServers = configure.getProperty("zk.properties","zk.servers","192.168.0.225:2181,192.168.0.224:2181,192.168.0.223:2181");
+
 		return CuratorFrameworkFactory.builder().connectString(zkServers)
-				.retryPolicy(new RetryNTimes(RETRY_TIME, RETRY_INTERVAL))
-				.connectionTimeoutMs(CONNECT_TIMEOUT).build();
+				.retryPolicy(new RetryNTimes(retryTime, retryInterval))
+				.connectionTimeoutMs(connectTimeout).build();
 	}
 
 
-	private CuratorZookeeperClient(String zkServers) {
+	public CuratorZookeeperClient(Configure configure) {
+
 		if(curator == null) {
-			curator = newCurator(zkServers);
+			curator = newCurator(configure);
 			curator.getConnectionStateListenable().addListener(new ConnectionStateListener() {
 				public void stateChanged(CuratorFramework client, ConnectionState state) {
 					if (state == ConnectionState.LOST) {
@@ -82,23 +81,6 @@ public class CuratorZookeeperClient {
 			});
 			curator.start();
 		}
-	}
-
-	public static CuratorZookeeperClient getInstance() {
-
-		return getInstance(zkServers);
-	}
-
-	public static CuratorZookeeperClient getInstance(String zkServers) {
-		if(instance == null) {
-			synchronized(CuratorZookeeperClient.class) {
-				if(instance == null) {
-					LOG.info("initial CuratorZookeeperClient instance");
-					instance = new CuratorZookeeperClient(zkServers);
-				}
-			}
-		}
-		return instance;
 	}
 
 	/**

@@ -2,7 +2,9 @@ package io.sugo.http.resource.zk;
 
 import com.google.common.collect.ImmutableMap;
 import io.sugo.http.resource.Resource;
+import io.sugo.zookeeper.ClientHandler;
 import io.sugo.zookeeper.client.CuratorZookeeperClient;
+import io.sugo.zookeeper.factory.ZkFactory;
 import org.apache.zookeeper.CreateMode;
 
 import javax.ws.rs.*;
@@ -10,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by chenyuzhi on 17-10-24.
@@ -23,8 +26,9 @@ public class zkResource extends Resource {
 	private static  final String _PERSISTENT = "PERSISTENT";
 	private final CuratorZookeeperClient zkClient;
 
-	public zkResource() {
-		this.zkClient = CuratorZookeeperClient.getInstance();
+	public zkResource() throws ExecutionException {
+		this.zkClient = ZkFactory.getFactory(configure).getClientHandler().getClient();
+//				new CuratorZookeeperClient(configure);
 	}
 
 	public void close(){
