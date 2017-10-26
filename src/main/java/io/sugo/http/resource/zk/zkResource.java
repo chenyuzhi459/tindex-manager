@@ -39,7 +39,7 @@ public class zkResource extends Resource {
 	@Path("/data")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getData(
-			@QueryParam("path") String  path
+			@QueryParam("path") String path
 	)
 	{
 		return Response.ok(ImmutableMap.of("sourceData",zkClient.getData(path))).build();

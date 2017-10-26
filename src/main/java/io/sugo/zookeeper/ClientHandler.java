@@ -17,12 +17,13 @@ public class ClientHandler {
     }
 
     public CuratorZookeeperClient getClient() {
-        lock.lock();
+//        lock.lock();
         LOG.info("clientId:"+clientId);
+        LOG.info("Hash:"+this);
         return client;
     }
 
     public void close() {
-
+        client.close();
     }
 }
