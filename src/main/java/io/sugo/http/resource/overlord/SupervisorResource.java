@@ -29,10 +29,16 @@ public class SupervisorResource extends ForwardResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response specGetAll()
+    public Response specGetAll(
+            @QueryParam("full") String full
+    )
     {
+        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        if(null != full){
+            queryParams.add("full",full);
+        }
         String url = String.format("%s", pathPre);
-        return httpMethod.get(url);
+        return httpMethod.get(url,queryParams);
     }
 
     @GET

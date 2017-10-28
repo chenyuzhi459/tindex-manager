@@ -30,6 +30,15 @@ public class HttpMethod {
         return cr;
     }
 
+    public ClientResponse getWithHeader(WebResource resource,Map<String,Object> header) {
+        WebResource.Builder builder = resource.getRequestBuilder();
+        for(String key : header.keySet()){
+            builder.header(key,header.get(key));
+        }
+        ClientResponse cr = builder.get(ClientResponse.class);
+        return cr;
+    }
+
     public ClientResponse post(WebResource resource, String data ,MultivaluedMapImpl queryParams) {
         ClientResponse cr = resource
                 .queryParams(queryParams)

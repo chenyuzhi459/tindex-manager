@@ -4,6 +4,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by chenyuzhi on 17-10-9.
@@ -52,13 +54,28 @@ public class ChatHandlerResource extends ForwardResource {
 	@GET
 	@Path("/chat/{id}/summary")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSummaryInof(
+	public Response getSummaryInfo(
 			@PathParam("id") String handlerId,
 			@QueryParam("location") String location
 	)
 	{
 		String url = MessageFormat.format("{0}/chat/{1}/summary",MessageFormat.format(pathPre,location),handlerId);
 		System.out.println("url:" + url);
-		return httpMethod.get(url);
+		Map<String,Object> header = new HashMap<>();
+		header.put("Connection","close");
+		return httpMethod.getWithHeader(url,header);
 	}
+
+//	@GET
+//	@Path("/chat/summaryInfo/{id}/summary")
+//
+//	public Response getSummaryInfo(
+//			@PathParam("id") String handlerId,
+//			@QueryParam("location") String location
+//	)
+//	{
+//		String url = MessageFormat.format("{0}/chat/summaryInfo/{1}/summary",MessageFormat.format(pathPre,location),handlerId);
+//		System.out.println("url:" + url);
+//		return httpMethod.getWithHeader(url);
+//	}
 }

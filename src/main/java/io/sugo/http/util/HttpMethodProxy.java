@@ -27,6 +27,13 @@ public class HttpMethodProxy {
         return convertClientResponse2Response(cr);
     }
 
+    public Response getWithHeader(String url,Map<String,Object> header) {
+        LOG.info(url);
+        resource = httpMethod.getClient().resource(url);
+        ClientResponse cr = httpMethod.getWithHeader(resource,header);
+        return convertClientResponse2Response(cr);
+    }
+
     public Response get(String url, MultivaluedMapImpl queryParams) {
         LOG.info(url);
         resource = httpMethod.getClient().resource(url);
