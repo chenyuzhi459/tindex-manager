@@ -47,6 +47,7 @@ public class Configure {
     }
     if (file.isDirectory()) {
       File files[] = file.listFiles();
+      LOG.info(  "reading config info");
       for (File sonFile : files) {
         if (sonFile.isFile()) {
           allProperties.put(sonFile.getName(),loadConfFromFile(sonFile));

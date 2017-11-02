@@ -36,6 +36,7 @@ public class ResourcesManager {
         port = configure.getInt("system.properties","http.port");
         developMode = configure.getBoolean("system.properties","develop.mode");
 
+        LOG.info("initializing server");
         Server server = null;
         try {
             server = makeJettyServer();
@@ -88,9 +89,6 @@ public class ResourcesManager {
 
         htmlHandler.setWelcomeFiles(new String[]{"index.html"});
         htmlHandler.addServlet(htmlHolder, "/*");
-
-
-
 
 
 
