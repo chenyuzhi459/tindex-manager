@@ -33,7 +33,7 @@ public class ResourcesManager {
     public static void main(String[] args) throws Exception {
 
         Configure configure = Configure.getConfigure();
-        port = configure.getInt("druid.properties","server.port");
+        port = configure.getInt("system.properties","http.port");
         developMode = configure.getBoolean("system.properties","develop.mode");
 
         Server server = null;
@@ -41,7 +41,7 @@ public class ResourcesManager {
             server = makeJettyServer();
             initialize(server);
             server.start();
-            LOG.warn("start...in " + port);
+            LOG.info("start...in " + port);
             latch.await();
         } finally {
             if (server != null) {
