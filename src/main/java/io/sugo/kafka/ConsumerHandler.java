@@ -2,6 +2,7 @@ package io.sugo.kafka;
 
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.log4j.Logger;
+import sun.rmi.runtime.Log;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -21,12 +22,13 @@ public class ConsumerHandler {
 	}
 
 	public KafkaConsumer getConsumer(){
-		lock.lock();
 		LOG.info("conusmerId:"+conusmerId);
 		return consumer;
 	}
 
-
+	public void lock(){
+		lock.lock();
+	}
 
 	public void close(){
 		consumer.close();

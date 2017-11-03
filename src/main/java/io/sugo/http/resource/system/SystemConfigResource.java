@@ -4,10 +4,8 @@ package io.sugo.http.resource.system;
 import com.google.common.cache.LoadingCache;
 import io.sugo.cache.Cache;
 import io.sugo.http.Configure;
-import io.sugo.http.resource.ForwardResource;
 import io.sugo.http.resource.Resource;
 import io.sugo.kafka.ConsumerHandler;
-import io.sugo.kafka.KafkaHandler;
 import io.sugo.kafka.factory.KafkaFactory;
 import org.apache.log4j.Logger;
 

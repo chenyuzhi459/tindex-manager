@@ -48,17 +48,18 @@ public class KafkaHandler implements Closeable {
 
   public static void main(String[] args) throws ExecutionException {
     KafkaHandler api = new KafkaHandler(Configure.getConfigure());
-    api.printTopic();
-    api.printTopicPartition();
+//    api.printTopic();
+//    api.printTopicPartition();
 
     api.printTopicPartition("wuxianjiRT");
-    api.printTopicPartitionOffset();
+//    api.printTopicPartitionOffset();
   }
 
 
   public void printTopicPartition(String topic) {
     try{
       KafkaConsumer consumer = consumerHandler.getConsumer();
+      consumerHandler.lock();
       List<PartitionInfo> partitions = consumer.partitionsFor(topic);
       for (PartitionInfo info : partitions) {
         TopicPartition tp = new TopicPartition(info.topic(), info.partition());
