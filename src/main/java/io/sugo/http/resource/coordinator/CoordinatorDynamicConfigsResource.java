@@ -1,6 +1,7 @@
 package io.sugo.http.resource.coordinator;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.audit.AuditManager;
 import io.sugo.http.resource.ForwardResource;
 
@@ -10,6 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Path("/druid/coordinator/v1/config")
@@ -50,12 +52,12 @@ public class CoordinatorDynamicConfigsResource extends ForwardResource {
             @QueryParam("count") final Integer count
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(interval != null){
-            queryParams.add("interval",interval);
+            queryParams.put("interval",interval);
         }
         if(count != null){
-            queryParams.add("count",count);
+            queryParams.put("count",count);
         }
         String url = String.format("%s/history", pathPre);
         return httpMethod.get(url,queryParams);

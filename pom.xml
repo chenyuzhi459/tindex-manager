@@ -41,7 +41,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.7</java.version>
-        <jersey.version>1.19</jersey.version>
+        <!--<jersey.version>1.19</jersey.version>-->
+        <jersey.version>2.23</jersey.version>
         <jetty.version>9.2.5.v20141112</jetty.version>
         <jackson.version>2.4.6</jackson.version>
     </properties>
@@ -92,7 +93,7 @@
             <artifactId>jackson-jaxrs-smile-provider</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-server</artifactId>
             <version>${jersey.version}</version>
@@ -116,7 +117,52 @@
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
             <version>${jersey.version}</version>
+        </dependency>-->
+
+
+
+
+
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-grizzly2-http</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet-core</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--&lt;!&ndash; Servlet 3.x Container,depends on jersey-container-servlet-core module &ndash;&gt;-->
+            <!--<groupId>org.glassfish.jersey.containers</groupId>-->
+            <!--<artifactId>jersey-container-servlet</artifactId>-->
+            <!--<version>${jersey.version}</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.glassfish.jersey.containers</groupId>-->
+            <!--<artifactId>jersey-container-jetty-http</artifactId>-->
+            <!--<version>${jersey.version}</version>-->
+        <!--</dependency>-->
+
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
@@ -132,6 +178,14 @@
             <artifactId>jetty-servlets</artifactId>
             <version>${jetty.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -186,6 +240,13 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+
     </dependencies>
 
 </project>

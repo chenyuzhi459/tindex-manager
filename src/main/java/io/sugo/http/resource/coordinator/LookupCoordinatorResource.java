@@ -1,7 +1,8 @@
 package io.sugo.http.resource.coordinator;
 
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.audit.AuditManager;
 import io.sugo.http.resource.ForwardResource;
 
@@ -11,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Path("/druid/coordinator/v1/lookups")
@@ -28,8 +30,8 @@ public class LookupCoordinatorResource extends ForwardResource {
             @DefaultValue("false") @QueryParam("discover") boolean discover
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        queryParams.add("discover",discover);
+        Map<String,Object> queryParams = Maps.newHashMap();
+        queryParams.put("discover",discover);
 
         String url = String.format("%s", pathPre);
         return httpMethod.get(url,queryParams);
@@ -101,11 +103,11 @@ public class LookupCoordinatorResource extends ForwardResource {
     )
     {
         String url = String.format("%s/%s", pathPre, tier);
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
-        queryParams.add("isDescending",isDescending);
+        queryParams.put("isDescending",isDescending);
         return httpMethod.get(url,queryParams);
     }
 
@@ -119,11 +121,11 @@ public class LookupCoordinatorResource extends ForwardResource {
     )
     {
         String url = String.format("%s/%s/details", pathPre, tier);
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
-        queryParams.add("isDescending",isDescending);
+        queryParams.put("isDescending",isDescending);
         return httpMethod.get(url,queryParams);
     }
 }

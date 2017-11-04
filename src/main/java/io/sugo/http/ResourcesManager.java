@@ -1,6 +1,6 @@
 package io.sugo.http;
 
-import com.sun.jersey.spi.container.servlet.ServletContainer;
+import org.glassfish.jersey.servlet.ServletContainer;
 import io.sugo.http.filter.CrossDomainSupportFilter;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.ConnectionFactory;
@@ -105,8 +105,8 @@ public class ResourcesManager {
         apiHandler.setContextPath("/api");
 
         ServletHolder servletHolder = new ServletHolder(ServletContainer.class);
-        servletHolder.setInitParameter("com.sun.jersey.config.property.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
-        servletHolder.setInitParameter("com.sun.jersey.config.property.packages", "io.sugo.http.resource");
+        //servletHolder.setInitParameter("org.glassfish.jersey.server.ResourceConfig", "org.glassfish.jersey.server.ResourceConfig");
+        servletHolder.setInitParameter("jersey.config.server.provider.packages", "io.sugo.http.resource");
         apiHandler.addServlet(servletHolder, "/*");
         if(developMode){
             apiHandler.addFilter(CrossDomainSupportFilter.class,"/*", EnumSet.of(DispatcherType.REQUEST));

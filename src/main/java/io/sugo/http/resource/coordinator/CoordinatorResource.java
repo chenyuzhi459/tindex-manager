@@ -1,6 +1,6 @@
 package io.sugo.http.resource.coordinator;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
 import io.sugo.http.resource.ForwardResource;
 
 import javax.ws.rs.GET;
@@ -10,6 +10,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 @Path("/druid/coordinator/v1")
 public class CoordinatorResource extends ForwardResource {
@@ -34,12 +35,12 @@ public class CoordinatorResource extends ForwardResource {
             @QueryParam("full") String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(simple != null){
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
 
         String url = String.format("%s/loadstatus", pathPre);
@@ -54,12 +55,12 @@ public class CoordinatorResource extends ForwardResource {
             @QueryParam("full") String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(simple != null){
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         String url = String.format("%s/loadqueue", pathPre);
         return httpMethod.get(url,queryParams);

@@ -1,6 +1,7 @@
 package io.sugo.http.resource.coordinator;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.resource.ForwardResource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Path("/druid/coordinator/v1/metadata")
@@ -28,12 +30,12 @@ public class MetadataResource extends ForwardResource {
             @QueryParam("includeDisabled") String includeDisabled
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(includeDisabled != null){
-            queryParams.add("includeDisabled",includeDisabled);
+            queryParams.put("includeDisabled",includeDisabled);
         }
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         String url = String.format("%s/datasources", pathPre);
         return httpMethod.get(url,queryParams);
@@ -52,23 +54,23 @@ public class MetadataResource extends ForwardResource {
             @Context final HttpServletRequest req
     ){
         String url = String.format("%s/datasources/sortAndSearch", pathPre);
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         if(simple != null){
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         if(includeDisabled != null){
-            queryParams.add("includeDisabled",includeDisabled);
+            queryParams.put("includeDisabled",includeDisabled);
         }
         if(sortDimension != null){
-            queryParams.add("sortDimension",sortDimension);
+            queryParams.put("sortDimension",sortDimension);
         }
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
-        queryParams.add("isDescending",isDescending);
+        queryParams.put("isDescending",isDescending);
         return httpMethod.get(url,queryParams);
     }
 
@@ -94,17 +96,17 @@ public class MetadataResource extends ForwardResource {
             @QueryParam("full") String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
         if(sortDimension != null){
-            queryParams.add("sortDimension",sortDimension);
+            queryParams.put("sortDimension",sortDimension);
         }
-        queryParams.add("isDescending",isDescending);
+        queryParams.put("isDescending",isDescending);
         String url = String.format("%s/datasources/%s/segments", pathPre, dataSourceName);
         return httpMethod.get(url,queryParams);
     }
@@ -120,14 +122,14 @@ public class MetadataResource extends ForwardResource {
             final String intervals
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
-        queryParams.add("isDescending",isDescending);
+        queryParams.put("isDescending",isDescending);
         String url = String.format("%s/datasources/%s/segments", pathPre, dataSourceName);
         return httpMethod.post(url, intervals, queryParams);
     }
@@ -157,23 +159,23 @@ public class MetadataResource extends ForwardResource {
             @QueryParam("full") String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         if(simple != null){
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         if(searchDimension != null){
-            queryParams.add("searchDimension",searchDimension);
+            queryParams.put("searchDimension",searchDimension);
         }
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
         if(sortDimension != null){
-            queryParams.add("sortDimension",sortDimension);
+            queryParams.put("sortDimension",sortDimension);
         }
-        queryParams.add("isDescending",isDescending);
+        queryParams.put("isDescending",isDescending);
         String url = String.format("%s/datasources/%s/intervals", pathPre, dataSourceName);
         return httpMethod.get(url, queryParams);
     }
@@ -220,11 +222,11 @@ public class MetadataResource extends ForwardResource {
             @QueryParam("searchValue") String searchValue,
             @QueryParam("isDescending") @DefaultValue("false") boolean isDescending
     ){
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(searchValue != searchValue){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
-        queryParams.add("isDescending",isDescending);
+        queryParams.put("isDescending",isDescending);
         String url = String.format("%s/datasources/%s/disableSegments", pathPre, dataSourceName);
         return httpMethod.get(url, queryParams);
     }
@@ -237,11 +239,11 @@ public class MetadataResource extends ForwardResource {
             @QueryParam("isDescending") @DefaultValue("false") boolean isDescending
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
-        queryParams.add("isDescending", isDescending);
+        queryParams.put("isDescending", isDescending);
         String url = String.format("%s/disableDatasources", pathPre);
         return httpMethod.get(url, queryParams);
     }
@@ -255,11 +257,11 @@ public class MetadataResource extends ForwardResource {
             @QueryParam("isDescending") @DefaultValue("true")  boolean isDescending
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
-        queryParams.add("isDescending", isDescending);
+        queryParams.put("isDescending", isDescending);
         String url = String.format("%s/datasources/%s/disableIntervals", pathPre, dataSourceName);
         return httpMethod.get(url, queryParams);
     }
@@ -275,14 +277,14 @@ public class MetadataResource extends ForwardResource {
             final String intervals
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
-        queryParams.add("isDescending",isDescending);
+        queryParams.put("isDescending",isDescending);
         String url = String.format("%s/datasources/%s/disableSegments", pathPre, dataSourceName);
         return httpMethod.post(url, intervals, queryParams);
     }
@@ -368,8 +370,8 @@ public class MetadataResource extends ForwardResource {
 
         )
         {
-            MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-            queryParams.add("isAscending",isAscending);
+            Map<String,Object> queryParams = Maps.newHashMap();
+            queryParams.put("isAscending",isAscending);
             String url = String.format("%s");
             return httpMethod.get(url,queryParams);
         }
@@ -384,12 +386,12 @@ public class MetadataResource extends ForwardResource {
                 @Context final HttpServletRequest req
         )
         {
-            MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+            Map<String,Object> queryParams = Maps.newHashMap();
             if(simple != null){
-                queryParams.add("simple",simple);
+                queryParams.put("simple",simple);
             }
             if(full != null){
-                queryParams.add("full",full);
+                queryParams.put("full",full);
             }
             String url = String.format("%s/%s", pathPre, interval);
             return httpMethod.get(url,queryParams);

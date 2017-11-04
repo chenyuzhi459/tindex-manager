@@ -1,12 +1,14 @@
 package io.sugo.http.resource.coordinator;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.resource.ForwardResource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Path("/druid/coordinator/v1/tiers")
@@ -24,9 +26,9 @@ public class TiersResource extends ForwardResource {
             @QueryParam("simple") String simple
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(simple != null){
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         String url = String.format("%s", pathPre);
         return httpMethod.get(url,queryParams);
@@ -40,9 +42,9 @@ public class TiersResource extends ForwardResource {
             @QueryParam("simple") String simple
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(simple != null){
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         String url = String.format("%s/%s", pathPre, tierName);
         return httpMethod.get(url,queryParams);

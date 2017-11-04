@@ -1,11 +1,13 @@
 package io.sugo.http.resource.broker;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.resource.ForwardResource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Path("/druid/v2/datasources")
@@ -35,12 +37,12 @@ public class ClientInfoResource extends ForwardResource {
             @QueryParam("full") String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(interval != null){
-            queryParams.add("interval",interval);
+            queryParams.put("interval",interval);
         }
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
         return httpMethod.get(url,queryParams);
@@ -54,9 +56,9 @@ public class ClientInfoResource extends ForwardResource {
             @QueryParam("interval") String interval
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(interval != null){
-            queryParams.add("interval",interval);
+            queryParams.put("interval",interval);
         }
         String url = String.format("%s/%s/dimensions", pathPre, dataSourceName);
         return httpMethod.get(url,queryParams);
@@ -70,9 +72,9 @@ public class ClientInfoResource extends ForwardResource {
             @QueryParam("interval") String interval
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(interval != null){
-            queryParams.add("interval",interval);
+            queryParams.put("interval",interval);
         }
         String url = String.format("%s/%s/metrics", pathPre, dataSourceName);
         return httpMethod.get(url,queryParams);
@@ -87,11 +89,11 @@ public class ClientInfoResource extends ForwardResource {
             @QueryParam("numCandidates") @DefaultValue("-1") int numCandidates
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(intervals != null){
-            queryParams.add("intervals",intervals);
+            queryParams.put("intervals",intervals);
         }
-        queryParams.add("numCandidates",numCandidates);
+        queryParams.put("numCandidates",numCandidates);
         String url = String.format("%s/%s/candidates", pathPre, datasource);
         return httpMethod.get(url,queryParams);
     }

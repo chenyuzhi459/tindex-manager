@@ -1,12 +1,13 @@
 package io.sugo.http.resource.coordinator;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
 import io.sugo.http.resource.ForwardResource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Path("/druid/coordinator/v1/datasources")
@@ -27,16 +28,16 @@ public class DataSourcesResource extends ForwardResource {
             @QueryParam("isDescending") @DefaultValue("true") boolean isDescending
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        queryParams.add("isDescending", isDescending);
+        Map<String,Object> queryParams = Maps.newHashMap();
+        queryParams.put("isDescending", isDescending);
         if(simple != null) {
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         if(full != null) {
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         if(searchValue != null) {
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
         String url = String.format("%s", pathPre);
         return httpMethod.get(url,queryParams);
@@ -50,9 +51,9 @@ public class DataSourcesResource extends ForwardResource {
             @QueryParam("full") final String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
         return httpMethod.get(url,queryParams);
@@ -79,12 +80,12 @@ public class DataSourcesResource extends ForwardResource {
             @QueryParam("interval") final String interval
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(kill != null){
-            queryParams.add("kill",kill);
+            queryParams.put("kill",kill);
         }
         if(interval != null){
-            queryParams.add("interval",interval);
+            queryParams.put("interval",interval);
         }
         String url = String.format("%s/%s", pathPre, dataSourceName);
         return httpMethod.delete(url,queryParams);
@@ -112,12 +113,12 @@ public class DataSourcesResource extends ForwardResource {
             @QueryParam("full") String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(simple != null){
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         String url = String.format("%s/%s/intervals", pathPre, dataSourceName);
         return httpMethod.get(url,queryParams);
@@ -133,12 +134,12 @@ public class DataSourcesResource extends ForwardResource {
             @QueryParam("full") String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(simple != null){
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         String url = String.format("%s/%s/intervals/%s", pathPre, dataSourceName, interval);
         return httpMethod.get(url,queryParams);
@@ -152,9 +153,9 @@ public class DataSourcesResource extends ForwardResource {
             @QueryParam("full") String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         String url = String.format("%s/%s/segments", pathPre, dataSourceName);
         return httpMethod.get(url,queryParams);
@@ -215,8 +216,8 @@ public class DataSourcesResource extends ForwardResource {
             @QueryParam("partial") final boolean partial
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        queryParams.add("partial",partial);
+        Map<String,Object> queryParams = Maps.newHashMap();
+        queryParams.put("partial",partial);
         String url = String.format("%s/%s/intervals/%s/serverview", pathPre, dataSourceName);
         return httpMethod.get(url,queryParams);
     }

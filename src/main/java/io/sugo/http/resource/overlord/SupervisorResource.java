@@ -1,12 +1,14 @@
 package io.sugo.http.resource.overlord;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.resource.ForwardResource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Path("/druid/indexer/v1/supervisor")
@@ -33,12 +35,12 @@ public class SupervisorResource extends ForwardResource {
             @QueryParam("full") String full
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(null != full){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         String url = String.format("%s", pathPre);
-        return httpMethod.get(url,queryParams);
+        return httpMethod.getDirectly(url,queryParams);
     }
 
     @GET
@@ -91,19 +93,19 @@ public class SupervisorResource extends ForwardResource {
             @QueryParam("offset") @DefaultValue("0") final int offset,
             @QueryParam("size") @DefaultValue("10") final int size
     ){
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(null != searchDimension1){
-            queryParams.add("searchDimension1",searchDimension1);
+            queryParams.put("searchDimension1",searchDimension1);
         }
         if(null != searchDimension2){
-            queryParams.add("searchDimension2",searchDimension2);
+            queryParams.put("searchDimension2",searchDimension2);
         }
-        queryParams.add("searchValue1",searchValue1);
-        queryParams.add("searchValue2",searchValue2);
-        queryParams.add("sortDimension",sortDimension);
-        queryParams.add("isDescending",isDescending);
-        queryParams.add("offset",offset);
-        queryParams.add("size",size);
+        queryParams.put("searchValue1",searchValue1);
+        queryParams.put("searchValue2",searchValue2);
+        queryParams.put("sortDimension",sortDimension);
+        queryParams.put("isDescending",isDescending);
+        queryParams.put("offset",offset);
+        queryParams.put("size",size);
 
         String url = String.format("%s/history/part", pathPre);
 
@@ -120,15 +122,15 @@ public class SupervisorResource extends ForwardResource {
             @QueryParam("searchValue2") @DefaultValue("") final String searchValue2
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(null != searchDimension1){
-            queryParams.add("searchDimension1",searchDimension1);
+            queryParams.put("searchDimension1",searchDimension1);
         }
         if(null != searchDimension2){
-            queryParams.add("searchDimension2",searchDimension2);
+            queryParams.put("searchDimension2",searchDimension2);
         }
-        queryParams.add("searchValue1",searchValue1);
-        queryParams.add("searchValue2",searchValue2);
+        queryParams.put("searchValue1",searchValue1);
+        queryParams.put("searchValue2",searchValue2);
         String url = String.format("%s/history/count", pathPre);
         return httpMethod.get(url,queryParams);
     }

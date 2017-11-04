@@ -1,6 +1,7 @@
 package io.sugo.http.resource.coordinator;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.resource.ForwardResource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 //@Path("/druid/coordinator/v1/intervals")
@@ -27,8 +29,8 @@ public class IntervalsResource extends ForwardResource {
             @QueryParam("isAscending") @DefaultValue("false") boolean isAscending
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        queryParams.add("isAscending",isAscending);
+        Map<String,Object> queryParams = Maps.newHashMap();
+        queryParams.put("isAscending",isAscending);
         String url = String.format("%s", pathPre);
         return httpMethod.get(url, queryParams);
     }
@@ -43,12 +45,12 @@ public class IntervalsResource extends ForwardResource {
             @Context final HttpServletRequest req
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(simple != null){
-            queryParams.add("simple",simple);
+            queryParams.put("simple",simple);
         }
         if(full != null){
-            queryParams.add("full",full);
+            queryParams.put("full",full);
         }
         String url = String.format("%s/%s", pathPre, interval);
         return httpMethod.get(url,queryParams);

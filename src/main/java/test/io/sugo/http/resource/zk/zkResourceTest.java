@@ -1,13 +1,15 @@
 package test.io.sugo.http.resource.zk; 
 
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+
+
 import io.sugo.http.resource.ForwardResource;
 import org.apache.zookeeper.CreateMode;
+import org.glassfish.jersey.client.ClientResponse;
 import org.junit.Test;
 
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -49,9 +51,9 @@ public void testGetData() throws Exception {
     String url = String.format("%s/summary/info?%s", pathPre, queryParams);
     System.out.println(url);
 
-    WebResource resource = client.resource(url);
-    ClientResponse result = resource.get(ClientResponse.class);
-    String str = result.getEntity(String.class);
+    WebTarget target = client.target(url);
+    ClientResponse result = target.request().get(ClientResponse.class);
+    String str = result.readEntity(String.class);
     System.out.println(str);
     assertEquals(str, resultStr);
 }
@@ -73,15 +75,12 @@ public void testCreateNode() throws Exception {
     String url = String.format("%s/node", pathPre);
     System.out.println(url);
 
-    MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-    queryParams.add("path",path);
-    queryParams.add("mode",mode);
 
-    WebResource resource = client.resource(url);
-    ClientResponse result = resource.queryParams(queryParams)
+
+    WebTarget target = client.target(url).queryParam("path",path).queryParam("mode",mode);
+    ClientResponse result = target.request()
             .accept(MediaType.APPLICATION_JSON)
-            .type(MediaType.TEXT_PLAIN)
-            .post(ClientResponse.class,data);
+            .post(Entity.entity(data,MediaType.TEXT_PLAIN),ClientResponse.class);
     System.out.println(result.getStatus());
 //    String str = result.getEntity(String.class);
 //    System.out.println(str);

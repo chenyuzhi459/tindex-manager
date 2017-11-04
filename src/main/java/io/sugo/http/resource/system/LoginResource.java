@@ -1,6 +1,7 @@
 package io.sugo.http.resource.system;
 
 
+import com.sun.org.apache.regexp.internal.RE;
 import io.sugo.http.model.UserBean;
 import io.sugo.http.resource.Resource;
 import org.apache.commons.lang.StringUtils;
@@ -13,6 +14,15 @@ import javax.ws.rs.core.Response;
 @Path("/login")
 public class LoginResource extends Resource {
     private static final Logger LOG = Logger.getLogger(LoginResource.class);
+
+
+    @GET
+    @Path("/test")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response test(){
+        return Response.ok("ok").build();
+    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

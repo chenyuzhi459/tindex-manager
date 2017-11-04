@@ -1,11 +1,12 @@
 package io.sugo.http.util;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-import org.apache.log4j.Logger;
 
+import com.sun.org.apache.regexp.internal.RE;
+import org.apache.log4j.Logger;
+import org.glassfish.jersey.client.ClientResponse;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class HttpMethodProxy {
 
     private HttpMethod httpMethod;
     protected static final Logger LOG = Logger.getLogger(HttpMethodProxy.class);
-    private WebResource resource;
+    private WebTarget target;
 
     public HttpMethodProxy(Client client) {
         this.httpMethod = new HttpMethod(client);
@@ -22,83 +23,91 @@ public class HttpMethodProxy {
 
     public Response get(String url) {
         LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.get(resource);
-        return convertClientResponse2Response(cr);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.get(target);
+        return rep;
     }
 
     public Response getWithHeader(String url,Map<String,Object> header) {
         LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.getWithHeader(resource,header);
-        return convertClientResponse2Response(cr);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.getWithHeader(target,header);
+        return rep;
     }
 
-    public Response get(String url, MultivaluedMapImpl queryParams) {
+    public Response get(String url, Map<String,Object> queryParams) {
         LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.get(resource,queryParams);
-        return convertClientResponse2Response(cr);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.get(target,queryParams);
+        return rep;
     }
 
-    public Response post(String url, String data ,MultivaluedMapImpl queryParams) {
+    public Response getDirectly(String url, Map<String,Object> queryParams) {
         LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.post(resource,data,queryParams);
-        return convertClientResponse2Response(cr);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.getDirectly(target,queryParams);
+        return rep;
     }
 
-    public Response post(String url, MultivaluedMapImpl queryParams) {
+    public Response post(String url, String data ,Map<String,Object> queryParams) {
         LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.post(resource,queryParams);
-        return convertClientResponse2Response(cr);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.post(target,data,queryParams);
+        return rep;
+    }
+
+    public Response post(String url, Map<String,Object> queryParams) {
+        LOG.info(url);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.post(target,queryParams);
+        return rep;
     }
 
     public Response post(String url, String data) {
         LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.post(resource,data);
-        return convertClientResponse2Response(cr);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.post(target,data);
+        return rep;
     }
 
     public Response post(String url) {
         LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.post(resource);
-        return convertClientResponse2Response(cr);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.post(target);
+        return rep;
     }
 
     public Response delete(String url) {
         LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.delete(resource);
-        return convertClientResponse2Response(cr);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.delete(target);
+        return rep;
     }
 
-    public Response delete(String url, MultivaluedMapImpl queryParams) {
+    public Response delete(String url, Map<String,Object> queryParams) {
         LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.delete(resource,queryParams);
-        return convertClientResponse2Response(cr);
+        target = httpMethod.getClient().target(url);
+        Response rep = httpMethod.delete(target,queryParams);
+        return rep;
     }
 
-    public Response delete(String url, String data) {
-        LOG.info(url);
-        resource = httpMethod.getClient().resource(url);
-        ClientResponse cr = httpMethod.delete(resource,data);
-        return convertClientResponse2Response(cr);
-    }
+//    public Response delete(String url, String data) {
+//        LOG.info(url);
+//        target = httpMethod.getClient().target(url);
+//        Response rep = httpMethod.delete(target,data);
+//        return rep;
+//    }
 
 
-    public static Response convertClientResponse2Response(ClientResponse r) {
+    public static Response convertResponse2Response(ClientResponse r) {
         Response.ResponseBuilder rb = Response.status(r.getStatus());
         for (Map.Entry<String, List<String>> entry : r.getHeaders().entrySet()) {
             for (String value : entry.getValue()) {
                 rb.header(entry.getKey(), value);
             }
         }
-        rb.entity(r.getEntityInputStream());
+//        rb.entity(r.getEntityInputStream());
+        rb.entity(r.getEntity());
         return rb.build();
     }
 }

@@ -1,12 +1,15 @@
 package io.sugo.http.util;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-import io.sugo.http.ResourcesManager;
-import org.apache.log4j.Logger;
 
+
+
+import org.apache.log4j.Logger;
+import org.glassfish.jersey.client.ClientResponse;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -20,75 +23,96 @@ public class HttpMethod {
         this.client = client;
     }
 
-    public ClientResponse get(WebResource resource) {
-        ClientResponse cr = resource.get(ClientResponse.class);
-        return cr;
+    public Response get(WebTarget target) {
+        Response rep = target.request().get(Response.class);
+        return rep;
     }
 
-    public ClientResponse get(WebResource resource, MultivaluedMapImpl queryParams) {
-        ClientResponse cr = resource.queryParams(queryParams).get(ClientResponse.class);
-        return cr;
+    public Response get(WebTarget target, Map<String,Object> queryParams) {
+        WebTarget withQueryParamTaget = target;
+        for(Map.Entry<String,Object> param: queryParams.entrySet()){
+            withQueryParamTaget = withQueryParamTaget.queryParam(param.getKey(),param.getValue());
+        }
+        Response rep = withQueryParamTaget.request().get(Response.class);
+        return rep;
     }
 
-    public ClientResponse getWithHeader(WebResource resource,Map<String,Object> header) {
-        WebResource.Builder builder = resource.getRequestBuilder();
+
+    public Response getDirectly(WebTarget target, Map<String,Object> queryParams) {
+        WebTarget withQueryParamTaget = target;
+        for(Map.Entry<String,Object> param: queryParams.entrySet()){
+            withQueryParamTaget = withQueryParamTaget.queryParam(param.getKey(),param.getValue());
+        }
+        Response rep = withQueryParamTaget.request().get(Response.class);
+        return rep;
+    }
+
+    public Response getWithHeader(WebTarget target,Map<String,Object> header) {
+        Invocation.Builder builder = target.request();
         for(String key : header.keySet()){
             builder.header(key,header.get(key));
         }
-        ClientResponse cr = builder.get(ClientResponse.class);
-        return cr;
+        Response rep = builder.get(Response.class);
+        return rep;
     }
 
-    public ClientResponse post(WebResource resource, String data ,MultivaluedMapImpl queryParams) {
-        ClientResponse cr = resource
-                .queryParams(queryParams)
+    public Response post(WebTarget target, String data ,Map<String,Object> queryParams) {
+        WebTarget withQueryParamTaget = target;
+        for(Map.Entry<String,Object> param: queryParams.entrySet()){
+            withQueryParamTaget = withQueryParamTaget.queryParam(param.getKey(),param.getValue());
+        }
+        Response rep = withQueryParamTaget.request()
                 .accept(MediaType.APPLICATION_JSON)
-                .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class,data);
-        return cr;
+                .post(Entity.entity(data,MediaType.APPLICATION_JSON),Response.class);
+        return rep;
     }
 
-    public ClientResponse post(WebResource resource, MultivaluedMapImpl queryParams) {
-        ClientResponse cr = resource
-                .queryParams(queryParams)
+    public Response post(WebTarget target, Map<String,Object> queryParams) {
+        WebTarget withQueryParamTaget = target;
+        for(Map.Entry<String,Object> param: queryParams.entrySet()){
+            withQueryParamTaget = withQueryParamTaget.queryParam(param.getKey(),param.getValue());
+        }
+        Response rep = withQueryParamTaget.request()
                 .accept(MediaType.APPLICATION_JSON)
-                .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class);
-        return cr;
+                .build("POST").invoke(Response.class);
+        return rep;
     }
 
-    public ClientResponse post(WebResource resource, String data) {
-        ClientResponse cr = resource
+    public Response post(WebTarget target, String data) {
+        Response rep = target.request()
                 .accept(MediaType.APPLICATION_JSON)
-                .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class,data);
-        return cr;
+                .post(Entity.entity(data,MediaType.APPLICATION_JSON),Response.class);
+        return rep;
     }
 
-    public ClientResponse post(WebResource resource) {
-        ClientResponse cr = resource.accept(MediaType.APPLICATION_JSON)
-                .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class);
-        return cr;
-    }
-
-    public ClientResponse delete(WebResource resource) {
-        ClientResponse cr = resource.delete(ClientResponse.class);
-        return cr;
-    }
-
-    public ClientResponse delete(WebResource resource, MultivaluedMapImpl queryParams) {
-        ClientResponse cr = resource.queryParams(queryParams).delete(ClientResponse.class);
-        return cr;
-    }
-
-    public ClientResponse delete(WebResource resource, String data) {
-        ClientResponse cr = resource
+    public Response post(WebTarget target) {
+        Response rep = target.request()
                 .accept(MediaType.APPLICATION_JSON)
-                .type(MediaType.APPLICATION_JSON)
-                .delete(ClientResponse.class, data);
-        return cr;
+                .build("POST").invoke(Response.class);
+        return rep;
     }
+
+    public Response delete(WebTarget target) {
+        Response rep = target.request().delete(Response.class);
+        return rep;
+    }
+
+    public Response delete(WebTarget target, Map<String,Object> queryParams) {
+        WebTarget withQueryParamTaget = target;
+        for(Map.Entry<String,Object> param: queryParams.entrySet()){
+            withQueryParamTaget = withQueryParamTaget.queryParam(param.getKey(),param.getValue());
+        }
+        Response rep = withQueryParamTaget.request().delete(Response.class);
+        return rep;
+    }
+
+//    public Response delete(WebTarget target, String data) {
+//        Response rep = target.request()
+//                .accept(MediaType.APPLICATION_JSON)
+//                .type(MediaType.APPLICATION_JSON)
+//                .delete(Response.class, data);
+//        return rep;
+//    }
 
     public Client getClient() {
         return client;

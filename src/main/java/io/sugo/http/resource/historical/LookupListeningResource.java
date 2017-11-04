@@ -2,7 +2,8 @@ package io.sugo.http.resource.historical;
 
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
 import com.google.common.base.Strings;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.resource.ForwardResource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Path("/druid/listen/v1/lookups")
@@ -48,11 +50,11 @@ public class LookupListeningResource extends ForwardResource {
             return Response.status(400).build();
         }
 
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(searchValue != null){
-            queryParams.add("searchValue",searchValue);
+            queryParams.put("searchValue",searchValue);
         }
-        queryParams.add("isDescending", isDescending);
+        queryParams.put("isDescending", isDescending);
 
         String url = String.format("http://%s%s/sortAndSearch", ip, pathPre);
         return httpMethod.get(url, queryParams);

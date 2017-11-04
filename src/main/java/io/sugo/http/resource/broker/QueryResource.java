@@ -1,7 +1,8 @@
 package io.sugo.http.resource.broker;
 
 import com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.resource.ForwardResource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Map;
 
 
 //@Path("/druid/v2/")
@@ -64,9 +66,9 @@ public class QueryResource extends ForwardResource {
             @Context final HttpServletRequest req // used to get request content-type, remote address and AuthorizationInfo
     ) throws IOException
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(pretty != null){
-            queryParams.add("pretty",pretty);
+            queryParams.put("pretty",pretty);
         }
         String url = String.format("%s", pathPre);
         return httpMethod.post(url, in, queryParams);

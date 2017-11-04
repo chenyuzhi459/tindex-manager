@@ -1,6 +1,7 @@
 package io.sugo.http.resource.overlord;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.common.collect.Maps;
+
 import io.sugo.http.audit.AuditManager;
 import io.sugo.http.resource.ForwardResource;
 import io.sugo.http.util.HttpMethodProxy;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
+import java.util.Map;
 
 @Path("/druid/indexer/v1")
 public class OverlordResource extends ForwardResource {
@@ -104,13 +106,13 @@ public class OverlordResource extends ForwardResource {
     ){
         String url = String.format("%s/worker", pathPre);
 
-        MultivaluedMapImpl headerParams = new MultivaluedMapImpl();
+        Map<String,Object> headerParams = Maps.newHashMap();
 
         if(author != null) {
-            headerParams.add("AuditManager.X_DRUID_AUTHOR",author);
+            headerParams.put("AuditManager.X_DRUID_AUTHOR",author);
         }
         if(comment != null) {
-            headerParams.add("AuditManager.X_DRUID_COMMENT",comment);
+            headerParams.put("AuditManager.X_DRUID_COMMENT",comment);
         }
         return httpMethod.post(url,workerBehaviorConfig);
     }
@@ -125,13 +127,13 @@ public class OverlordResource extends ForwardResource {
     )
     {
         String url = String.format("%s/worker/history", pathPre);
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
 
         if(interval != null) {
-            queryParams.add("interval",interval);
+            queryParams.put("interval",interval);
         }
         if(count != null) {
-            queryParams.add("count",count);
+            queryParams.put("count",count);
         }
         return httpMethod.get(url,queryParams);
     }
@@ -217,13 +219,13 @@ public class OverlordResource extends ForwardResource {
             @Context final HttpServletRequest req
     )
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        queryParams.add("offset",offset);
-        queryParams.add("size",size);
+        Map<String,Object> queryParams = Maps.newHashMap();
+        queryParams.put("offset",offset);
+        queryParams.put("size",size);
         if(sortDimension != null){
-            queryParams.add("sortDimension",sortDimension);
+            queryParams.put("sortDimension",sortDimension);
         }
-        queryParams.add("isDescending",isDescending);
+        queryParams.put("isDescending",isDescending);
 
         String url = String.format("%s/completeTasks", pathPre);
 
@@ -246,23 +248,23 @@ public class OverlordResource extends ForwardResource {
             @QueryParam("size") @DefaultValue("10") final int size,
             @Context final HttpServletRequest req)
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(null != searchDimension1){
-            queryParams.add("searchDimension1",searchDimension1);
+            queryParams.put("searchDimension1",searchDimension1);
         }
         if(null != searchDimension2){
-            queryParams.add("searchDimension2",searchDimension2);
+            queryParams.put("searchDimension2",searchDimension2);
         }
         if(null != searchDimension3){
-            queryParams.add("searchDimension3",searchDimension3);
+            queryParams.put("searchDimension3",searchDimension3);
         }
-        queryParams.add("searchValue1",searchValue1);
-        queryParams.add("searchValue2",searchValue2);
-        queryParams.add("searchValue3",searchValue3);
-        queryParams.add("sortDimension",sortDimension);
-        queryParams.add("isDescending",isDescending);
-        queryParams.add("offset",offset);
-        queryParams.add("size",size);
+        queryParams.put("searchValue1",searchValue1);
+        queryParams.put("searchValue2",searchValue2);
+        queryParams.put("searchValue3",searchValue3);
+        queryParams.put("sortDimension",sortDimension);
+        queryParams.put("isDescending",isDescending);
+        queryParams.put("offset",offset);
+        queryParams.put("size",size);
 
         String url = String.format("%s/completeTasks/custom/list", pathPre);
 
@@ -281,19 +283,19 @@ public class OverlordResource extends ForwardResource {
             @QueryParam("searchValue3") @DefaultValue("") final String searchValue3,
             @Context final HttpServletRequest req
     ){
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(null != searchDimension1){
-            queryParams.add("searchDimension1",searchDimension1);
+            queryParams.put("searchDimension1",searchDimension1);
         }
         if(null != searchDimension2){
-            queryParams.add("searchDimension2",searchDimension2);
+            queryParams.put("searchDimension2",searchDimension2);
         }
         if(null != searchDimension3){
-            queryParams.add("searchDimension3",searchDimension3);
+            queryParams.put("searchDimension3",searchDimension3);
         }
-        queryParams.add("searchValue1",searchValue1);
-        queryParams.add("searchValue2",searchValue2);
-        queryParams.add("searchValue3",searchValue3);
+        queryParams.put("searchValue1",searchValue1);
+        queryParams.put("searchValue2",searchValue2);
+        queryParams.put("searchValue3",searchValue3);
         String url = String.format("%s/completeTasks/custom/count", pathPre);
         return httpMethod.get(url,queryParams);
     }
@@ -315,19 +317,19 @@ public class OverlordResource extends ForwardResource {
             @QueryParam("size") @DefaultValue("10") final int size,
             @Context final HttpServletRequest req)
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(null != searchDimension1){
-            queryParams.add("searchDimension1",searchDimension1);
+            queryParams.put("searchDimension1",searchDimension1);
         }
         if(null != searchDimension2){
-            queryParams.add("searchDimension2",searchDimension2);
+            queryParams.put("searchDimension2",searchDimension2);
         }
-        queryParams.add("searchValue1",searchValue1);
-        queryParams.add("searchValue2",searchValue2);
-        queryParams.add("sortDimension",sortDimension);
-        queryParams.add("isDescending",isDescending);
-        queryParams.add("offset",offset);
-        queryParams.add("size",size);
+        queryParams.put("searchValue1",searchValue1);
+        queryParams.put("searchValue2",searchValue2);
+        queryParams.put("sortDimension",sortDimension);
+        queryParams.put("isDescending",isDescending);
+        queryParams.put("offset",offset);
+        queryParams.put("size",size);
 
         String url = String.format("%s/completeTasks/%s", pathPre,supervisorId);
 
@@ -346,15 +348,15 @@ public class OverlordResource extends ForwardResource {
             @QueryParam("searchValue2") @DefaultValue("") final String searchValue2,
             @Context final HttpServletRequest req)
     {
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+        Map<String,Object> queryParams = Maps.newHashMap();
         if(null != searchDimension1){
-            queryParams.add("searchDimension1",searchDimension1);
+            queryParams.put("searchDimension1",searchDimension1);
         }
         if(null != searchDimension2){
-            queryParams.add("searchDimension2",searchDimension2);
+            queryParams.put("searchDimension2",searchDimension2);
         }
-        queryParams.add("searchValue1",searchValue1);
-        queryParams.add("searchValue2",searchValue2);
+        queryParams.put("searchValue1",searchValue1);
+        queryParams.put("searchValue2",searchValue2);
         String url = String.format("%s/completeTasks/%s/count", pathPre,supervisorId);
         return httpMethod.get(url,queryParams);
     }
@@ -386,8 +388,8 @@ public class OverlordResource extends ForwardResource {
     )
     {
         String url = String.format("%s/task/%s/log", pathPre , taskid);
-        MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
-        queryParams.add("offset",offset);
+        Map<String,Object> queryParams = Maps.newHashMap();
+        queryParams.put("offset",offset);
         return httpMethod.get(url,queryParams);
     }
 
