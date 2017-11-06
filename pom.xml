@@ -143,12 +143,7 @@
             <artifactId>jersey-container-servlet-core</artifactId>
             <version>${jersey.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--&lt;!&ndash; Servlet 3.x Container,depends on jersey-container-servlet-core module &ndash;&gt;-->
-            <!--<groupId>org.glassfish.jersey.containers</groupId>-->
-            <!--<artifactId>jersey-container-servlet</artifactId>-->
-            <!--<version>${jersey.version}</version>-->
-        <!--</dependency>-->
+
 
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
@@ -156,11 +151,12 @@
             <version>${jersey.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.glassfish.jersey.containers</groupId>-->
-            <!--<artifactId>jersey-container-jetty-http</artifactId>-->
-            <!--<version>${jersey.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.glassfish.jersey.connectors</groupId>
+            <artifactId>jersey-apache-connector</artifactId>
+            <version>${jersey.version}</version>
+
+        </dependency>
 
 
         <dependency>
@@ -241,11 +237,12 @@
             <version>4.12</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.2</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.httpcomponents</groupId>-->
+            <!--<artifactId>httpclient</artifactId>-->
+            <!--<version>4.3.5</version>-->
+        <!--</dependency>-->
+        <!--TODO can't add this relavent ,will cause java.lang.NoSuchMethodsExcepiton(may be crash with the jersey's httpClient[its version is 4.5])-->
 
     </dependencies>
 

@@ -2,6 +2,7 @@ package io.sugo.http.resource;
 
 
 import io.sugo.http.ResourcesManager;
+import io.sugo.http.jersy.JersyClientFactory;
 import io.sugo.http.util.HttpMethodProxy;
 import org.apache.log4j.Logger;
 import org.glassfish.jersey.client.ClientConfig;
@@ -26,19 +27,14 @@ public class ForwardResource extends Resource{
     }
 
     private void init() {
-        ClientConfig clientConfig = new ClientConfig();
-
-        clientConfig.register(JacksonFeature.class);
-
-        //TODO 如何设置超时?
-        //clientConfig.property();
-        LOG.info("clientConfig:"+clientConfig.getProperties());
-        client = ClientBuilder.newClient(clientConfig);
-
+//        ClientConfig clientConfig = new ClientConfig();
 //
-//        client.setConnectTimeout(TIME_OUT);
-//        client.getProperties().put(ClientConfig.PROPERTY_CONNECT_TIMEOUT, TIME_OUT);
+//        clientConfig.register(JacksonFeature.class);
+//
+//
+//        client = ClientBuilder.newClient(clientConfig);
 
+            client = JersyClientFactory.create();
         httpMethod = new HttpMethodProxy(client);
     }
 }

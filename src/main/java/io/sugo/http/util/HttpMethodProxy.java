@@ -42,12 +42,7 @@ public class HttpMethodProxy {
         return rep;
     }
 
-    public Response getDirectly(String url, Map<String,Object> queryParams) {
-        LOG.info(url);
-        target = httpMethod.getClient().target(url);
-        Response rep = httpMethod.getDirectly(target,queryParams);
-        return rep;
-    }
+
 
     public Response post(String url, String data ,Map<String,Object> queryParams) {
         LOG.info(url);

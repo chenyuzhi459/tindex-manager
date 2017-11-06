@@ -40,7 +40,7 @@ public class SupervisorResource extends ForwardResource {
             queryParams.put("full",full);
         }
         String url = String.format("%s", pathPre);
-        return httpMethod.getDirectly(url,queryParams);
+        return httpMethod.get(url,queryParams);
     }
 
     @GET
